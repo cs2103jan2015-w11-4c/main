@@ -1,14 +1,107 @@
-﻿Build started 07-03-2015 18:42:00.
+﻿Build started 07-03-2015 20:15:06.
      1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp
          parser.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.cpp(104): fatal error C1075: end of file found before the left brace '{' at 'c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(8)' was matched
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7): error C2146: syntax error : missing ';' before identifier 'NOT_EXIST'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(9): error C2146: syntax error : missing ';' before identifier 'getCommand'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(9): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(9): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(9): warning C4183: 'getCommand': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(10): error C2146: syntax error : missing ';' before identifier 'getStartYear'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(10): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(10): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(10): warning C4183: 'getStartYear': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(11): error C2146: syntax error : missing ';' before identifier 'getStartMonth'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(11): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(11): warning C4183: 'getStartMonth': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(12): error C2146: syntax error : missing ';' before identifier 'getStartDay'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(12): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(12): warning C4183: 'getStartDay': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(13): error C2146: syntax error : missing ';' before identifier 'getStartHour'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(13): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(13): warning C4183: 'getStartHour': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(14): error C2146: syntax error : missing ';' before identifier 'getStartMinute'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(14): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(14): warning C4183: 'getStartMinute': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(15): error C2146: syntax error : missing ';' before identifier 'getEndYear'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(15): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(15): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(15): warning C4183: 'getEndYear': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(16): error C2146: syntax error : missing ';' before identifier 'getEndMonth'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(16): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(16): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(16): warning C4183: 'getEndMonth': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(17): error C2146: syntax error : missing ';' before identifier 'getEndDay'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(17): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(17): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(17): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(17): warning C4183: 'getEndDay': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(18): error C2146: syntax error : missing ';' before identifier 'getEndHour'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(18): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(18): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(18): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(18): warning C4183: 'getEndHour': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(19): error C2146: syntax error : missing ';' before identifier 'getEndMinute'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(19): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(19): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(19): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(19): warning C4183: 'getEndMinute': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(20): error C2146: syntax error : missing ';' before identifier 'getPriority'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(20): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(20): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(20): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(20): warning C4183: 'getPriority': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(21): error C2146: syntax error : missing ';' before identifier 'getName'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(21): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(21): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(21): warning C4183: 'getName': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(22): error C2146: syntax error : missing ';' before identifier 'getDescription'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(22): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(22): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(22): warning C4183: 'getDescription': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(23): error C2146: syntax error : missing ';' before identifier 'getLocation'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(23): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(23): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(23): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(23): warning C4183: 'getLocation': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(24): error C2146: syntax error : missing ';' before identifier 'getKeywords'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(24): error C2373: 'CommandParser::string' : redefinition; different type modifiers
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(7) : see declaration of 'CommandParser::string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(24): error C2061: syntax error : identifier 'string'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(24): warning C4183: 'getKeywords': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(25): error C2143: syntax error : missing ';' before '<'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(25): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(25): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.cpp(104): fatal error C1075: end of file found before the left brace '{' at 'c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(5)' was matched
      1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:00.90
+Time Elapsed 00:00:00.57
