@@ -2,9 +2,7 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
 
-
-
-
+using namespace std;
 
 
 const string CommandParser::commandIndicator = " ";
@@ -101,3 +99,5 @@ vector<string> CommandParser::getParsedUserInput(string input){
 
 	return parsedInput;
 }
+
+#endif

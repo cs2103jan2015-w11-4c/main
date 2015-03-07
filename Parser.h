@@ -1,7 +1,6 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
 
-using namespace std;
 
 class CommandParser {
 public:
@@ -26,3 +25,5 @@ public:
 	static vector<string> getParsedUserInput(string uInput);
 
 //header ends
+
+#endif

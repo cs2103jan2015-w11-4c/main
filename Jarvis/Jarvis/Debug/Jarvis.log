@@ -1,0 +1,14 @@
+﻿Build started 07-03-2015 18:42:00.
+     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp
+         parser.cpp
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C2143: syntax error : missing ';' before '<'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(28): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.cpp(104): fatal error C1075: end of file found before the left brace '{' at 'c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(8)' was matched
+     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.90
