@@ -26,7 +26,7 @@ string CommandParser::getCommand(string input){
 	if (Utility::isValidCommand(command)) { //if the command is a valid command type, return it. else return "add"
 		return cmd;
 	}
-
+}
 string CommandParser::getStartDate(string input) {
 	try {
 		unsigned int start = input.rfind(startDateIndicator);

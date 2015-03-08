@@ -1,107 +1,45 @@
-﻿Build started 7/3/2015 8:46:37 PM.
-     1>Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 08-03-2015 17:02:52.
+     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp
+         Logic.cpp
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(57): error C2236: unexpected token 'class'. Did you forget a ';'?
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(57): error C2143: syntax error : missing ';' before '{'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(57): error C2447: '{' : missing function header (old-style formal list?)
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(94): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(94): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C2146: syntax error : missing ';' before identifier 'AddTail'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C2061: syntax error : identifier 'CHAR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): warning C4183: 'AddTail': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2146: syntax error : missing ';' before identifier 'GetTail'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2061: syntax error : identifier 'PZPSTR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): warning C4183: 'GetTail': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C2146: syntax error : missing ';' before identifier 'P1'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(17): error C2146: syntax error : missing ';' before identifier 'S1'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(17): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(25): error C2590: 'endIndex' : only a constructor can have a base/member initializer list
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(25): error C2533: 'Logic' : constructors not allowed a return type
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(3): error C2969: syntax error : ';' : expected member function definition to end with '}'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(6): error C2864: 'Logic::INDENTIFIERS' : only static const integral data members can be initialized within a class
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(9): error C2535: 'int Logic::startIndex(std::string)' : member function already defined or declared
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(24) : see declaration of 'Logic::startIndex'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(17): error C2535: 'std::string Logic::extractUserCommand(std::string)' : member function already defined or declared
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(23) : see declaration of 'Logic::extractUserCommand'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(27): error C2535: 'bool Logic::executeCommand(std::string)' : member function already defined or declared
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(22) : see declaration of 'Logic::executeCommand'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(31): fatal error C1004: unexpected end-of-file found
          parser.cpp
-     1>c:\users\gabriel\documents\github\main\parser.h(7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(7): error C2146: syntax error : missing ';' before identifier 'NOT_EXIST'
-     1>c:\users\gabriel\documents\github\main\parser.h(9): error C2146: syntax error : missing ';' before identifier 'getCommand'
-     1>c:\users\gabriel\documents\github\main\parser.h(9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(9): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(9): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(9): warning C4183: 'getCommand': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(10): error C2146: syntax error : missing ';' before identifier 'getStartYear'
-     1>c:\users\gabriel\documents\github\main\parser.h(10): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(10): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(10): warning C4183: 'getStartYear': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(11): error C2146: syntax error : missing ';' before identifier 'getStartMonth'
-     1>c:\users\gabriel\documents\github\main\parser.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(11): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(11): warning C4183: 'getStartMonth': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(12): error C2146: syntax error : missing ';' before identifier 'getStartDay'
-     1>c:\users\gabriel\documents\github\main\parser.h(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(12): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(12): warning C4183: 'getStartDay': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(13): error C2146: syntax error : missing ';' before identifier 'getStartHour'
-     1>c:\users\gabriel\documents\github\main\parser.h(13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(13): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(13): warning C4183: 'getStartHour': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(14): error C2146: syntax error : missing ';' before identifier 'getStartMinute'
-     1>c:\users\gabriel\documents\github\main\parser.h(14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(14): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(14): warning C4183: 'getStartMinute': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(15): error C2146: syntax error : missing ';' before identifier 'getEndYear'
-     1>c:\users\gabriel\documents\github\main\parser.h(15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(15): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(15): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(15): warning C4183: 'getEndYear': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(16): error C2146: syntax error : missing ';' before identifier 'getEndMonth'
-     1>c:\users\gabriel\documents\github\main\parser.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(16): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(16): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(16): warning C4183: 'getEndMonth': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(17): error C2146: syntax error : missing ';' before identifier 'getEndDay'
-     1>c:\users\gabriel\documents\github\main\parser.h(17): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(17): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(17): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(17): warning C4183: 'getEndDay': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(18): error C2146: syntax error : missing ';' before identifier 'getEndHour'
-     1>c:\users\gabriel\documents\github\main\parser.h(18): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(18): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(18): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(18): warning C4183: 'getEndHour': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(19): error C2146: syntax error : missing ';' before identifier 'getEndMinute'
-     1>c:\users\gabriel\documents\github\main\parser.h(19): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(19): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(19): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(19): warning C4183: 'getEndMinute': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(20): error C2146: syntax error : missing ';' before identifier 'getPriority'
-     1>c:\users\gabriel\documents\github\main\parser.h(20): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(20): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(20): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(20): warning C4183: 'getPriority': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(21): error C2146: syntax error : missing ';' before identifier 'getName'
-     1>c:\users\gabriel\documents\github\main\parser.h(21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(21): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(21): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(21): warning C4183: 'getName': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(22): error C2146: syntax error : missing ';' before identifier 'getDescription'
-     1>c:\users\gabriel\documents\github\main\parser.h(22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(22): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(22): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(22): warning C4183: 'getDescription': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(23): error C2146: syntax error : missing ';' before identifier 'getLocation'
-     1>c:\users\gabriel\documents\github\main\parser.h(23): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(23): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(23): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(23): warning C4183: 'getLocation': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(24): error C2146: syntax error : missing ';' before identifier 'getKeywords'
-     1>c:\users\gabriel\documents\github\main\parser.h(24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(24): error C2373: 'CommandParser::string' : redefinition; different type modifiers
-                 c:\users\gabriel\documents\github\main\parser.h(7) : see declaration of 'CommandParser::string'
-     1>c:\users\gabriel\documents\github\main\parser.h(24): error C2061: syntax error : identifier 'string'
-     1>c:\users\gabriel\documents\github\main\parser.h(24): warning C4183: 'getKeywords': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\gabriel\documents\github\main\parser.h(25): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\gabriel\documents\github\main\parser.h(25): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\gabriel\documents\github\main\parser.h(25): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\gabriel\documents\github\main\parser.cpp(104): fatal error C1075: end of file found before the left brace '{' at 'c:\users\gabriel\documents\github\main\parser.h(5)' was matched
-     1>Done Building Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C2143: syntax error : missing ';' before '<'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.cpp(104): fatal error C1004: unexpected end-of-file found
+         Generating Code...
+     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.32
+Time Elapsed 00:00:01.39

@@ -8,7 +8,7 @@ class Task {
 
 private:
 	string _read;
-	string _diaply;
+	string _display;
 	const string added, deleted, edited;
 
 public:

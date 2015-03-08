@@ -1,6 +1,8 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
 
+#include <string>
+using namespace std;
 
 class CommandParser {
 public:
@@ -22,8 +24,8 @@ public:
 	static string getDescription(string input);
 	static string getLocation(string input);
 	static string getKeywords(string input);
-	static vector<string> getParsedUserInput(string uInput);
-
+	static vector <string> getParsedUserInput(string uInput);
+}
 //header ends
 
 #endif
