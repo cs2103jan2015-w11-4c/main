@@ -4,17 +4,26 @@
 #include <string>
 using namespace std;
 
-class Task {
+class UI {
 
 private:
 	string _read;
 	string _display;
-	const string added, deleted, edited;
+	static const int MAX_BUFFER_SIZE = 255;
+	static char buffer[MAX_BUFFER_SIZE];
+
+	static const string MESSAGE_COMMAND;
+	static const string MESSAGE_ADDED;
+	static const string MESSAGE_DELETED;
+	static const string MESSAGE_EDITED;
+	static const string MESSAGE_WELCOME;
+
 
 public:
+	static void main(int, char*[]);
 	void readLine(string);
 	void getStatus(bool status);
-	void display();
-}
+	static void display(string);
+};
 
 #endif

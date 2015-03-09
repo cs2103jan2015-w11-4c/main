@@ -2,8 +2,8 @@
 #define LOGIC_H
 
 #include "Task.h"
-//#include "Parser.h"
-//#include "Storage.h"
+#include "Parser.h"
+#include "Storage.h"
 //#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -13,8 +13,8 @@ class Logic {
 
 private:
 	Task taskDetails;
-	//Parser P1;
-	//Storage S1;
+	CommandParser P1;
+	Storage S1;
 	string command;
 	string userInput;
 
