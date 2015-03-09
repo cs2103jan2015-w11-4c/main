@@ -1,5 +1,6 @@
 #include "Storage.h"
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -19,13 +20,28 @@ bool Storage::writeFile(string task, vector <string> tasklist) {     //if adding
 
 }
 
+															//display all items and return a VECTOR
+vector <string> readFile (string outputfile) {				//user defined i wanna paste my vector inside text file
+		ofstream myfile;									//entire step is to write into text file
+		myfile.open(outputfile.c_str());
+		int i=0;
+
+		while (tasklist[i]!="") {					   	    //while theres something to write/not empty
+			myfile<<i+1<<". "<<tasklist[i] <<endl;          //naming like 1.meow  2. woof
+			++i;
+		}
+		myfile.close();
+
+	return tasklist;
+}
+
+
+
 /*string deleteTask(string) {   //delete requested string
 }
 */
 
-/*string readFile(string) {		//display all items
-}
-*/
+
 
 /* bool Storage::returnStatusAdded(vector <string> tasklist) {   //if adding/delete succeed return with boolean 0 or 1
 	int size;

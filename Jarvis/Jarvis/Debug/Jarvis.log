@@ -1,4 +1,4 @@
-﻿Build started 3/9/2015 3:38:02 PM.
+﻿Build started 3/9/2015 5:13:39 PM.
      1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp Storage.cpp
@@ -15,4 +15,4 @@
 
 Build FAILED.
 
-Time Elapsed 00:00:01.91
+Time Elapsed 00:00:02.30

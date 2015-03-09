@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -17,8 +18,8 @@ private:
 
 public:
 	bool writeFile(string, vector <string> tasklist);   //for adding/editing return boolean to Logic
+	vector <string> readFile (string);		//display items
 	//string deleteTask(string);
-	//string readFile(string);        //display items
 	//bool returnStatus();        //if adding/delete succeed return with boolean 0 or 1
 
 };
