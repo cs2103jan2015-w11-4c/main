@@ -62,7 +62,7 @@ private:
 
 	static vector<string> parsedInput;
 	//static logic::COMMAND_TYPE _command;
-};
+}
 
 #endif
 //header ends

@@ -1,10 +1,17 @@
+#pragma once
 #include "Logic.h"
+#include <vector>
 
 using namespace std;
 
 
 const string INDENTIFIERS = ".,!? ";
 
+Logic::Logic() {
+}
+
+Logic::~Logic() {
+}
 
 int Logic::startIndex(string input) {
 	return input.find_first_not_of(INDENTIFIERS);
@@ -26,5 +33,9 @@ string Logic::extractUserCommand(string input) {
 
 bool Logic::executeCommand(string input) {
 	command = extractUserCommand(input);
+	vector <string> details;
+	//details = P1.getParsedUserInput(userInput); 
+	//taskDetails.setDescription(
+	return true;
 
 }	
