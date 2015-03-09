@@ -12,7 +12,7 @@ private:
 
 public:
 	void setDescription(string);
-	void getDescription();
+	string getDescription();
 
 };
 

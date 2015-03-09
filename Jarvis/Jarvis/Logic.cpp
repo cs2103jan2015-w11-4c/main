@@ -34,8 +34,16 @@ string Logic::extractUserCommand(string input) {
 bool Logic::executeCommand(string input) {
 	command = extractUserCommand(input);
 	vector <string> details;
-	//details = P1.getParsedUserInput(userInput); 
-	//taskDetails.setDescription(
-	return true;
+	details = P1.getParsedUserInput(userInput); 
+	taskDetails.setDescription(details[0]);
+	if(command=="add") {
+		string line = taskDetails.getDescription();
+		bool status = S1.writeFile(line);
+		return status;
+	}
+	else(command=="display") {
+		
 
+
+	}
 }	
