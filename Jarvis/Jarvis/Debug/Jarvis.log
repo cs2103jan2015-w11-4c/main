@@ -1,5 +1,5 @@
-﻿Build started 08-03-2015 17:02:52.
-     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
+﻿Build started 3/9/2015 11:35:51 AM.
+     1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp
@@ -17,29 +17,15 @@
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2061: syntax error : identifier 'PZPSTR'
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): warning C4183: 'GetTail': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C2146: syntax error : missing ';' before identifier 'P1'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(17): error C2146: syntax error : missing ';' before identifier 'S1'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(17): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(25): error C2590: 'endIndex' : only a constructor can have a base/member initializer list
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(25): error C2533: 'Logic' : constructors not allowed a return type
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(3): error C2969: syntax error : ';' : expected member function definition to end with '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(6): error C2864: 'Logic::INDENTIFIERS' : only static const integral data members can be initialized within a class
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(9): error C2535: 'int Logic::startIndex(std::string)' : member function already defined or declared
-                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(24) : see declaration of 'Logic::startIndex'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(17): error C2535: 'std::string Logic::extractUserCommand(std::string)' : member function already defined or declared
-                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(23) : see declaration of 'Logic::extractUserCommand'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(27): error C2535: 'bool Logic::executeCommand(std::string)' : member function already defined or declared
-                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(22) : see declaration of 'Logic::executeCommand'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(31): fatal error C1004: unexpected end-of-file found
+     1>c:\users\zann\desktop\main\jarvis\jarvis\storage.h(1): fatal error C1021: invalid preprocessor command 'ifne'
          parser.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.h(27): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\parser.cpp(104): fatal error C1004: unexpected end-of-file found
+     1>c:\users\zann\desktop\main\parser.h(27): error C2143: syntax error : missing ';' before '<'
+     1>c:\users\zann\desktop\main\parser.h(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\zann\desktop\main\parser.h(27): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\zann\desktop\main\parser.cpp(104): fatal error C1004: unexpected end-of-file found
          Generating Code...
-     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
+     1>Done Building Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.39
+Time Elapsed 00:00:01.79
