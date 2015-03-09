@@ -24,6 +24,6 @@ public:
 	void readLine(string);
 	void getStatus(bool status);
 	static void display(string);
-}
+};
 
 #endif

@@ -13,7 +13,7 @@ class Logic {
 
 private:
 	Task taskDetails;
-	Parser P1;
+	CommandParser P1;
 	Storage S1;
 	string command;
 	string userInput;

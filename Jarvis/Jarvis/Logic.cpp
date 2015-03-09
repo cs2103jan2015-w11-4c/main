@@ -2,9 +2,6 @@
 #include "Logic.h"
 #include <vector>
 
-using namespace std;
-
-
 const string INDENTIFIERS = ".,!? ";
 
 Logic::Logic() {
