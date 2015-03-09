@@ -1,7 +1,8 @@
-﻿Build started 09-03-2015 16:31:46.
-     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
+﻿Build started 9/3/2015 PM 4:34:58.
+     1>Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp UI.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp UI.cpp Storage.cpp
+         Storage.cpp
          UI.cpp
      1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\iostream(12): error C2143: syntax error : missing ';' before 'namespace'
          Logic.cpp
@@ -56,16 +57,16 @@
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2061: syntax error : identifier 'PZPSTR'
      1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): warning C4183: 'GetTail': missing return type; assumed to be a member function returning 'int'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C2146: syntax error : missing ';' before identifier 'P1'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(37): error C2065: 'P1' : undeclared identifier
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(37): error C2228: left of '.getParsedUserInput' must have class/struct/union
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\logic.h(16): error C2146: syntax error : missing ';' before identifier 'P1'
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\logic.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\logic.cpp(37): error C2065: 'P1' : undeclared identifier
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\logic.cpp(37): error C2228: left of '.getParsedUserInput' must have class/struct/union
                  type is ''unknown-type''
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(40): error C2660: 'Storage::writeFile' : function does not take 1 arguments
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\logic.cpp(40): error C2660: 'Storage::writeFile' : function does not take 1 arguments
          parser.cpp
          Generating Code...
-     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
+     1>Done Building Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:02.41
+Time Elapsed 00:00:05.66
