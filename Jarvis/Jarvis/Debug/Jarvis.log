@@ -1,19 +1,14 @@
-﻿Build started 09-03-2015 13:54:09.
-     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
+﻿Build started 3/9/2015 2:31:24 PM.
+     1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Logic.cpp Storage.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp Storage.cpp
          Storage.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C2238: unexpected token(s) preceding ';'
          Logic.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(9): error C2143: syntax error : missing ';' before 'using'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\storage.h(16): error C2238: unexpected token(s) preceding ';'
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\vector(17): error C2143: syntax error : missing ';' before 'namespace'
+         parser.cpp
          Generating Code...
-     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
+     1>Done Building Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:00.98
+Time Elapsed 00:00:02.31
