@@ -1,19 +1,71 @@
-﻿Build started 09-03-2015 16:16:50.
+﻿Build started 09-03-2015 16:31:46.
      1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp UI.cpp Storage.cpp
-         Storage.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp UI.cpp
          UI.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\ui.h(12): error C2864: 'UI::ADDED' : only static const integral data members can be initialized within a class
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\ui.h(13): error C2864: 'UI::DELETED' : only static const integral data members can be initialized within a class
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\ui.h(14): error C2864: 'UI::EDITED' : only static const integral data members can be initialized within a class
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\ui.h(15): error C2864: 'UI::WELCOME' : only static const integral data members can be initialized within a class
      1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\iostream(12): error C2143: syntax error : missing ';' before 'namespace'
          Logic.cpp
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(60): error C2146: syntax error : missing ';' before identifier 'm_cCurToken'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(60): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(61): error C2146: syntax error : missing ';' before identifier 'm_cCurWord'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(61): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(62): error C2146: syntax error : missing ';' before identifier 'm_cCurBuffer'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(62): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(64): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(64): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(65): error C2146: syntax error : missing ';' before identifier 'm_dwError'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(65): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(68): error C2146: syntax error : missing ';' before identifier 'Read'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(68): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(68): warning C4183: 'Read': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): error C2146: syntax error : missing ';' before identifier 'SetError'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): error C2061: syntax error : identifier 'DWORD'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): warning C4183: 'SetError': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(83): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(83): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(83): error C2061: syntax error : identifier 'CHAR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(83): warning C4183: 'GetFirstWord': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(84): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(84): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(84): error C2061: syntax error : identifier 'CHAR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(84): warning C4183: 'GetValue': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(86): error C2146: syntax error : missing ';' before identifier 'Start'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(86): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(86): error C2143: syntax error : missing ',' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(86): warning C4183: 'Start': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(88): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(88): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(88): warning C4183: 'GetToken': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(89): error C2146: syntax error : missing ';' before identifier 'GetError'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(89): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(89): warning C4183: 'GetError': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): error C2065: 'm_dwError' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(69): error C2065: 'dw' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(74): error C2065: 'm_cCurBuffer' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(75): error C2065: 'm_pCurrentIndex' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(76): error C2065: 'm_dwError' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(89): error C2065: 'm_dwError' : undeclared identifier
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(94): error C2143: syntax error : missing ';' before '*'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(94): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C2146: syntax error : missing ';' before identifier 'AddTail'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): error C2061: syntax error : identifier 'CHAR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(109): warning C4183: 'AddTail': missing return type; assumed to be a member function returning 'int'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2146: syntax error : missing ';' before identifier 'GetTail'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): error C2061: syntax error : identifier 'PZPSTR'
+     1>c:\program files (x86)\windows kits\8.0\include\um\parser.h(110): warning C4183: 'GetTail': missing return type; assumed to be a member function returning 'int'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C2146: syntax error : missing ';' before identifier 'P1'
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.h(16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(37): error C2065: 'P1' : undeclared identifier
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(37): error C2228: left of '.getParsedUserInput' must have class/struct/union
+                 type is ''unknown-type''
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(40): error C2660: 'Storage::writeFile' : function does not take 1 arguments
          parser.cpp
          Generating Code...
      1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:02.38
+Time Elapsed 00:00:02.41
