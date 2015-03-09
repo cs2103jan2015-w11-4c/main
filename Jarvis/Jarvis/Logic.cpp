@@ -37,5 +37,14 @@ bool Logic::executeCommand(string input) {
 		bool status = S1.writeFile(taskDetails.getDescription());
 		return status;
 	}
+	else if(command=="display") {
+		vector <string> tasks;
+		tasks = readFile();
+		return tasks;
+	}	
+	else if(command=="delete") {
 
-}	
+
+
+
+}
