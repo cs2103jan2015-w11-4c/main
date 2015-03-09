@@ -16,6 +16,20 @@ const string CommandParser::hourIndicator = ":.";
 const string CommandParser::endDateIndicator = " by ";
 const string CommandParser::endDayIndicator = "/";
 
+const int CommandParser::startingPosition = 0;
+const int CommandParser::positionModerator1 = 1;
+const int CommandParser::positionModerator2 = 2;
+const int CommandParser::positionModerator3 = 3;
+const int CommandParser::positionModerator4 = 4;
+
+string CommandParser::userInput = "";
+string CommandParser::startDate = "";
+string CommandParser::startTime = "";
+string CommandParser::endDate = "";
+string CommandParser::location = "";
+string CommandParser::name="";
+vector<string> CommandParser::parsedInput;
+
 CommandParser::userInput = ui; 
 
 string CommandParser::getCommand(string input){
@@ -40,6 +54,34 @@ string CommandParser::getStartDate(string input) {
 		return CommandParser::NOT_EXIST;
 	}
 }
+string CommandParser::getEndDate(string input){
+	try {
+		unsigned int start = input.rfind(endDateIndicator);
+		if (start == string::npos) {
+			return CommandParser::NOT_EXIST;
+		}
+		start += positionModerator4;
+		endDate = input.substr(start, input.size() - start);
+		return endDate;
+	} catch (exception &) {
+		return CommandParser::NOT_EXIST;
+	}
+}
+
+string CommandParser::getKeywords(string input) {
+
+	try {
+		unsigned int start = userInput.find_first_of(commandIndicator);
+		start += positionModerator1;
+		return input.substr(start, input.size()-start);
+	} catch (exception &) {
+		return CommandParser::NOT_EXIST;
+	}
+}
+string CommandParser::getDescription(string input) {
+	return CommandParser::NOT_EXIST;
+}
+
 
 //same for getStartTime/Location/EndDate/Description
 
@@ -47,8 +89,6 @@ vector<string> CommandParser::getParsedUserInput(string input){
 
 	vector<string> parsedInput(Task::ATTR::SIZE);
 	parsedInput[Task::ATTR::COMMAND] = getCommand(input);
-
-	Calendar::COMMAND_TYPE cmd = Utility::stringToCOMMAND_TYPE(getCommand(input));
 
 	switch (cmd) {
 	case Calendar::COMMAND_TYPE::TASKADD:
@@ -67,10 +107,8 @@ vector<string> CommandParser::getParsedUserInput(string input){
 		parsedInput[Task::ATTR::ENDDAY] = getEndDay(input);
 		parsedInput[Task::ATTR::ENDHOUR] = getEndHour(input);
 		parsedInput[Task::ATTR::ENDMINUTE] = getEndMinute(input);
-		parsedInput[Task::ATTR::PRIORITY] = getPriority(input);
 		parsedInput[Task::ATTR::NAME] = getName(input);
 		parsedInput[Task::ATTR::DESCRIPTION] = getDescription(input);
-		parsedInput[Task::ATTR::LOCATION] = getLocation(input);
 		parsedInput[Task::ATTR::ISDONE] = "false";
 		if (startDate == CommandParser::NOT_EXIST && endDate == CommandParser::NOT_EXIST) {
 			parsedInput[Task::ATTR::HASDATE] = CommandParser::NOT_EXIST;
