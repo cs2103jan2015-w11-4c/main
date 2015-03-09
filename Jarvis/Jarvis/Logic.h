@@ -24,8 +24,8 @@ public:
 	bool executeCommand(string);
 	string extractUserCommand(string);
 	int startIndex(string);
-	int endIndex(string):
+	int endIndex(string);
 
-}
+};
 
 #endif

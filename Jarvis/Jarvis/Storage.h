@@ -22,6 +22,6 @@ public:
 	string readFile(string);        //display items
 	bool returnStatus();        //if adding/delete succeed return with boolean 0 or 1
 
-}
+};
 
 #endif
