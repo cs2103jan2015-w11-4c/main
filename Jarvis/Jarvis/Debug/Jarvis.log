@@ -1,18 +1,19 @@
-﻿Build started 3/9/2015 3:38:02 PM.
-     1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 9/3/2015 PM 4:02:07.
+     1>Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp Storage.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp UI.cpp Storage.cpp
          Storage.cpp
+         UI.cpp
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\ui.h(12): error C2864: 'UI::ADDED' : only static const integral data members can be initialized within a class
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\ui.h(13): error C2864: 'UI::DELETED' : only static const integral data members can be initialized within a class
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\ui.h(14): error C2864: 'UI::EDITED' : only static const integral data members can be initialized within a class
+     1>c:\users\acer\documents\github\main\jarvis\jarvis\ui.h(15): error C2864: 'UI::WELCOME' : only static const integral data members can be initialized within a class
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\iostream(12): error C2143: syntax error : missing ';' before 'namespace'
          Logic.cpp
          parser.cpp
          Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\parser.obj
-         Debug\Logic.obj
-         Debug\Storage.obj
-     1>LINK : fatal error LNK1561: entry point must be defined
-     1>Done Building Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
+     1>Done Building Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.91
+Time Elapsed 00:00:12.52
