@@ -1,5 +1,6 @@
-#pragma once
+//#include "Parser.h"
 #include "Logic.h"
+#include "Storage.h"
 #include <vector>
 
 using namespace std;
