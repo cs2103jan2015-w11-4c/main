@@ -3,7 +3,7 @@
 
 #include "Task.h"
 //#include "Parser.h"
-#include "Storage.h"
+//#include "Storage.h"
 //#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -14,7 +14,7 @@ class Logic {
 private:
 	Task taskDetails;
 	//Parser P1;
-	Storage S1;
+	//Storage S1;
 	string command;
 	string userInput;
 

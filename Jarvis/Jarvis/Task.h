@@ -14,6 +14,6 @@ public:
 	void setDescription(string);
 	void getDescription();
 
-}
+};
 
 #endif
