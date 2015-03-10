@@ -15,7 +15,6 @@ int main(int argc, char* argv[]){
 }
 
 void UI::main(int argc, char* argv[]){
-	setFileName(argv[1]);
 	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
 	displayLine(buffer);
 
@@ -25,21 +24,12 @@ void UI::main(int argc, char* argv[]){
 		readLine(userInput);
 		Logic temp;
 		string userCommand;
-		displayLine(temp.executeCommand(userInput));
+		displayLine(temp.executeCommand(userInput, argv[1]));
 		userCommand = temp.extractUserCommand(userInput);
 		if (userCommand == "exit"){
 			isRunning = false;
 		}
 	}
-	return;
-}
-
-string UI::getFileName(){
-	return _fileName;
-}
-
-void UI::setFileName(string fileName){
-	_fileName = fileName;
 	return;
 }
 
