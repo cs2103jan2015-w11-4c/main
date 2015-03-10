@@ -12,7 +12,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	int size;
 	size = tasklist.size();
 
-	//start writing into myfile/
+	//start writing into myfile
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str());
 	int i=0;
