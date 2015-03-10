@@ -36,7 +36,6 @@ string Logic::executeCommand(string input) {
 	vector <string> details;
 	details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(details[0]);
-	bool status;
 	string s;
 	if(command=="add") {
 		if(add(taskDetails.getDescription()))
