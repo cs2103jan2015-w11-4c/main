@@ -34,7 +34,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 
 //open file then print vector instead??
 															
-vector <string> readFile (string outputfile) {				//display all items and return a VECTOR
+vector <string> Storage::readFile (string outputfile) {				//display all items and return a VECTOR
 		 ofstream myfile;									
 		myfile.open(outputfile.c_str());
 		int i=0;
