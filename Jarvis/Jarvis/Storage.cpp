@@ -12,13 +12,14 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	int size;
 	size = tasklist.size();
 
-	//start writing into myfile
+	//start writing into myfile/
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str());
 	int i=0;
 
-	myfile<<size<<"."<<tasklist[size-1]<<endl;      //write specific sentence in. naming like 1.meow   2. woof
-
+	for (int i=0; i<size; i++) {
+	myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
+	}
 	myfile.close();
 
 
@@ -34,8 +35,9 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 
 //open file then print vector instead??
 															
-vector <string> readFile (string outputfile) {				//display all items and return a VECTOR
-		 ofstream myfile;									
+vector <string> Storage::readFile(string outputfile) {				//display all items and return a VECTOR
+
+	/*	 ofstream myfile;									
 		myfile.open(outputfile.c_str());
 		int i=0;
 
@@ -44,20 +46,26 @@ vector <string> readFile (string outputfile) {				//display all items and return
 			++i;
 		}
 		myfile.close();
+	*/
 
 	return tasklist;
 }
 
 
 
-//eg. delete meow. logic will call .deleteTask, 
-//inside my deletetask I need to call search function and return all sentences with meow inside. return vector of lines. 
-//user will choose one of them, I will delete vector line.
+//simple delete function, haven't save deleted line in myfile
+bool Storage::deleteTask(int number) {							//delete requested number of string
+	int sizebeforedelete = tasklist.size();
+	tasklist.erase(tasklist.begin() + (number-1));
 
-/*string deleteTask(string) {   //delete requested string
+	if (tasklist.size() == (sizebeforedelete - 1)) {                  //return status
+		return true;
 	}
-//my own delete function, i will call search if search == 1, delete it straightaway. If got 2 vectors, send back to user
-*/
+	else {
+		return false;
+	}
+	}
+
 
 
 /* bool Storage::returnStatusAdded(vector <string> tasklist) {   //if adding/delete succeed return with boolean 0 or 1
