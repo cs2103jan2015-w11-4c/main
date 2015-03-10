@@ -8,7 +8,8 @@ using namespace std;
 class UI {
 
 private:
-	static string _fileName;
+	string _read;
+	string _display;
 	static const int MAX_BUFFER_SIZE = 255;
 	static char buffer[MAX_BUFFER_SIZE];
 
@@ -24,9 +25,6 @@ public:
 	static void readLine(string);
 	static void displayLine(string);
 	void getStatus(bool status);
-	static void setFileName(string fileName);
-	string getFileName();
-	
 };
 
 #endif
