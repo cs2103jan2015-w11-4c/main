@@ -7,6 +7,7 @@ using namespace std;
 const string UI::MESSAGE_COMMAND = "command: ";
 const string UI::MESSAGE_WELCOME = "Welcome to Jarvis. %s is ready.";
 
+char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
 
 int main(int argc, char* argv[]){
@@ -25,7 +26,7 @@ void UI::main(int argc, char* argv[]){
 		readLine(userInput);
 		Logic temp;
 		string userCommand;
-		displayLine(temp.executeCommand(userInput));
+		displayLine(temp.executeCommand(userInput, fileName));
 		userCommand = temp.extractUserCommand(userInput);
 		if (userCommand == "exit"){
 			isRunning = false;
@@ -37,6 +38,7 @@ void UI::main(int argc, char* argv[]){
 void UI::displayLine(string text){
 	cout << text << endl;
 }
+
 void UI::readLine(string userInput){
 	getline(cin, userInput);
 	return;

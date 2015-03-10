@@ -27,25 +27,27 @@ string Logic::extractUserCommand(string input) {
 	return input.substr(start,end-start);
 }
 
-bool Logic::add(string input) {
-	return S1.writeFile(taskDetails.getDescription());
+bool Logic::add(string input,string fileName) {
+	//Storage S1;
+	return S1.writeFile(taskDetails.getDescription(),fileName);
 }
 	
-string Logic::executeCommand(string input) {
+string Logic::executeCommand(string input, string fileName) {
 	command = extractUserCommand(input);
 	vector <string> details;
+	//CommandParser P1;
 	details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(details[0]);
 	string s;
 	if(command=="add") {
-		if(add(taskDetails.getDescription()))
+		if(add(taskDetails.getDescription(),fileName))
 			s= "Added successfully";
 		else 
 			s= "Error in adding";
 	}
 	else if(command=="display") {
 		vector <string> fileData;
-		string fileName;
+		//Storage S1;
 		fileData = S1.readFile(fileName);
 		reverse(fileData.begin(), fileData.end());
 		while(!fileData.empty()) {
