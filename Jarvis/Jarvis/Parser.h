@@ -9,7 +9,6 @@ class CommandParser {
 public:
 	static const string NOT_EXIST;
 
-	static string getUpdate();
 	static string getCommand(string input);
 	static string getStartYear();
 	static string getStartMonth();
@@ -27,6 +26,13 @@ public:
 	static string getLocation(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
+
+	static string getStartDate(string input);
+	static string getStartTime(string input);
+	static string getEndDate(string input);
+	void setUserInput(string ui);
+	void setDate(string d);
+	void setParserInput(vector <string> pi);
 
 private:
 	static string userInput;
@@ -50,11 +56,14 @@ private:
 
 	const static int startingPosition;
 	const static int positionModerator1;
+	const static int positionModerator2;
+	const static int positionModerator3;
+	const static int positionModerator4;
 
-
-	//vector<string> parsedInput;
+	vector<string> parsedInput;
 	//static logic::COMMAND_TYPE _command;
 };
 
 #endif
 //header ends
+
