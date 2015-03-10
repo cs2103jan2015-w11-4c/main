@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "Logic.h"
 #include <iostream>
 #include <vector>
 
@@ -17,22 +18,26 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 
+
+void UI::readLine(string &UserInput){
+	getline(cin, UserInput);
+	return;
+}
+
 void UI::main(int argc, char* argv[]){
 	string fileName = argv[1];
+	UI U1;
 	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
 	display(buffer);
 
 	while (isRunning){
 		cout << MESSAGE_COMMAND;
 		string userInput;
-		//readLine(UserInput)
-	}
+		U1.readLine(userInput);
+}
 
 }
 void UI::display(string text){
 	cout << text << endl;
 }
 
-void UI::readLine(string UserInput){
-	return;
-}

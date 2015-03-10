@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="parser.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Storage.cpp" />
   </ItemGroup>

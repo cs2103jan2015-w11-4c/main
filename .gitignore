@@ -1,3 +1,6 @@
-Jarvis/Jarvis.sdf
-Jarvis/Jarvis.v11.suo
-Jarvis/Jarvis.v11.suo
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sdf
