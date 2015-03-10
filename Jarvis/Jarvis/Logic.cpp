@@ -86,10 +86,15 @@ string Logic::executeCommand(string input, string fileName) {
 		s= "The file has been cleared\n";
 	}
 
+	else if(command=="exit") {
+		
+	}
+		
 	else {
 		s="Incorrect command. Please enter a command from the list given\n";
 	}
-		return s;
+
+	return s;
 
 
 }
