@@ -1,16 +1,19 @@
 #include "Storage.h"
 #include <vector>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
-vector <string> tasklist;
+//vector <string> tasklist;
 
 bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
 	tasklist.push_back(task);
-	
 	int size;
 	size = tasklist.size();
+	int i=0;
+	for (int i=0; i<size; i++) {
+	cout << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
 	//start writing into myfile/
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str(),ios::app);
@@ -28,6 +31,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	else {
 		return false;
 	}
+}
 }
 
 
@@ -75,8 +79,38 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 
 
 //simple delete function, haven't save deleted line in myfile
-bool Storage::deleteTask(int number) {							//delete requested number of string
-	int sizebeforedelete = tasklist.size();
+bool Storage::deleteTask(string userInput,string fileName) {							//delete requested number of string
+	ifstream readfile(fileName);
+	queue <string> fileData;  
+	string lineFromFile;
+	bool deleted=false;
+	int lineNumber=1;
+	while(!readfile.eof()) {
+ 		getline(readfile,lineFromFile);	
+		if(!lineFromFile.empty()) {
+		if(atoi(userInput.c_str())!=lineNumber) {
+			fileData.push(lineFromFile);
+		}
+		else { 
+			deleted=true;
+		}
+		lineNumber++;
+	}
+	}
+	readfile.close();
+	ofstream writefile;
+	writefile.open(fileName,ios::trunc);
+	while(!fileData.empty()) {
+		writefile << fileData.front() <<endl;
+		fileData.pop();
+	}
+
+	return deleted;
+}
+	
+	
+	
+	/*int sizebeforedelete = tasklist.size();
 	tasklist.erase(tasklist.begin() + (number-1));
 
 	if (tasklist.size() == (sizebeforedelete - 1)) {                  //return status
@@ -86,7 +120,7 @@ bool Storage::deleteTask(int number) {							//delete requested number of string
 		return false;
 	}
 	}
-
+	*/
 
 
 /* bool Storage::returnStatusAdded(vector <string> tasklist) {   //if adding/delete succeed return with boolean 0 or 1

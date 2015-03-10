@@ -60,7 +60,15 @@ string Logic::executeCommand(string input, string fileName) {
 		//tasks = readFile();
 		//return tasks;
 	//}	
-	//else if(command=="delete") {
+	else if(command=="delete") {
+		if(S1.deleteTask(userInput,fileName)) {
+			s="Deleted successfully";
+		}
+		else {
+			s="error in deletion since task does not exist";
+		}
+	}
+	//else if(command=="update") {
 
 	return s;
 

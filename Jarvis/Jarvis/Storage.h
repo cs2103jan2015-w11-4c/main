@@ -19,9 +19,9 @@ public:
 	bool writeFile(string, string);   //for adding/editing return boolean to Logic
 	//vector <string> 
 	string readFile (string);		//display items
-	bool deleteTask(int);
+	bool deleteTask(string,string);
 	//bool returnStatus();        //if adding/delete succeed return with boolean 0 or 1
-
+	
 };
 
 #endif
