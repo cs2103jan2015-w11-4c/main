@@ -60,7 +60,7 @@ private:
 	const static int positionModerator3;
 	const static int positionModerator4;
 
-	static vector<string> parsedInput;
+	vector<string> parsedInput;
 	//static logic::COMMAND_TYPE _command;
 };
 

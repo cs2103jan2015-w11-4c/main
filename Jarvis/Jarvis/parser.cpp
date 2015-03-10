@@ -85,12 +85,14 @@ string CommandParser::getDescription(string input) {
 
 //same for getStartTime/Location/EndDate/Description
 
+//vector <string> CommandParser::parsedInput;
+
 vector<string> CommandParser::getParsedUserInput(string input){
 
-	vector<string> parsedInput(Task::ATTR::SIZE);
-	parsedInput[Task::ATTR::COMMAND] = getCommand(input);
+	vector<string> CommandParser::parsedInput(Task::ATTR::SIZE);
+	CommandParser::parsedInput[Task::ATTR::COMMAND] = CommandParser::getCommand(input);
 
-	return parsedInput;
+	return CommandParser::parsedInput;
 }
 
 #endif
