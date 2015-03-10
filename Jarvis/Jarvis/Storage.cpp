@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector <string> tasklist;
+//vector <string> tasklist;
 
 bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
 	tasklist.push_back(task);

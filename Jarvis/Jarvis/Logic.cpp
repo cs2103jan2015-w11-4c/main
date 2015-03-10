@@ -37,7 +37,7 @@ string Logic::executeCommand(string input, string fileName) {
 	vector <string> details;
 	//CommandParser P1;
 	//details = P1.getParsedUserInput(userInput); 
-	taskDetails.setDescription(input);
+	taskDetails.setDescription(userInput);
 	string s;
 	if(command=="add") {
 		if(add(taskDetails.getDescription(),fileName))
