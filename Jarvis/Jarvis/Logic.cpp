@@ -1,6 +1,7 @@
 #pragma once
 #include "Logic.h"
 #include <vector>
+#include <fstream>
 
 const string INDENTIFIERS = ".,!? ";
 
@@ -41,9 +42,9 @@ string Logic::executeCommand(string input, string fileName) {
 	string s="";
 	if(command=="add") {
 		if(add(taskDetails.getDescription(),fileName))
-			s= "Added successfully";
+			s= "Added successfully\n";
 		else 
-			s= "Error in adding";
+			s= "Error in adding\n";
 	}
 	else if(command=="display") {
 		//vector <string> fileData;
@@ -62,10 +63,10 @@ string Logic::executeCommand(string input, string fileName) {
 	//}	
 	else if(command=="delete") {
 		if(S1.deleteTask(userInput,fileName)) {
-			s="Deleted successfully";
+			s="Deleted successfully\n";
 		}
 		else {
-			s="error in deletion since task does not exist";
+			s="error in deletion since task does not exist\n";
 		}
 	}
 	else if(command=="update") {
@@ -74,10 +75,20 @@ string Logic::executeCommand(string input, string fileName) {
 		string updatedString = userInput.substr(end+1); 
 		string lineNumber = userInput.substr(start,end-start);
 		if(S1.updateFile(fileName,lineNumber,updatedString))
-			s = "Updated successfully";
+			s = "Updated successfully\n";
 		else
-			s="Error in updation as task specified by line number may not exit";
+			s="Error in updation as task specified by line number may not exit\n";
 }
+	else if(command=="clear") {
+		ofstream writefile;
+		writefile.open(fileName,ios::trunc);
+		writefile.close();
+		s= "The file has been cleared\n";
+	}
+
+	else {
+		s="Incorrect command. Please enter a command from the list given\n";
+	}
 		return s;
 
 

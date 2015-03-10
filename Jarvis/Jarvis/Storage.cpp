@@ -11,9 +11,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	tasklist.push_back(task);
 	int size;
 	size = tasklist.size();
-	int i=0;
-	for (int i=0; i<size; i++) {
-	cout << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
+	//write specific sentence in. naming like 1.meow   2. woof
 	//start writing into myfile/
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str(),ios::app);
@@ -32,7 +30,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 		return false;
 	}
 }
-}
+
 
 
 
@@ -44,7 +42,7 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 	string fileContent="";
 	//If the file is empty
 	if(readfile.peek()==std::ifstream::traits_type::eof()) {
-		cout << outputfile << "is empty" << endl << endl;
+		cout << outputfile << " is empty" << endl << endl;
 	}
 
 	else {
