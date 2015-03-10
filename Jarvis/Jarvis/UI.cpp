@@ -5,8 +5,8 @@
 using namespace std;
 
 const string UI::MESSAGE_COMMAND = "command: ";
-const string UI::MESSAGE_WELCOME = "Welcome to Jarvis. %s is ready.";
-
+const string UI::MESSAGE_WELCOME = "\n**********************\n* Welcome to Jarvis. *\n**********************\nCommands available: \n( add, delete, display, exit)\nData will be written into %s.\n";
+const string UI::MESSAGE_BYE = "Goodbye! Press any key to terminate the program . . .";
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
 
@@ -31,6 +31,7 @@ void UI::main(int argc, char* argv[]){
 		userCommand = temp.extractUserCommand(userInput);
 		if (userCommand == "exit"){
 			isRunning = false;
+			displayLine(MESSAGE_BYE);
 		}
 	}
 	return;
