@@ -60,9 +60,25 @@ string Logic::executeCommand(string input, string fileName) {
 		//tasks = readFile();
 		//return tasks;
 	//}	
-	//else if(command=="delete") {
-
-	return s;
+	else if(command=="delete") {
+		if(S1.deleteTask(userInput,fileName)) {
+			s="Deleted successfully";
+		}
+		else {
+			s="error in deletion since task does not exist";
+		}
+	}
+	else if(command=="update") {
+		int start = startIndex(userInput);
+		int end = endIndex(userInput);
+		string updatedString = userInput.substr(end+1); 
+		string lineNumber = userInput.substr(start,end-start);
+		if(S1.updateFile(fileName,lineNumber,updatedString))
+			s = "Updated successfully";
+		else
+			s="Error in updation as task specified by line number may not exit";
+}
+		return s;
 
 
 }
