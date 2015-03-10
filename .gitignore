@@ -4,3 +4,5 @@
 *.userosscache
 *.sln.docstates
 *.sdf
+*.sdf
+*.suo
