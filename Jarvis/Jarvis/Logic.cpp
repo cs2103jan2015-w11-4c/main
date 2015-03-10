@@ -28,12 +28,14 @@ string Logic::extractUserCommand(string input) {
 }
 
 bool Logic::add(string input,string fileName) {
+	//Storage S1;
 	return S1.writeFile(taskDetails.getDescription(),fileName);
 }
 	
 string Logic::executeCommand(string input, string fileName) {
 	command = extractUserCommand(input);
 	vector <string> details;
+	//CommandParser P1;
 	details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(details[0]);
 	string s;
@@ -45,6 +47,7 @@ string Logic::executeCommand(string input, string fileName) {
 	}
 	else if(command=="display") {
 		vector <string> fileData;
+		//Storage S1;
 		fileData = S1.readFile(fileName);
 		reverse(fileData.begin(), fileData.end());
 		while(!fileData.empty()) {
