@@ -21,11 +21,11 @@ private:
 public:
 	Logic();
 	~Logic();
-	string executeCommand(string);
+	string executeCommand(string,string);
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
-	bool add(string); 
+	bool add(string,string); 
 
 };
 
