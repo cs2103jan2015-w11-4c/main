@@ -6,27 +6,41 @@ using namespace std;
 
 vector <string> tasklist;
 
-bool Storage::writeFile(string task) {     //if adding/editing function, returns boolean value
+bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
 	tasklist.push_back(task);
+	
 	int size;
 	size = tasklist.size();
-	if (tasklist[size-1] == task){
+
+	//start writing into myfile
+	ofstream myfile;                                //write the new sentence into the file
+	myfile.open(outputfile.c_str());
+	int i=0;
+
+	myfile<<size<<"."<<tasklist[size-1]<<endl;      //write specific sentence in. naming like 1.meow   2. woof
+
+	myfile.close();
+
+
+	if (tasklist[size-1] == task){                  //return status
 		return true;
 	}
 	else {
 		return false;
 	}
-
 }
 
-															//display all items and return a VECTOR
-vector <string> readFile (string outputfile) {				//user defined i wanna paste my vector inside text file
-		ofstream myfile;									//entire step is to write into text file
+
+
+//open file then print vector instead??
+															
+vector <string> readFile (string outputfile) {				//display all items and return a VECTOR
+		 ofstream myfile;									
 		myfile.open(outputfile.c_str());
 		int i=0;
 
-		while (tasklist[i]!="") {					   	    //while theres something to write/not empty
-			myfile<<i+1<<". "<<tasklist[i] <<endl;          //naming like 1.meow  2. woof
+		while (tasklist[i]!="") {					   	  
+			myfile<<i+1<<". "<<tasklist[i] <<endl;         
 			++i;
 		}
 		myfile.close();
@@ -36,16 +50,19 @@ vector <string> readFile (string outputfile) {				//user defined i wanna paste m
 
 
 
+//eg. delete meow. logic will call .deleteTask, 
+//inside my deletetask I need to call search function and return all sentences with meow inside. return vector of lines. 
+//user will choose one of them, I will delete vector line.
 
 /*string deleteTask(string) {   //delete requested string
-}
+	}
+//my own delete function, i will call search if search == 1, delete it straightaway. If got 2 vectors, send back to user
 */
-
 
 
 /* bool Storage::returnStatusAdded(vector <string> tasklist) {   //if adding/delete succeed return with boolean 0 or 1
 	int size;
-	size = tasklist.size();
+	size = tasklistsize();
 	if (tasklist[size-1] == task){
 		return true;
 	}
