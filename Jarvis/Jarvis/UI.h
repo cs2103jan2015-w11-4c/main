@@ -1,6 +1,6 @@
 #ifndef UI_H
 #define UI_H
-
+#include "Logic.h"
 #include <string>
 using namespace std;
 
@@ -21,9 +21,10 @@ private:
 
 public:
 	static void main(int, char*[]);
-	void readLine(string);
+	void readLine(string&);
 	void getStatus(bool status);
 	static void display(string);
 };
+
 
 #endif

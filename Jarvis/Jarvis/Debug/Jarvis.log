@@ -1,18 +1,24 @@
-﻿Build started 3/9/2015 5:13:39 PM.
-     1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 10-03-2015 12:41:06.
+     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\parser.cpp Logic.cpp Storage.cpp
-         Storage.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Logic.cpp UI.cpp
          Logic.cpp
-         parser.cpp
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\logic.cpp(39): warning C4101: 'status' : unreferenced local variable
          Generating Code...
+         Skipping... (no relevant changes detected)
+         UI.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zann\Desktop\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\parser.obj
-         Debug\Logic.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Logic.obj
+         Debug\parser.obj
+         Debug\Task.obj
+         Debug\UI.obj
          Debug\Storage.obj
-     1>LINK : fatal error LNK1561: entry point must be defined
-     1>Done Building Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
+     1>Logic.obj : error LNK2019: unresolved external symbol "public: static class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __cdecl CommandParser::getParsedUserInput(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?getParsedUserInput@CommandParser@@SA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z) referenced in function "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Logic::executeCommand(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?executeCommand@Logic@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@@Z)
+     1>Logic.obj : error LNK2019: unresolved external symbol "public: class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __thiscall Storage::readFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?readFile@Storage@@QAE?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z) referenced in function "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Logic::executeCommand(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?executeCommand@Logic@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@@Z)
+     1>UI.obj : error LNK2001: unresolved external symbol "private: static char * UI::buffer" (?buffer@UI@@0PADA)
+     1>C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe : fatal error LNK1120: 3 unresolved externals
+     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:02.30
+Time Elapsed 00:00:01.04

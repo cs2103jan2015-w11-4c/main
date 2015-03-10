@@ -6,9 +6,8 @@ using namespace std;
 
 vector <string> tasklist;
 
-bool Storage::writeFile(string task, vector <string> tasklist) {     //if adding/editing function, returns boolean value
+bool Storage::writeFile(string task) {     //if adding/editing function, returns boolean value
 	tasklist.push_back(task);
-	
 	int size;
 	size = tasklist.size();
 	if (tasklist[size-1] == task){
@@ -34,6 +33,7 @@ vector <string> readFile (string outputfile) {				//user defined i wanna paste m
 
 	return tasklist;
 }
+
 
 
 
