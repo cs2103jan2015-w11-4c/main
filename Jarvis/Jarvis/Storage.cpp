@@ -11,15 +11,14 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	
 	int size;
 	size = tasklist.size();
-
 	//start writing into myfile/
 	ofstream myfile;                                //write the new sentence into the file
-	myfile.open(outputfile.c_str());
-	int i=0;
-
-	for (int i=0; i<size; i++) {
-	myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
-	}
+	myfile.open(outputfile.c_str(),ios::app);
+	myfile << task << endl;
+	//int i=0;
+	//for (int i=0; i<size; i++) {
+	//myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
+	//}
 	myfile.close();
 
 
@@ -35,8 +34,30 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 
 //open file then print vector instead??
 															
-vector <string> Storage::readFile(string outputfile) {				//display all items and return a VECTOR
+//vector <string> 
+string Storage::readFile(string outputfile) {				//display all items and return a VECTOR
+	ifstream readfile(outputfile);
+	string fileContent="";
+	//If the file is empty
+	if(readfile.peek()==std::ifstream::traits_type::eof()) {
+		cout << outputfile << "is empty" << endl << endl;
+	}
 
+	else {
+		int lineNumber=1;
+		while(!readfile.eof()) {
+			string line;
+			getline(readfile,line);
+			if(!line.empty()) {
+				fileContent = fileContent + to_string(lineNumber) + ". " + line + "\n";
+				lineNumber++;
+			}
+		}
+	}
+	readfile.close();
+	return fileContent;
+
+}
 	/*	 ofstream myfile;									
 		myfile.open(outputfile.c_str());
 		int i=0;
@@ -48,8 +69,8 @@ vector <string> Storage::readFile(string outputfile) {				//display all items an
 		myfile.close();
 	*/
 
-	return tasklist;
-}
+	//return tasklist;
+
 
 
 

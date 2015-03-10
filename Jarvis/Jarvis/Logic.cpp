@@ -37,8 +37,8 @@ string Logic::executeCommand(string input, string fileName) {
 	vector <string> details;
 	//CommandParser P1;
 	//details = P1.getParsedUserInput(userInput); 
-	taskDetails.setDescription(input);
-	string s;
+	taskDetails.setDescription(userInput);
+	string s="";
 	if(command=="add") {
 		if(add(taskDetails.getDescription(),fileName))
 			s= "Added successfully";
@@ -46,14 +46,14 @@ string Logic::executeCommand(string input, string fileName) {
 			s= "Error in adding";
 	}
 	else if(command=="display") {
-		vector <string> fileData;
+		//vector <string> fileData;
 		///Storage S1;
-		fileData = S1.readFile(fileName);
-		reverse(fileData.begin(), fileData.end());
-		while(!fileData.empty()) {
-			s= s + fileData.back() + "\n";
-			fileData.pop_back();
-		}
+		s = S1.readFile(fileName);
+		//reverse(fileData.begin(), fileData.end());
+		//while(!fileData.empty()) {
+			//s= s + fileData.back() + "\n";
+			//fileData.pop_back();
+		//}
 	}
 	//else if(command=="display") {
 		//vector <string> tasks;
