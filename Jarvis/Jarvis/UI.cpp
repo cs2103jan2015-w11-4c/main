@@ -23,8 +23,7 @@ void UI::main(int argc, char* argv[]){
 	while (isRunning){
 		cout << MESSAGE_COMMAND;
 		string userInput;
-		getline(cin, userInput);
-		//readLine(userInput);
+		readLine(userInput);
 		Logic temp;
 		string userCommand;
 		displayLine(temp.executeCommand(userInput, fileName));
@@ -40,7 +39,7 @@ void UI::displayLine(string text){
 	cout << text << endl;
 }
 
-//void UI::readLine(string userInput){
-	//getline(cin, userInput);
-	//return;
-//}
+void UI::readLine(string userInput){
+	getline(cin, userInput);
+	return;
+}
