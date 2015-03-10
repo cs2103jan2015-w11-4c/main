@@ -108,8 +108,40 @@ bool Storage::deleteTask(string userInput,string fileName) {							//delete requ
 	return deleted;
 }
 	
+
+bool Storage::updateFile(string fileName, string lineNumber, string updatedString)	{
+	ifstream readfile(fileName);
+	queue <string> fileData;  
+	string lineFromFile;
+	bool updated=false;
+	int line=1;
+	while(!readfile.eof()) {
+ 		getline(readfile,lineFromFile);	
+		if(!lineFromFile.empty()) {
+		if(atoi(lineNumber.c_str())!=line) {
+			fileData.push(lineFromFile);
+		}
+		else { 
+			lineFromFile = updatedString;
+			fileData.push(lineFromFile);
+			updated=true;
+		}
+		line++;
+	}
+	}
+	readfile.close();
+	ofstream writefile;
+	writefile.open(fileName,ios::trunc);
+	while(!fileData.empty()) {
+		writefile << fileData.front() <<endl;
+		fileData.pop();
+	}
+
+	return updated;
+}
 	
-	
+
+
 	/*int sizebeforedelete = tasklist.size();
 	tasklist.erase(tasklist.begin() + (number-1));
 

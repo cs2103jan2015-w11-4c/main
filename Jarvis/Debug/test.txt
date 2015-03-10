@@ -1,9 +1,8 @@
-add hello world
+memo
+memo
 mall today
-hello world
-mall today
-hello world
+hi
 hello
 brains
 no
-hello
+memo

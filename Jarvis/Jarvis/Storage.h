@@ -21,7 +21,7 @@ public:
 	string readFile (string);		//display items
 	bool deleteTask(string,string);
 	//bool returnStatus();        //if adding/delete succeed return with boolean 0 or 1
-	
+	bool updateFile(string, string, string);	
 };
 
 #endif
