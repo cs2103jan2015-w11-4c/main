@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
 }
 
 void UI::main(int argc, char* argv[]){
-	string fileName = argv[1];
+	setFileName(argv[1]);
 	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
 	displayLine(buffer);
 
@@ -34,9 +34,19 @@ void UI::main(int argc, char* argv[]){
 	return;
 }
 
+string UI::getFileName(){
+	return _fileName;
+}
+
+void UI::setFileName(string fileName){
+	_fileName = fileName;
+	return;
+}
+
 void UI::displayLine(string text){
 	cout << text << endl;
 }
+
 void UI::readLine(string userInput){
 	getline(cin, userInput);
 	return;
