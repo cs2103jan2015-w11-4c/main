@@ -12,7 +12,7 @@ private:
 	static char buffer[MAX_BUFFER_SIZE];	
 	static const string MESSAGE_COMMAND;
 	static const string MESSAGE_WELCOME;
-	static const string MESSAGE_BYE;
+
 
 public:
 
