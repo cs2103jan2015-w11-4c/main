@@ -18,8 +18,7 @@ public:
 
 	static void main(int, char*[]);
 	static void displayLine(string);
-	void getStatus(bool status);
-
+	
 };
 
 #endif
