@@ -2,6 +2,7 @@
 #include "Logic.h"
 #include <vector>
 #include <fstream>
+#include <assert.h>
 
 const string INDENTIFIERS = ".,!? ";
 
@@ -12,6 +13,7 @@ Logic::~Logic() {
 }
 
 int Logic::startIndex(string input) {
+	
 	return input.find_first_not_of(INDENTIFIERS);
 }
 
@@ -30,17 +32,20 @@ string Logic::extractUserCommand(string input) {
 
 bool Logic::add(string input,string fileName) {
 	//Storage S1;
+	assert (input!="");
 	return S1.writeFile(taskDetails.getDescription(),fileName);
 }
 	
 string Logic::executeCommand(string input, string fileName) {
+	
 	command = extractUserCommand(input);
 	vector <string> details;
 	//CommandParser P1;
 	//details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(userInput);
 	string s="";
-	if(command=="add") {
+try {	
+		if(command=="add") {
 		if(add(taskDetails.getDescription(),fileName))
 			s= "Added successfully\n";
 		else 
@@ -61,7 +66,9 @@ string Logic::executeCommand(string input, string fileName) {
 		//tasks = readFile();
 		//return tasks;
 	//}	
+	
 	else if(command=="delete") {
+		assert (userInput!="");
 		if(S1.deleteTask(userInput,fileName)) {
 			s="Deleted successfully\n";
 		}
@@ -69,6 +76,8 @@ string Logic::executeCommand(string input, string fileName) {
 			s="error in deletion since task does not exist\n";
 		}
 	}
+	
+	
 	else if(command=="update") {
 		int start = startIndex(userInput);
 		int end = endIndex(userInput);
@@ -91,10 +100,14 @@ string Logic::executeCommand(string input, string fileName) {
 	}
 		
 	else {
-		s="Incorrect command. Please enter a command from the list given\n";
+		s="";
+		throw s;
 	}
+	
+}
 
-	return s;
-
-
+catch(string e) {
+		cout << "An exception occurred. Exception : Wrong format of command  " << s;
+}
+return s;
 }

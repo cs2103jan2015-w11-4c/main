@@ -18,23 +18,15 @@ const string CommandParser::endDayIndicator = "/";
 
 const int CommandParser::startingPosition = 0;
 const int CommandParser::positionModerator1 = 1;
-const int CommandParser::positionModerator2 = 2;
-const int CommandParser::positionModerator3 = 3;
-const int CommandParser::positionModerator4 = 4;
 
-string CommandParser::userInput = "";
-string CommandParser::startDate = "";
-string CommandParser::startTime = "";
-string CommandParser::endDate = "";
-string CommandParser::location = "";
-string CommandParser::name="";
+
 vector<string> CommandParser::parsedInput;
 
 CommandParser::userInput = ui; 
 
 string CommandParser::getCommand(string input){
 	string cmd = input.substr(startingPosition, input.find(commandIndicator));
-	Calendar::COMMAND_TYPE command = Utility::stringToCOMMAND_TYPE(cmd);
+	Command::COMMAND_TYPE command = Utility::stringToCOMMAND_TYPE(cmd);
 	CommandParser::_command = command;
 
 	if (Utility::isValidCommand(command)) { //if the command is a valid command type, return it. else return "add"
@@ -47,7 +39,7 @@ string CommandParser::getStartDate(string input) {
 		if (start == string::npos) {
 			return CommandParser::NOT_EXIST;
 		}
-		start += positionModerator4;
+		start += positionModerator1;
 		startDate = input.substr(start, input.size() - start);
 		return startDate;
 	} catch (exception &) {
@@ -60,7 +52,7 @@ string CommandParser::getEndDate(string input){
 		if (start == string::npos) {
 			return CommandParser::NOT_EXIST;
 		}
-		start += positionModerator4;
+		start += positionModerator1;
 		endDate = input.substr(start, input.size() - start);
 		return endDate;
 	} catch (exception &) {
