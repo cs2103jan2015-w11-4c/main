@@ -1,4 +1,5 @@
 #include "Storage.h"
+#include "Assert.h"
 #include <vector>
 #include <fstream>
 #include <queue>
@@ -8,10 +9,32 @@ using namespace std;
 //vector <string> tasklist;
 
 bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
+	/*string s = "aaa";
+	tasklist.push_back(s);
+	int size2 = tasklist.size();
+	for (int i = 0; i < size2; i++)
+	{
+		cout << tasklist[i] << endl;
+	}
+    */
 	tasklist.push_back(task);
+	/*int size1 = tasklist.size();
+	
+	for (int i = 0; i < size1 ; i++)
+	{
+		cout << tasklist[i] << endl;
+	}
+	*/
 	int size;
 	size = tasklist.size();
-	//write specific sentence in. naming like 1.meow   2. woof
+	assert(size >= 1);
+
+	cout<<size<<endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << tasklist[i] << endl;
+	}
+	//Asert(i!=2);
 	//start writing into myfile/
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str(),ios::app);
