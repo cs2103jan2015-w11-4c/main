@@ -18,18 +18,11 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	}
     */
 	tasklist.push_back(task);
-	/*int size1 = tasklist.size();
 	
-	for (int i = 0; i < size1 ; i++)
-	{
-		cout << tasklist[i] << endl;
-	}
-	*/
 	int size;
 	size = tasklist.size();
 	assert(size >= 1);
 
-	cout<<size<<endl;
 	for (int i = 0; i < size; i++)
 	{
 		cout << tasklist[i] << endl;
@@ -39,6 +32,7 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	ofstream myfile;                                //write the new sentence into the file
 	myfile.open(outputfile.c_str(),ios::app);
 	myfile << task << endl;
+
 	//int i=0;
 	//for (int i=0; i<size; i++) {
 	//myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
@@ -161,6 +155,10 @@ bool Storage::updateFile(string fileName, string lineNumber, string updatedStrin
 	return updated;
 }
 	
+void Storage::clearFile() {
+	tasklist.clear();
+	assert (tasklist.size() == 0);
+}
 
 
 	/*int sizebeforedelete = tasklist.size();

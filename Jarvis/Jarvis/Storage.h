@@ -21,6 +21,7 @@ public:
 	string readFile (string);		//display items
 	bool deleteTask(string,string);
 	bool updateFile(string, string, string);	
+	void clearFile();
 	
 };
 
