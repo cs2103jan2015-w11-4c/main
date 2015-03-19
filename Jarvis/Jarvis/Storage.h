@@ -12,17 +12,16 @@ class Storage {
 
 private:
 	string task;
-	vector <string> tasklist;
+	static vector <string> tasklist;
 
 
 public:
+
 	bool writeFile(string, string);   //for adding/editing return boolean to Logic
 	//vector <string> 
 	string readFile (string);		//display items
 	bool deleteTask(string,string);
 	bool updateFile(string, string, string);	
 	void clearFile();
-	
-};
 
-#endif
+};

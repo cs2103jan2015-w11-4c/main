@@ -6,17 +6,10 @@
 
 using namespace std;
 
-//vector <string> tasklist;
+vector <string> Storage::tasklist;
 
 bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
-	/*string s = "aaa";
-	tasklist.push_back(s);
-	int size2 = tasklist.size();
-	for (int i = 0; i < size2; i++)
-	{
-		cout << tasklist[i] << endl;
-	}
-    */
+	
 	tasklist.push_back(task);
 	
 	int size;
