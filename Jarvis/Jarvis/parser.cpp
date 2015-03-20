@@ -19,8 +19,27 @@ const string CommandParser::endDayIndicator = "/";
 const int CommandParser::startingPosition = 0;
 const int CommandParser::positionModerator1 = 1;
 
+string CommandParser::userInput = "";
+string CommandParser::startDate = "";
+string CommandParser::startTime = "";
+string CommandParser::endDate = "";
+string CommandParser::location = "";
 
 vector<string> CommandParser::parsedInput;
+
+Command::COMMAND_TYPE CommandParser::_command = Command::COMMAND_TYPE::TASKINVALID;
+
+
+string CommandParser::getCommand(string input){
+	string cmd = input.substr(startingPosition, input.find(commandIndicator)); 
+	Command::COMMAND_TYPE command = Utility::stringToCOMMAND_TYPE(cmd);
+	CommandParser::_command = command;
+
+	if (Utility::isValidCommand(command)) { //if the command is a valid command type, return it. else return "add"
+		return cmd;
+	}
+	return Command::COMMAND_ADD; 
+}
 
 CommandParser::userInput = ui; 
 
