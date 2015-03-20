@@ -1,54 +1,35 @@
-﻿Build started 3/19/2015 3:37:44 PM.
-     1>Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 19-03-2015 22:05:06.
+     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Command.cpp Logic.cpp parser.cpp Task.cpp UI.cpp Storage.cpp Utility.cpp
-         Utility.cpp
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\utility.cpp(19): error C2039: 'isValidCommand' : is not a member of 'Utility'
-                 c:\users\zann\desktop\main\jarvis\jarvis\utility.h(9) : see declaration of 'Utility'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\utility.cpp(55): error C2039: 'COMMAND_INVALID' : is not a member of 'Command'
-                 c:\users\zann\desktop\main\jarvis\jarvis\command.h(12) : see declaration of 'Command'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\utility.cpp(55): error C2065: 'COMMAND_INVALID' : undeclared identifier
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp Task.cpp UI.cpp Storage.cpp Update.cpp
+         Update.cpp
          Storage.cpp
          UI.cpp
          Task.cpp
          parser.cpp
          Logic.cpp
-         Command.cpp
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(31): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C2143: syntax error : missing ';' before '<'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.h(32): error C2238: unexpected token(s) preceding ';'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(12): error C2065: 'taskCollection' : undeclared identifier
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(12): error C2228: left of '.push_back' must have class/struct/union
-                 type is ''unknown-type''
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(16): error C2065: 'taskCollection' : undeclared identifier
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(16): error C2228: left of '.erase' must have class/struct/union
-                 type is ''unknown-type''
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(16): error C2228: left of '.begin' must have class/struct/union
-                 type is ''unknown-type''
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(21): error C2065: 'taskCollection' : undeclared identifier
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(21): error C2228: left of '.size' must have class/struct/union
-                 type is ''unknown-type''
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(22): error C2065: 'taskCollection' : undeclared identifier
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(22): error C2228: left of '.at' must have class/struct/union
-                 type is ''unknown-type''
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(23): error C2039: 'getName' : is not a member of 'Task'
-                 c:\users\zann\desktop\main\jarvis\jarvis\task.h(7) : see declaration of 'Task'
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(31): error C2065: 'searchResults' : undeclared identifier
-     1>c:\users\zann\desktop\main\jarvis\jarvis\command.cpp(31): error C2228: left of '.at' must have class/struct/union
-                 type is ''unknown-type''
+         Display.cpp
+         Delete.cpp
+         CommandType.cpp
+         Clear.cpp
+         Add.cpp
          Generating Code...
-     1>Done Building Project "C:\Users\zann\Desktop\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
+         Debug\Clear.obj
+         Debug\CommandType.obj
+         Debug\Delete.obj
+         Debug\Display.obj
+         Debug\Logic.obj
+         Debug\parser.obj
+         Debug\Task.obj
+         Debug\UI.obj
+         Debug\Storage.obj
+         Debug\Update.obj
+         Jarvis.vcxproj -> C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe
+     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:04.49
+Time Elapsed 00:00:06.02

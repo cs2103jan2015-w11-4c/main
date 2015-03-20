@@ -2,7 +2,6 @@
 #include "Assert.h"
 #include <vector>
 #include <fstream>
-#include <queue>
 
 using namespace std;
 
@@ -86,73 +85,13 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 
 
 
-//simple delete function, haven't save deleted line in myfile
-bool Storage::deleteTask(string userInput,string fileName) {							//delete requested number of string
-	ifstream readfile(fileName);
-	queue <string> fileData;  
-	string lineFromFile;
-	bool deleted=false;
-	int lineNumber=1;
-	while(!readfile.eof()) {
- 		getline(readfile,lineFromFile);	
-		if(!lineFromFile.empty()) {
-		if(atoi(userInput.c_str())!=lineNumber) {
-			fileData.push(lineFromFile);
-		}
-		else { 
-			deleted=true;
-		}
-		lineNumber++;
-	}
-	}
-	readfile.close();
-	ofstream writefile;
-	writefile.open(fileName,ios::trunc);
-	while(!fileData.empty()) {
-		writefile << fileData.front() <<endl;
-		fileData.pop();
-	}
 
-	return deleted;
-}
-	
 
-bool Storage::updateFile(string fileName, string lineNumber, string updatedString)	{
-	ifstream readfile(fileName);
-	queue <string> fileData;  
-	string lineFromFile;
-	bool updated=false;
-	int line=1;
-	while(!readfile.eof()) {
- 		getline(readfile,lineFromFile);	
-		if(!lineFromFile.empty()) {
-		if(atoi(lineNumber.c_str())!=line) {
-			fileData.push(lineFromFile);
-		}
-		else { 
-			lineFromFile = updatedString;
-			fileData.push(lineFromFile);
-			updated=true;
-		}
-		line++;
-	}
-	}
-	readfile.close();
-	ofstream writefile;
-	writefile.open(fileName,ios::trunc);
-	while(!fileData.empty()) {
-		writefile << fileData.front() <<endl;
-		fileData.pop();
-	}
-
-	return updated;
-}
-	
-void Storage::clearFile() {
+/*void Storage::clearFile() {
 	tasklist.clear();
 	assert (tasklist.size() == 0);
 }
-
+*/
 
 	/*int sizebeforedelete = tasklist.size();
 	tasklist.erase(tasklist.begin() + (number-1));
@@ -178,3 +117,17 @@ void Storage::clearFile() {
 	}
 }
 */
+
+void Storage::replaceFileData(string newFileData,string fileName) {
+	//tasklist = newFileData;
+	ofstream writeFile;
+	writeFile.open(fileName,ios::trunc);
+	istringstream file(newFileData);
+	string lineFromFile;
+	while(getline(file,lineFromFile)) {
+		if(!lineFromFile.empty()) {
+			writeFile << lineFromFile << endl;
+		}
+	}
+	writeFile.close();
+}

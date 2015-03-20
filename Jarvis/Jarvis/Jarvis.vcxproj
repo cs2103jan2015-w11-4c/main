@@ -62,16 +62,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Add.h" />
+    <ClInclude Include="Clear.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandType.h" />
+    <ClInclude Include="Delete.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Storage.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="UI.h" />
-    <ClInclude Include="Utility.h" />
+    <ClInclude Include="Update.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Add.cpp" />
+    <ClCompile Include="Clear.cpp" />
+    <ClCompile Include="CommandType.cpp" />
+    <ClCompile Include="Delete.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Logic.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -79,7 +88,7 @@
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Storage.cpp" />
-    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

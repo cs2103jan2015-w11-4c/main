@@ -4,6 +4,12 @@
 #include "Task.h"
 #include "Parser.h"
 #include "Storage.h"
+#include "CommandType.h"
+#include "Add.h"
+#include "Display.h"
+#include "Delete.h"
+#include "Update.h"
+#include "Clear.h"
 //#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -14,7 +20,6 @@ class Logic {
 private:
 	Task taskDetails;
 	CommandParser P1;
-	Storage S1;
 	string command;
 	string userInput;
 
@@ -25,7 +30,6 @@ public:
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
-	bool add(string,string); 
 
 };
 
