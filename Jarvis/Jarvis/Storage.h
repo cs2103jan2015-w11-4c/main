@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -18,10 +19,9 @@ private:
 public:
 
 	bool writeFile(string, string);   //for adding/editing return boolean to Logic
-	//vector <string> 
 	string readFile (string);		//display items
-	bool deleteTask(string,string);
-	bool updateFile(string, string, string);	
-	void clearFile();
-
+	//void clearFile();
+	void replaceFileData(string,string);
 };
+
+#endif;

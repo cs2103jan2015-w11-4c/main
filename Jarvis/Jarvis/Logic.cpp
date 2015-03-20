@@ -30,69 +30,50 @@ string Logic::extractUserCommand(string input) {
 	return input.substr(start,end-start);
 }
 
-bool Logic::add(string input,string fileName) {
-	//Storage S1;
-	assert (input!="");
-	return S1.writeFile(taskDetails.getDescription(),fileName);
-}
 	
 string Logic::executeCommand(string input, string fileName) {
 	
 	command = extractUserCommand(input);
-	vector <string> details;
 	//CommandParser P1;
 	//details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(userInput);
 	string s="";
-try {	
-		if(command=="add") {
-		if(add(taskDetails.getDescription(),fileName))
-			s= "Added successfully\n";
-		else 
-			s= "Error in adding\n";
+	//try {	
+	if(command=="add") {
+		Add *A1;
+		A1=new Add(taskDetails);
+		CommandType C1(A1);
+		s = C1.run(fileName);
 	}
 	else if(command=="display") {
-		//vector <string> fileData;
-		///Storage S1;
-		s = S1.readFile(fileName);
-		//reverse(fileData.begin(), fileData.end());
-		//while(!fileData.empty()) {
-			//s= s + fileData.back() + "\n";
-			//fileData.pop_back();
-		//}
+		Display *D1;
+		D1 = new Display();
+		CommandType C1(D1);
+		s=C1.run(fileName);
 	}
-	//else if(command=="display") {
-		//vector <string> tasks;
-		//tasks = readFile();
-		//return tasks;
-	//}	
-	
 	else if(command=="delete") {
-		assert (userInput!="");
-		if(S1.deleteTask(userInput,fileName)) {
-			s="Deleted successfully\n";
-		}
-		else {
-			s="error in deletion since task does not exist\n";
-		}
-	}
+		taskDetails.setNumber(userInput);
+		Delete *Del;
+		Del = new Delete(taskDetails);
+		CommandType C1(Del);
+		s=C1.run(fileName);
 	
-	
+	}	
 	else if(command=="update") {
 		int start = startIndex(userInput);
 		int end = endIndex(userInput);
-		string updatedString = userInput.substr(end+1); 
-		string lineNumber = userInput.substr(start,end-start);
-		if(S1.updateFile(fileName,lineNumber,updatedString))
-			s = "Updated successfully\n";
-		else
-			s="Error in updation as task specified by line number may not exit\n";
+		taskDetails.setUpdated(userInput.substr(end+1)); 
+		taskDetails.setNumber(userInput.substr(start,end-start));
+		Update *U1;
+		U1 = new Update(taskDetails);
+		CommandType C1(U1);
+		s = C1.run(fileName);
 }
 	else if(command=="clear") {
-		ofstream writefile;
-		writefile.open(fileName,ios::trunc);
-		writefile.close();
-		s= "The file has been cleared\n";
+		Clear *C2;
+		C2 = new Clear();
+		CommandType C1(C2);
+		s=C1.run(fileName);
 	}
 
 	else if(command=="exit") {
@@ -100,14 +81,14 @@ try {
 	}
 		
 	else {
-		s="";
-		throw s;
+		s=" Wrong format of command";
+		//throw s;
 	}
 	
-}
+//}
 
-catch(string e) {
-		cout << "An exception occurred. Exception : Wrong format of command  " << s;
-}
+//catch(string e) {
+	//	cout << "An exception occurred. Exception : Wrong format of command  " << s;
+//}
 return s;
 }
