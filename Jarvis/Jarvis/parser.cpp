@@ -9,7 +9,8 @@ const string CommandParser::commandIndicator = " ";
 const string CommandParser::startDateIndicator = " on ";
 const string CommandParser::startDayIndicator = "/";
 const string CommandParser::startTimeIndicator = " at ";
-const string CommandParsedr::endTimeIndicator = " by ";
+const string CommandParser::currentYear = "2015";
+const string CommandParser::endTimeIndicator = " by ";
 const string CommandParser::hourIndicator = ":.";
 
 
@@ -25,12 +26,11 @@ string CommandParser::endDate = "";
 
 
 //vector<string> CommandParser::parsedInput;
-
-Command::CommandType CommandParser::_command = Command::CommandType::TASKINVALID;
-
+//Command::CommandType CommandParser::_command = Command::CommandType::TASKINVALID;
 
 
-Command::CommandType Command::stringToCommandType(string command) {
+
+/*Command::CommandType Command::stringToCommandType(string command) {
 	if (isExit(command)) {
 		return Command::CommandType::EXIT;
 	}
@@ -46,7 +46,7 @@ Command::CommandType Command::stringToCommandType(string command) {
 	if (isDisplay(command)) {
 		return Command::CommandType::TASKDISPLAY;
 	}
-}
+}*/
 
 
 /*string CommandTypeToString(Command::CommandType cmd) {
@@ -86,10 +86,15 @@ bool Utility::isDisplay(string command) {
 string Command::getCommand(string input){
 	string cmd = input.substr(startingPosition, input.find(commandIndicator));
 	Command::CommandType command = Command::stringToCommandType(C1);
+	Task taskDetails;
 
 	if(command=="Add") {
 		Add *A1;
 		A1=new Add(taskDetails);
+		taskDetails.T1 setDescription(string description);
+		taskDetails.T1 setDate(string startDate);
+		taskDetails.T1 setMonth(string month);
+		taskDetails.T1 setYear(string year);
 		CommandType C1(A1);
 		return C1;
 	}
@@ -103,6 +108,10 @@ string Command::getCommand(string input){
 		taskDetails.setNumber(userInput);
 		Delete *Del;
 		Del = new Delete(taskDetails);
+		taskDetails.T1 setDescription(string description);
+		taskDetails.T1 setDate(string startDate);
+		taskDetails.T1 setMonth(string month);
+		taskDetails.T1 setYear(string year);
 		CommandType C1(Del);
 		return C1;
 	
@@ -114,6 +123,10 @@ string Command::getCommand(string input){
 		taskDetails.setNumber(userInput.substr(start,end-start));
 		Update *U1;
 		U1 = new Update(taskDetails);
+		taskDetails.T1 setDescription(string description);
+		taskDetails.T1 setDate(string startDate);
+		taskDetails.T1 setMonth(string month);
+		taskDetails.T1 setYear(string year);
 		CommandType C1(U1);
 		return C1;
 }
@@ -160,6 +173,31 @@ string CommandParser::getStartTime(){
 	}
 }
 
+string CommandParser::getStartYear() {
+	if (startDate == CommandParser::NOT_EXIST) {
+		return CommandParser::NOT_EXIST;
+	} else {
+
+		if (startDate.find_first_of(startDayIndicator) == startDate.find_last_of(startDayIndicator)){ 
+			return currentYear;
+		}
+		string year = startDate.substr(startDate.find_last_of(startDayIndicator),
+			startDate.size() - startDate.find_last_of(startDayIndicator));
+		startDate = startDate.substr(startingPosition,startDate.find_last_of(startDayIndicator));
+		return year;
+	}
+}
+
+string CommandParser::getStartMonth() {
+	
+	if (startDate == CommandParser::NOT_EXIST) {
+		return CommandParser::NOT_EXIST;
+	}
+	string month = startDate.substr(startDate.find_first_of(startDayIndicator)+positionModerator1,
+		startDate.find_last_of(startDayIndicator) - startDate.find_first_of(startDayIndicator)-positionModerator1);
+	startDate = startDate.substr(startingPosition,startDate.find_first_of(startDayIndicator));
+	return month;
+}
 
 string CommandParser::getDescription(string input) {
 	return CommandParser::NOT_EXIST;
@@ -170,12 +208,12 @@ string CommandParser::getDescription(string input) {
 
 //vector <string> CommandParser::parsedInput;
 
-vector<string> CommandParser::getParsedUserInput(string input){
+/*vector<string> CommandParser::getParsedUserInput(string input){
 
 	vector<string> CommandParser::parsedInput(Task::ATTR::SIZE);
 	CommandParser::parsedInput[Task::ATTR::COMMAND] = CommandParser::getCommand(input);
 
 	return CommandParser::parsedInput;
-}
+}*/
 
 #endif

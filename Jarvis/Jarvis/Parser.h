@@ -42,10 +42,8 @@ public:
 	static string getEndDay(string input);
 	static string getEndHour(string input);
 	static string getEndMinute(string input);
-	static string getPriority(string input);
 	static string getName(string input);
 	static string getDescription(string input);
-	static string getLocation(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
 
@@ -68,10 +66,7 @@ private:
 	const static string startDateIndicator;
 	const static string startDayIndicator;
 	const static string startTimeIndicator;
-	const static string locationIndicatorStart;
-	const static string locationIndicatorEnd;
 	const static string spaceIndicator;
-	const static string currentYear;
 	const static string hourIndicator;
 	const static string endDateIndicator;
 	const static string endDayIndicator;
@@ -79,8 +74,6 @@ private:
 	const static int startingPosition;
 	const static int positionModerator1;
 	const static int positionModerator2;
-	const static int positionModerator3;
-	const static int positionModerator4;
 
 	vector<string> parsedInput;
 	static CommandType  C1;
