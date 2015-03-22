@@ -15,7 +15,7 @@ private:
 public:
 	Update(Task);
 	~Update();
-	string execute(string);
+	string execute(string,string);
 	int startIndex(string);
 	int endIndex(string);
 	string extractLineNumber(string);

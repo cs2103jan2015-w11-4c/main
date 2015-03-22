@@ -2,29 +2,31 @@
 #include "Assert.h"
 #include <vector>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
-vector <string> Storage::tasklist;
+vector <Task> Storage::tasklist;
+const string IDENTIFIERS = "/";
 
-bool Storage::writeFile(string task, string outputfile) {     //if adding/editing function, returns boolean value
+bool Storage::writeFile(Task task, string outputfile,string filePath) {     //if adding/editing function, returns boolean value
 	
 	tasklist.push_back(task);
 	
 	int size;
 	size = tasklist.size();
-	assert(size >= 1);
+	//assert(size >= 1);
 
-	for (int i = 0; i < size; i++)
-	{
-		cout << tasklist[i] << endl;
-	}
+	//for (int i = 0; i < size; i++)
+	//{
+		//cout << tasklist[i] << endl;
+	//}
 	//Asert(i!=2);
 	//start writing into myfile/
-	ofstream myfile;                                //write the new sentence into the file
+	ofstream myfile;//write the new sentence into the file
+	outputfile = filePath + outputfile;
 	myfile.open(outputfile.c_str(),ios::app);
-	myfile << task << endl;
-
+	myfile << task.getDescription() << "/" << task.getDate() << "/" << task.getMonth() << "/" << task.getYear() << "/" << endl;
 	//int i=0;
 	//for (int i=0; i<size; i++) {
 	//myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
@@ -32,12 +34,29 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 	myfile.close();
 
 
-	if (tasklist[size-1] == task){                  //return status
+	//if (tasklist[size-1]==(task)){                  //return status
 		return true;
-	}
-	else {
-		return false;
-	}
+	//}
+	//else {
+		//return false;
+//	}
+}
+int Storage::startIndex(string input) {
+	
+	return input.find_first_not_of(IDENTIFIERS);
+}
+
+int Storage::endIndex(string input) {
+	return input.find_first_of(IDENTIFIERS);
+}
+
+string Storage::extractUserCommand(string input , string &substring) {
+	int start;
+	start = startIndex(input);
+	int end;
+	end = endIndex(input);
+	substring = input.substr(end+1); 
+	return input.substr(start,end-start);
 }
 
 
@@ -46,9 +65,13 @@ bool Storage::writeFile(string task, string outputfile) {     //if adding/editin
 //open file then print vector instead??
 															
 //vector <string> 
-string Storage::readFile(string outputfile) {				//display all items and return a VECTOR
+string Storage::readFile(string outputfile,string filePath) {				//display all items and return a VECTOR
+	outputfile = filePath + outputfile;
 	ifstream readfile(outputfile);
 	string fileContent="";
+	string line;
+	string taskDes,taskDate,taskMonth,taskYear , nextSubstring;
+	//char c;
 	//If the file is empty
 	if(readfile.peek()==std::ifstream::traits_type::eof()) {
 		cout << outputfile << " is empty" << endl << endl;
@@ -57,11 +80,18 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 	else {
 		int lineNumber=1;
 		while(!readfile.eof()) {
-			string line;
 			getline(readfile,line);
 			if(!line.empty()) {
-				fileContent = fileContent + to_string(lineNumber) + ". " + line + "\n";
+				taskDes = extractUserCommand(line, nextSubstring);
+				line = nextSubstring;
+				taskDate = extractUserCommand(line, nextSubstring);
+				line = nextSubstring;
+				taskMonth = extractUserCommand(line , nextSubstring);
+				line = nextSubstring;
+				taskYear = extractUserCommand(line , nextSubstring);
+				fileContent = fileContent + to_string(lineNumber) + ". " + taskDes + " on " + taskDate + " " + taskMonth + " " + taskYear +"\n";
 				lineNumber++;
+				
 			}
 		}
 	}
@@ -87,11 +117,13 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 
 
 
-/*void Storage::clearFile() {
-	tasklist.clear();
-	assert (tasklist.size() == 0);
+void Storage::clearFile(string outputFile,string filePath) {
+	outputFile = filePath + outputFile;
+	ofstream writefile;
+	writefile.open(outputFile,ios::trunc);
+	writefile.close();
 }
-*/
+
 
 	/*int sizebeforedelete = tasklist.size();
 	tasklist.erase(tasklist.begin() + (number-1));
@@ -118,16 +150,29 @@ string Storage::readFile(string outputfile) {				//display all items and return 
 }
 */
 
-void Storage::replaceFileData(string newFileData,string fileName) {
-	//tasklist = newFileData;
-	ofstream writeFile;
-	writeFile.open(fileName,ios::trunc);
-	istringstream file(newFileData);
+void Storage::replaceFileData(string deletedLine,string outputFile,string filePath) {
+	queue <string> fileData;
+	string file=readFile(outputFile,filePath);
 	string lineFromFile;
-	while(getline(file,lineFromFile)) {
-		if(!lineFromFile.empty()) {
-			writeFile << lineFromFile << endl;
+	string word;
+	istringstream in(file);
+ 	while(getline(in,lineFromFile)) {	
+		if(lineFromFile!=deletedLine) {
+			fileData.push(lineFromFile);
 		}
 	}
-	writeFile.close();
+	ofstream writefile;
+	outputFile = filePath + outputFile;
+	writefile.open(outputFile,ios::trunc);
+	while(!fileData.empty()) {
+		istringstream line((fileData.front()).substr(3));
+		while(line>>word) {
+				if(word!="on") {
+					writefile << word << "/";
+				}
+			}
+			writefile << endl;
+			fileData.pop();
+	}
+	writefile.close();
 }

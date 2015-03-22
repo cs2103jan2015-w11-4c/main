@@ -34,9 +34,9 @@ string Update::extractLineNumber(string input) {
 	return input.substr(end+2); 
 }
 
-string Update::execute(string fileName) {
+string Update::execute(string fileName,string filePath) {
 	bool statusOfUpdate=false;
-	string fileData = S1.readFile(fileName);
+	string fileData = S1.readFile(fileName,filePath);
 	string newFileData = "";
 	istringstream file(fileData);
 	string lineFromFile;
@@ -58,7 +58,7 @@ string Update::execute(string fileName) {
 	}
 	
 	if(!newFileData.empty()) {
-		S1.replaceFileData(newFileData,fileName);
+		S1.replaceFileData(newFileData,fileName,filePath);
 	}
 	
 	if(statusOfUpdate) {

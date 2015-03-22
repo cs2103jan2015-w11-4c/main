@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-#include <queue>
+#include <stack>
 using namespace std;
 
 
@@ -34,37 +34,40 @@ string Delete::extractLineNumber(string input) {
 	return input.substr(end+2); 
 }
 
-string Delete::execute(string fileName) {
-
-	bool statusOfDelete=false;
-	string fileData = S1.readFile(fileName);
-	string newFileData = "";
-	istringstream file(fileData);
+string Delete::execute(string fileName,string filePath) {
+	/*Logic L1;
+	stack <string> commandQueue = L1.getStack();
+	commandQueue.pop();
+	string lastInput = commandQueue.top();*/
+	//Call parser to execute lastInput. It will return a command type object that I will execute to get a input string.
+	Display *D1;
+	D1 = new Display();
+	CommandType C1(D1);
+	string input = C1.run(fileName,filePath); 
+	istringstream file(input);
 	string lineFromFile;
 	int lineNumber=1;
+	string deletedLine;
 	string userLine = T1.getNumber();
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
-			if(atoi(userLine.c_str())!=lineNumber) {
-				newFileData = newFileData + extractLineNumber(lineFromFile) + "\n";
-		}
-		else { 
-			statusOfDelete=true;
-		}
+			if(atoi(userLine.c_str())==lineNumber) {
+				deletedLine = lineFromFile;
+				break;
+			}
+			
+	}
 		lineNumber++;
-		}
 	}
 	
-	if(!newFileData.empty()) {
-		S1.replaceFileData(newFileData,fileName);
-	}
-	
-	if(statusOfDelete) {
+	if(deletedLine!="") {
+		S1.replaceFileData(deletedLine,fileName,filePath);
 		return "Deleted successfully\n";
 	}
+	
 	else {
 		return "error in deletion since task does not exist\n";
 	}
-
+	return deletedLine;
 
 }

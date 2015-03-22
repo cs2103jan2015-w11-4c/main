@@ -3,17 +3,21 @@
 
 #include "Command.h"
 #include "Storage.h"
+#include "Task.h"
+#include "Search.h"
 using namespace std;
 
 class Display:public Command {
 
 private:
 	Storage S1;
+	Task T1;
 
 public:
-	Display ();
+	Display();
+	Display(Task);
 	~Display();
-	string execute(string);
+	string execute(string,string);
 
 };
 

@@ -27,7 +27,7 @@ void UI::main(int argc, char* argv[]){
 		//readLine(userInput);
 		Logic temp;
 		string userCommand;
-		displayLine(temp.executeCommand(userInput, fileName));
+		//displayLine(temp.executeCommand(userInput, fileName , filePath));
 		userCommand = temp.extractUserCommand(userInput);
 		if (userCommand == "exit"){
 			isRunning = false;
