@@ -7,6 +7,7 @@ using namespace std;
 
 class Command {
 
+
 	public:
 		virtual string execute(string) = 0;
 

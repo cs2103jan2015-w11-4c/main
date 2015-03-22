@@ -1,9 +1,31 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
+#include "Command.h"
+#include "CommandType.h"
 
 #include <vector>
 #include <string>
+
 using namespace std;
+
+class Utility {
+public:
+	static bool stringToBool(string s);
+	static string boolToString(bool b);
+	static CommandType stringToCommandType(string command);
+	static string CommandTypeToString(CommandType C1);
+	static bool isValidCommand(CommandType C1);
+	
+private:
+	static bool isExit(string command);
+	static bool isAdd(string command);
+	static bool isDelete(string command);
+	static bool isUpdate(string command);
+	static bool isDisplay(string command);
+	
+	static const int SAME;
+};
+
 
 class CommandParser {
 public:
@@ -61,7 +83,7 @@ private:
 	const static int positionModerator4;
 
 	vector<string> parsedInput;
-	//static logic::COMMAND_TYPE _command;
+	static CommandType  C1;
 };
 
 #endif
