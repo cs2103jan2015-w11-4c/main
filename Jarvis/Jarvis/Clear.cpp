@@ -11,10 +11,10 @@ Clear::~Clear() {
 
 }
 
-string Clear::execute(string fileName) {
+string Clear::execute(string fileName,string filePath) {
 
 	string blankFile="";
-	S1.replaceFileData(blankFile,fileName);
+	S1.replaceFileData(blankFile,fileName,filePath);
 	return "The file has been cleared\n";
 
 }

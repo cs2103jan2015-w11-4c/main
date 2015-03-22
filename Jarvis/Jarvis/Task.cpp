@@ -8,7 +8,7 @@ Task::Task() {
 	updatedDescription="";
 	taskDate="";
 	taskMonth="";
-	taskYear="";
+	taskYear="2015";
 	taskKeywords="";
 }
 

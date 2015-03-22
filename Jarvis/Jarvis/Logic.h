@@ -21,7 +21,7 @@ class Logic {
 
 private:
 	Task taskDetails;
-	CommandParser P1;
+	//CommandParser P1;
 	string command;
 	string userInput;
 	stack <string> inputStack;

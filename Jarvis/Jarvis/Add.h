@@ -17,7 +17,7 @@ private:
 public:
 	Add(Task);
 	~Add();
-	string execute(string); 
+	string execute(string,string); 
 	
 };
 

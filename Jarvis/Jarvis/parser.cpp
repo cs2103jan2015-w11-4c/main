@@ -1,16 +1,18 @@
 #include "Parser.h"
-#ifndef COMMANDPARSER_H
-#define COMMANDPARSER_H
+
 
 using namespace std;
 
-
-const string CommandParser::commandIndicator = " ";
+string CommandParser::userInput = "";
+const string INDENTIFIERS = "./?! ";
 const string CommandParser::startDateIndicator = " on ";
+const string CommandParser::endTimeIndicator = " by ";
+/*const string CommandParser::commandIndicator = " ";
+
 const string CommandParser::startDayIndicator = "/";
 const string CommandParser::startTimeIndicator = " at ";
 const string CommandParser::currentYear = "2015";
-const string CommandParser::endTimeIndicator = " by ";
+
 const string CommandParser::hourIndicator = ":.";
 
 
@@ -19,7 +21,7 @@ const int CommandParser::startingPosition = 0;
 const int CommandParser::positionModerator1 = 1;
 const int CommandParser::positionModerator2 = 2;
 
-string CommandParser::userInput = "";
+
 string CommandParser::startDate = "";
 string CommandParser::startTime = "";
 string CommandParser::endDate = "";
@@ -81,26 +83,76 @@ bool Utility::isDisplay(string command) {
 	return (command.compare(Command::COMMAND_DISPLAY) == SAME);
 }*/
 
+int CommandParser::startIndex(string input) {
+	
+	return input.find_first_not_of(INDENTIFIERS);
+}
 
+int CommandParser::endIndex(string input) {
+	return input.find_first_of(INDENTIFIERS);
+}
 
-string Command::getCommand(string input){
-	string cmd = input.substr(startingPosition, input.find(commandIndicator));
-	Command::CommandType command = Command::stringToCommandType(C1);
-	Task taskDetails;
+string CommandParser::extractUserCommand(string input) {
+	int start;
+	start = startIndex(input);
+	int end;
+	end = endIndex(input);
+	userInput = input.substr(end+1); 
+	return input.substr(start,end-start);
+}
 
-	if(command=="Add") {
+Task CommandParser::parseString(string userInput) {
+	int start = userInput.find("on");
+	string desc = userInput.substr(0,start);
+	userInput = userInput.substr(start+3);
+	int startDate = userInput.find_first_not_of(" ");
+	userInput = userInput.substr(startDate);
+	int endDate = userInput.find_first_of(" ");
+	string date = userInput.substr(startDate,endDate-startDate);
+	userInput = userInput.substr(endDate+1);
+	Task T1;
+	T1.setDate(date);
+	T1.setDescription(desc);
+	T1.setMonth(userInput);
+	//T1.setYear();
+	return T1;
+}
+
+Task CommandParser::parserUpdate(string userInput){
+	int startLine = userInput.find_first_not_of(" ");
+	userInput = userInput.substr(startLine);
+	int endLine = userInput.find_first_of(" ");
+	string number = userInput.substr(0,endLine);
+	userInput = userInput.substr(endLine+1);
+	int startString = userInput.find_first_not_of(" ");
+	userInput = userInput.substr(startString);
+	Task T1;
+	T1.setNumber(number);
+	T1.setUpdated(userInput);
+	return T1;
+
+}
+CommandType CommandParser::getParserInput(string input){
+	Task taskDetails; 
+	string command;
+	command = extractUserCommand(input);
+
+	//eg add lunch with mom on 16 feb
+	// command now equals "add"
+	//userInput stores " lunch with mom on 16 feb"
+
+	if(command=="add") {
+		taskDetails = parseString(userInput);
 		Add *A1;
 		A1=new Add(taskDetails);
-		taskDetails.T1 setDescription(string description);
-		taskDetails.T1 setDate(string startDate);
-		taskDetails.T1 setMonth(string month);
-		taskDetails.T1 setYear(string year);
 		CommandType C1(A1);
 		return C1;
 	}
-	else if(command=="Display") {
+	else if(command=="display") {
+		if(userInput!="")
+			taskDetails.setKeywords(userInput);
 		Display *D1;
-		D1 = new Display();
+		D1 = new Display(taskDetails);
 		CommandType C1(D1);
 		return C1;
 	}
@@ -108,38 +160,46 @@ string Command::getCommand(string input){
 		taskDetails.setNumber(userInput);
 		Delete *Del;
 		Del = new Delete(taskDetails);
-		taskDetails.T1 setDescription(string description);
-		taskDetails.T1 setDate(string startDate);
-		taskDetails.T1 setMonth(string month);
-		taskDetails.T1 setYear(string year);
 		CommandType C1(Del);
 		return C1;
 	
 	}	
 	else if(command=="update") {
-		int start = startIndex(userInput);
-		int end = endIndex(userInput);
-		taskDetails.setUpdated(userInput.substr(end+1)); 
-		taskDetails.setNumber(userInput.substr(start,end-start));
+		taskDetails = parserUpdate(userInput);
 		Update *U1;
 		U1 = new Update(taskDetails);
-		taskDetails.T1 setDescription(string description);
-		taskDetails.T1 setDate(string startDate);
-		taskDetails.T1 setMonth(string month);
-		taskDetails.T1 setYear(string year);
 		CommandType C1(U1);
 		return C1;
 }
-	else if(command=="Clear") {
+	else if(command=="clear") {
 		Clear *C2;
 		C2 = new Clear();
 		CommandType C1(C2);
 		return C1;
 	}
+	else if(command=="exit") {
+		WrongFormat *W1;
+		W1 = new WrongFormat();
+		CommandType C1(W1);
+		return C1;
+	}
+	else if(command=="search") {
+		taskDetails.setKeywords(userInput);
+		Search *S1;
+		S1 = new Search(taskDetails);
+		CommandType C1(S1);
+		return C1;
+	}
+	else {
+		WrongFormat *W1;
+		W1 = new WrongFormat();
+		CommandType C1(W1);
+		return C1;
+	}
 }
 
 
-CommandParser::userInput = ui; 
+/*CommandParser::userInput = ui; 
 
 string CommandParser::getStartDate(string input) {
 	try {
@@ -216,4 +276,3 @@ string CommandParser::getDescription(string input) {
 	return CommandParser::parsedInput;
 }*/
 
-#endif

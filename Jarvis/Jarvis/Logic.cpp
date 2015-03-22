@@ -37,21 +37,26 @@ string Logic::extractUserCommand(string input) {
 	
 string Logic::executeCommand(string input, string fileName, string filePath) {
 	inputStack.push(input);
-	command = extractUserCommand(input);
-	//CommandParser P1;
-	//details = P1.getParsedUserInput(userInput); 
+	string s="";
+	CommandParser P1;
+	CommandType C1 = P1.getParserInput(input);
+	s = C1.run(fileName,filePath);
+	/*command = extractUserCommand(input);
+	
+	P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(userInput);
 	taskDetails.setDate("16");
 	taskDetails.setMonth("April");
 	taskDetails.setKeywords("May 18 2014");
 	taskDetails.setYear("2015");
-	string s="";
+	
 	//try {	
 	if(command=="add") {
-		Add *A1;
+		/*Add *A1;
 		A1=new Add(taskDetails);
 		CommandType C1(A1);
-		s = C1.run(fileName,filePath);
+		s = C1.run(fileName,filePath);*/
+		/*CommandType C1 = P1.getCommand(userInput);
 	}
 	else if(command=="display") {
 		Display *D1;
@@ -97,7 +102,7 @@ string Logic::executeCommand(string input, string fileName, string filePath) {
 	else {
 		s=" Wrong format of command";
 		//throw s;
-	}
+	}*/
 	
 //}
 

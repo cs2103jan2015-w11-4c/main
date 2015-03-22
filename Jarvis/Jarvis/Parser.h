@@ -5,16 +5,26 @@
 
 #include <vector>
 #include <string>
+#include "CommandType.h"
+#include "Add.h"
+#include "Display.h"
+#include "Delete.h"
+#include "Update.h"
+#include "Clear.h"
+#include "Search.h"
+#include "WrongFormatCommand.h"
 
 using namespace std;
 
-class Utility {
+/*class Utility {
 public:
 	static bool stringToBool(string s);
 	static string boolToString(bool b);
 	static CommandType stringToCommandType(string command);
 	static string CommandTypeToString(CommandType C1);
 	static bool isValidCommand(CommandType C1);
+	string extractUserCommand(string);
+
 	
 private:
 	static bool isExit(string command);
@@ -24,7 +34,8 @@ private:
 	static bool isDisplay(string command);
 	
 	static const int SAME;
-};
+	string userInput;
+};*/
 
 
 class CommandParser {
@@ -46,13 +57,19 @@ public:
 	static string getDescription(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
-
+	CommandType getParserInput(string);
 	static string getStartDate(string input);
 	static string getStartTime(string input);
 	static string getEndDate(string input);
 	void setUserInput(string ui);
 	void setDate(string d);
 	void setParserInput(vector <string> pi);
+	string extractUserCommand(string);
+	int startIndex(string);
+	int endIndex(string);
+	Task parseString(string);
+	Task parserUpdate(string);
+	string check(string);
 
 private:
 	static string userInput;
@@ -74,6 +91,7 @@ private:
 	const static int startingPosition;
 	const static int positionModerator1;
 	const static int positionModerator2;
+	const static string endTimeIndicator; 
 
 	vector<string> parsedInput;
 	static CommandType  C1;

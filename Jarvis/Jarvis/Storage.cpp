@@ -82,14 +82,15 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 		while(!readfile.eof()) {
 			getline(readfile,line);
 			if(!line.empty()) {
-				taskDes = extractUserCommand(line, nextSubstring);
+				/*taskDes = extractUserCommand(line, nextSubstring);
 				line = nextSubstring;
 				taskDate = extractUserCommand(line, nextSubstring);
 				line = nextSubstring;
 				taskMonth = extractUserCommand(line , nextSubstring);
 				line = nextSubstring;
 				taskYear = extractUserCommand(line , nextSubstring);
-				fileContent = fileContent + to_string(lineNumber) + ". " + taskDes + " on " + taskDate + " " + taskMonth + " " + taskYear +"\n";
+				fileContent = fileContent + to_string(lineNumber) + ". " + taskDes + " on " + taskDate + " " + taskMonth + " " + taskYear +"\n";*/
+				fileContent = fileContent + line + "\n";
 				lineNumber++;
 				
 			}
@@ -118,7 +119,7 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 
 
 void Storage::clearFile(string outputFile,string filePath) {
-	outputFile = filePath + outputFile;
+	//outputFile = filePath + outputFile;
 	ofstream writefile;
 	writefile.open(outputFile,ios::trunc);
 	writefile.close();

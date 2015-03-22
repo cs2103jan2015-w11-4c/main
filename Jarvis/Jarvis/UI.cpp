@@ -19,7 +19,9 @@ void UI::main(int argc, char* argv[]){
 	string fileName = argv[1];
 	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
 	displayLine(buffer);
-
+	cout << "Specify file path : " ;
+	string filePath;
+	getline(cin,filePath);
 	while (isRunning){
 		cout << MESSAGE_COMMAND;
 		string userInput;
@@ -27,7 +29,7 @@ void UI::main(int argc, char* argv[]){
 		//readLine(userInput);
 		Logic temp;
 		string userCommand;
-		//displayLine(temp.executeCommand(userInput, fileName , filePath));
+		displayLine(temp.executeCommand(userInput, fileName , filePath));
 		userCommand = temp.extractUserCommand(userInput);
 		if (userCommand == "exit"){
 			isRunning = false;

@@ -75,6 +75,7 @@
     <ClInclude Include="Task.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Update.h" />
+    <ClInclude Include="WrongFormatCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Add.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Storage.cpp" />
     <ClCompile Include="Update.cpp" />
+    <ClCompile Include="WrongFormatCommand.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
