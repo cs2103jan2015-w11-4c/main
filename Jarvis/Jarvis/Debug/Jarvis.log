@@ -1,22 +1,13 @@
-﻿Build started 19-03-2015 22:05:06.
-     1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
-       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+﻿Build started 20/3/2015 PM 6:29:59.
+     1>Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp Task.cpp UI.cpp Storage.cpp Update.cpp
-         Update.cpp
-         Storage.cpp
-         UI.cpp
-         Task.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Logic.cpp UI.cpp parser.cpp
          parser.cpp
+         UI.cpp
          Logic.cpp
-         Display.cpp
-         Delete.cpp
-         CommandType.cpp
-         Clear.cpp
-         Add.cpp
          Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\acer\Documents\GitHub\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\acer\Documents\GitHub\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\acer\Documents\GitHub\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
          Debug\Clear.obj
          Debug\CommandType.obj
          Debug\Delete.obj
@@ -27,9 +18,10 @@
          Debug\UI.obj
          Debug\Storage.obj
          Debug\Update.obj
-         Jarvis.vcxproj -> C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Debug\Jarvis.exe
-     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)).
+         LINK : C:\Users\acer\Documents\GitHub\main\Jarvis\Debug\Jarvis.exe not found or not built by the last incremental link; performing full link
+         Jarvis.vcxproj -> C:\Users\acer\Documents\GitHub\main\Jarvis\Debug\Jarvis.exe
+     1>Done Building Project "C:\Users\acer\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:06.02
+Time Elapsed 00:00:04.26

@@ -33,18 +33,19 @@ string Logic::extractUserCommand(string input) {
 	
 string Logic::executeCommand(string input, string fileName) {
 	
-	command = extractUserCommand(input);
+	//command = extractUserCommand(input);
 	//CommandParser P1;
-	//details = P1.getParsedUserInput(userInput); 
+	CommandType C1;
+	C1 = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(userInput);
 	string s="";
 	//try {	
-	if(command=="add") {
+	/*if(command=="add") {
 		Add *A1;
 		A1=new Add(taskDetails);
 		CommandType C1(A1);
 		s = C1.run(fileName);
-	}
+	}*/
 	else if(command=="display") {
 		Display *D1;
 		D1 = new Display();

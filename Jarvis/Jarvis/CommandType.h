@@ -1,5 +1,5 @@
-#ifndef COMMAND_TYPE_H
-#define COMMAND_TYPE_H
+#ifndef CommandType_H
+#define CommandType_H
 
 #include "Command.h"
 using namespace std;
