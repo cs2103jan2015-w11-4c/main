@@ -10,10 +10,10 @@ Add::~Add() {
 
 }
 
-string Add::execute(string fileName,string filePath) {
+string Add::execute(string fileName) {
 	
 	string status;
-	bool statusOfAdd = S1.writeFile(T1,fileName,filePath);
+	bool statusOfAdd = S1.writeFile(T1.getDescription(),fileName);
 	if(statusOfAdd) {
 		status = "Added successfully\n";
 	}
