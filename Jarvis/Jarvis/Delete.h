@@ -4,6 +4,8 @@
 #include "Command.h"
 #include "Storage.h"
 #include "Task.h"
+#include "Logic.h"
+#include "CommandType.h"
 using namespace std;
 
 class Delete:public Command {
@@ -15,7 +17,7 @@ private:
 public:
 	Delete(Task);
 	~Delete();
-	string execute(string);
+	string execute(string,string);
 	int startIndex(string);
 	int endIndex(string);
 	string extractLineNumber(string);

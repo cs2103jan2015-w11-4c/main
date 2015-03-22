@@ -12,6 +12,10 @@ Logic::Logic() {
 Logic::~Logic() {
 }
 
+stack <string> Logic::getStack(){
+	return inputStack;
+}
+
 int Logic::startIndex(string input) {
 	
 	return input.find_first_not_of(INDENTIFIERS);
@@ -31,32 +35,36 @@ string Logic::extractUserCommand(string input) {
 }
 
 	
-string Logic::executeCommand(string input, string fileName) {
-	
+string Logic::executeCommand(string input, string fileName, string filePath) {
+	inputStack.push(input);
 	command = extractUserCommand(input);
 	//CommandParser P1;
 	//details = P1.getParsedUserInput(userInput); 
 	taskDetails.setDescription(userInput);
+	taskDetails.setDate("16");
+	taskDetails.setMonth("April");
+	taskDetails.setKeywords("May 18 2014");
+	taskDetails.setYear("2015");
 	string s="";
 	//try {	
 	if(command=="add") {
 		Add *A1;
 		A1=new Add(taskDetails);
 		CommandType C1(A1);
-		s = C1.run(fileName);
+		s = C1.run(fileName,filePath);
 	}
 	else if(command=="display") {
 		Display *D1;
 		D1 = new Display();
 		CommandType C1(D1);
-		s=C1.run(fileName);
+		s=C1.run(fileName,filePath);
 	}
 	else if(command=="delete") {
 		taskDetails.setNumber(userInput);
 		Delete *Del;
 		Del = new Delete(taskDetails);
 		CommandType C1(Del);
-		s=C1.run(fileName);
+		s=C1.run(fileName,filePath);
 	
 	}	
 	else if(command=="update") {
@@ -67,19 +75,25 @@ string Logic::executeCommand(string input, string fileName) {
 		Update *U1;
 		U1 = new Update(taskDetails);
 		CommandType C1(U1);
-		s = C1.run(fileName);
+		s = C1.run(fileName,filePath);
 }
 	else if(command=="clear") {
 		Clear *C2;
 		C2 = new Clear();
 		CommandType C1(C2);
-		s=C1.run(fileName);
+		s=C1.run(fileName,filePath);
 	}
 
 	else if(command=="exit") {
 		
 	}
-		
+
+	else if(command=="search") {
+		Search *S1;
+		S1 = new Search(taskDetails);
+		CommandType C1(S1);
+		s=C1.run(fileName,filePath);
+	}
 	else {
 		s=" Wrong format of command";
 		//throw s;

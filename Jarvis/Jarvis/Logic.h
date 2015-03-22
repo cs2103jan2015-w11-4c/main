@@ -10,6 +10,8 @@
 #include "Delete.h"
 #include "Update.h"
 #include "Clear.h"
+#include "Search.h"
+#include <stack>
 //#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -22,14 +24,16 @@ private:
 	CommandParser P1;
 	string command;
 	string userInput;
+	stack <string> inputStack;
 
 public:
 	Logic();
 	~Logic();
-	string executeCommand(string,string);
+	string executeCommand(string,string,string);
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
+	stack <string> getStack();
 
 };
 
