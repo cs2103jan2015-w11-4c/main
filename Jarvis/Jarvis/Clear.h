@@ -13,7 +13,7 @@ private:
 public:
 	Clear();
 	~Clear();
-	string execute(string);
+	string execute(string,string);
 
 };
 

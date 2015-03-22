@@ -14,7 +14,7 @@ public:
 
 	CommandType(Command*);
 	~CommandType();
-	string run(string);
+	string run(string,string);
 };
 
 #endif

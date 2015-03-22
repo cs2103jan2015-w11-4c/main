@@ -12,8 +12,8 @@ CommandType::~CommandType() {
 
 }
 
-string CommandType::run(string fileName) {
+string CommandType::run(string fileName,string filePath) {
 
-	return C1->execute(fileName);
+	return C1->execute(fileName,filePath);
 
 }
