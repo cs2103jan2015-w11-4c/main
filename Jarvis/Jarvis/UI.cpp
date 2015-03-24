@@ -24,6 +24,7 @@ void UI::main(int argc, char* argv[]){
 	string fileName = argv[1];
 	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
 	displayLine(buffer);
+	stack <string> inputStack;
 
 	cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
 	string filePath;
@@ -34,7 +35,7 @@ void UI::main(int argc, char* argv[]){
 		cout << MESSAGE_COMMAND;
 		string userInput;
 		getline(cin, userInput);
-		//readLine(userInput);
+		inputStack.push(userInput);
 		Logic temp;
 		string userCommand;
 		userCommand = temp.extractUserCommand(userInput);
@@ -49,7 +50,7 @@ void UI::main(int argc, char* argv[]){
 		else if (userCommand == "display"){
 			string displaytemp;
 			displaytemp = temp.executeCommand(userInput, fileName, filePath);
-			
+
 			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
 			cout << "Current Date: " << now.date() << endl;
 
@@ -61,26 +62,40 @@ void UI::main(int argc, char* argv[]){
 			string taskDes, taskDate, taskMonth, taskYear, taskDay, nextSubstring;
 
 			while (getline(in, extractLine)) {
+				
+				vector <string> tokens;
+				boost::split(tokens, extractLine, boost::is_any_of(IDENTIFIERS));
 
-				taskDes = extractUserCommand(extractLine, nextSubstring);
-				extractLine = nextSubstring;
+				vector<string>::iterator it = tokens.begin();
+				taskDes = *it;
+				
+				it++;
+				if (*it == ""){ //floating task
+					date d(not_a_date_time);
+					UImemory.push_back(make_pair(taskDes, d));
+					sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+				}
+				else {
+					taskDate = *it;
+					it++;
 
-				taskDate = extractUserCommand(extractLine, nextSubstring);
-				extractLine = nextSubstring;
+					taskMonth = *it;
+					taskMonth = lowerCase(taskMonth).substr(0, 3);
+					taskMonth = getMonthIndex(taskMonth);
+					it++;
 
-				taskMonth = extractUserCommand(extractLine, nextSubstring);
-				extractLine = nextSubstring;
-				taskMonth = lowerCase(taskMonth).substr(0, 3);
-				taskMonth = getMonthIndex(taskMonth);
 
-				taskYear = extractUserCommand(extractLine, nextSubstring);
-				extractLine = nextSubstring;
+					taskYear = *it;
 
-				taskDay = taskYear + taskMonth + taskDate;
-				date d(from_undelimited_string(taskDay));
+					taskDay = taskYear + taskMonth + taskDate;
+					
+					date d(from_undelimited_string(taskDay));
+					
+					UImemory.push_back(make_pair(taskDes, d));
+					sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
 
-				UImemory.push_back(make_pair(taskDes, d));
-				sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+				}
+
 			}
 
 			displayUI();
@@ -92,14 +107,31 @@ void UI::main(int argc, char* argv[]){
 
 void UI::displayUI() {
 
-	vector <pair <string, date>>::iterator iter;
-	cout << "=============================================" << endl;
+	vector <pair <string, date>>::iterator iter, iter2;
+
+	date nullDate(not_a_date_time);
+	iter2 = UImemory.begin();
+
+	cout << "=======================================================" << endl;
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
-		cout << "Task: " << iter->first << "\t\tDeadline: " << iter->second << endl;
-		cout << "=============================================" << endl;
+		if (iter->second != iter2->second) {
+			cout << "=======================================================" << endl; //different date
+		}
 
+		if (iter->second == nullDate ) {
+					cout << "Do this anytime!\t\t";
+				} else {
+					cout << "Deadline: " << iter->second << "\t\t";
+				}
+		cout << "Task: " << iter->first << endl;
+			
+		
+		if (iter != UImemory.begin()) {
+			iter2++;
+		}
 	}
+	cout << "=======================================================" << endl << endl;
 }
 
 string UI::getMonthIndex(string name) {
@@ -133,24 +165,6 @@ string UI::lowerCase(string input) {
 	transform(input.begin(), input.end(), input.begin(), ::tolower);
 
 	return input;
-}
-
-int UI::startIndex(string input) {
-
-	return input.find_first_not_of(IDENTIFIERS);
-}
-
-int UI::endIndex(string input) {
-	return input.find_first_of(IDENTIFIERS);
-}
-
-string UI::extractUserCommand(string input, string &substring) {
-	int start;
-	start = startIndex(input);
-	int end;
-	end = endIndex(input);
-	substring = input.substr(end + 1);
-	return input.substr(start, end - start);
 }
 
 void UI::displayLine(string text){

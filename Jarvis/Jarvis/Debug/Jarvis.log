@@ -1,11 +1,35 @@
-﻿Build started 24/3/2015 1:48:58 PM.
+﻿Build started 25/3/2015 2:11:02 AM.
      1>Project "C:\Users\Gabriel\Documents\GitHub\main\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : Access to the path 'c:\users\gabriel\documents\github\main\main\jarvis\debug\jarvis.exe' is denied.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Update.cpp WrongFormatCommand.cpp
          WrongFormatCommand.cpp
          Update.cpp
          Storage.cpp
          UI.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,char*>(_InIt,_InIt,_OutIt)' being compiled
+                 with
+                 [
+                     _OutIt=char *
+         ,            _InIt=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char>::is_any_ofF<boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>>(const RangeT &)' being compiled
+                 with
+                 [
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char>::is_any_ofF<boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>>(const RangeT &)' being compiled
+                 with
+                 [
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\users\gabriel\documents\github\main\main\jarvis\jarvis\ui.cpp(67) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 with
+                 [
+                     RangeT=std::string
+                 ]
          Task.cpp
          Search.cpp
      1>c:\users\gabriel\documents\github\main\main\jarvis\jarvis\search.cpp(103): warning C4018: '<' : signed/unsigned mismatch
@@ -59,4 +83,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:09.36
+Time Elapsed 00:00:09.25

@@ -7,6 +7,7 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/bind.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -33,13 +34,9 @@ public:
 	static void main(int, char*[]);
 	static void displayLine(string);
 	void getStatus(bool status);
-	static int startIndex(string);
-	static int endIndex(string);
-	static string extractUserCommand(string, string&);
 	static string lowerCase(string);
 	static string getMonthIndex(string);
 	static void displayUI();
-
 };
 
 #endif
