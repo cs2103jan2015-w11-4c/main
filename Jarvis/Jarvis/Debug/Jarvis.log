@@ -1,4 +1,4 @@
-﻿Build started 22-03-2015 23:14:19.
+﻿Build started 24-03-2015 13:08:48.
      1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
@@ -9,7 +9,36 @@
          UI.cpp
          Task.cpp
          Search.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\search.cpp(90): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\search.cpp(103): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2176): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2157) : see declaration of 'std::_Copy_impl'
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<_Mystr>,char*>(_InIt,_InIt,_OutIt)' being compiled
+                 with
+                 [
+                     _OutIt=char *,
+                     _Mystr=std::_String_val<std::_Simple_types<char>>,
+                     _InIt=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\jarvis\jarvis\search.cpp(56) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     RangeT=std::string
+                 ]
          parser.cpp
          Logic.cpp
          Display.cpp
@@ -37,4 +66,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.32
+Time Elapsed 00:00:09.37

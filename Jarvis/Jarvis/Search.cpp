@@ -1,5 +1,6 @@
 #include "Search.h"
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
@@ -50,39 +51,51 @@ string Search::execute(string fileName,string filePath) {
 	}
 }
 
+vector <string> Search::extractWord(string input,string delimiter) {
+	vector<string> tokens;
+	boost::split(tokens,input, boost::is_any_of(delimiter));
+	return tokens;
+}
+
+
 string Search::executeSearch(string fileName,string filePath) {
 	string fileData = S1.readFile(fileName,filePath);
 	string linesWithWords="" ;
 	string keywordsToSearch = T1.getKeywords();
 	string line,token;
-	string lowerCaseLine;
-	string data="";
+	vector <string> tokens;
+	string delimiter = "/";
 	istringstream word(keywordsToSearch);
-	while (word>>token) {
-		istringstream in(fileData);
-		while(getline(in, line)) {
-			lowerCaseLine = changeToLowerCase(line);
-			if (lowerCaseLine.find(changeToLowerCase(token)) != string::npos) {
-				linesWithWords = linesWithWords + line.substr(1) + "\n";
+	bool isFound;
+	istringstream in(fileData);
+	while(getline(in, line)) {
+		isFound=true;
+		while (word>>token && isFound) {
+			tokens = extractWord(line,delimiter);
+			while(!tokens.empty()) {
+				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
+					isFound=true;
+					break;
+				}
+				else {
+					isFound=false;
+				}
+				tokens.pop_back();
+				
 			}
 		}
-		fileData = linesWithWords;
-		linesWithWords="";
+		if(isFound)
+			linesWithWords = linesWithWords + line + "\n";
     }
 	
 
-   if(fileData=="") {
+	if(linesWithWords=="") {
 		return  "The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 
 	}
-	else {
-		int i=1;
-		istringstream in(fileData);
-		while(getline(in, line)) {
-			data = data + to_string(i) + ". " + line + "\n";
-			i++;
-		}
-		return data;
-	}
+	else
+	   return linesWithWords;
+	
+
 }
 
 string Search::changeToLowerCase(string input) {

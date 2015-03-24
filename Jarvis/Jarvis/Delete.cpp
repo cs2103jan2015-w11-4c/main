@@ -40,34 +40,33 @@ string Delete::execute(string fileName,string filePath) {
 	commandQueue.pop();
 	string lastInput = commandQueue.top();*/
 	//Call parser to execute lastInput. It will return a command type object that I will execute to get a input string.
-	Display *D1;
+	/*Display *D1;
 	D1 = new Display();
 	CommandType C1(D1);
-	string input = C1.run(fileName,filePath); 
+	string input = C1.run(fileName,filePath);*/
+	string input = S1.readFile(fileName,filePath);
 	istringstream file(input);
 	string lineFromFile;
 	int lineNumber=1;
-	string deletedLine;
+	string newData="";
 	string userLine = T1.getNumber();
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
-			if(atoi(userLine.c_str())==lineNumber) {
-				deletedLine = lineFromFile;
-				break;
+			if(atoi(userLine.c_str())!=lineNumber) {
+				newData = newData + lineFromFile + "\n";
 			}
 			
 	}
 		lineNumber++;
 	}
 	
-	if(deletedLine!="") {
-		S1.replaceFileData(deletedLine,fileName,filePath);
+	if(newData!="") {
+		S1.replaceFileData(newData,fileName,filePath);
 		return "Deleted successfully\n";
 	}
 	
 	else {
 		return "error in deletion since task does not exist\n";
 	}
-	return deletedLine;
 
 }

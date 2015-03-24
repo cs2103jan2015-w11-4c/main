@@ -13,6 +13,8 @@
 #include "Clear.h"
 #include "Search.h"
 #include "WrongFormatCommand.h"
+#include <algorithm>
+#include <iterator>
 
 using namespace std;
 
@@ -70,9 +72,11 @@ public:
 	Task parseString(string);
 	Task parserUpdate(string);
 	string check(string);
+	string trim(string const&);
+	int findKeywordPosition(string, string);
 
 private:
-	static string userInput;
+	string userInput;
 	static string startDate;
 	static string endDate;
 	static string startTime;

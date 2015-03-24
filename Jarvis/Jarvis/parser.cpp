@@ -3,7 +3,7 @@
 
 using namespace std;
 
-string CommandParser::userInput = "";
+//string CommandParser::userInput = "";
 const string INDENTIFIERS = "./?! ";
 const string CommandParser::startDateIndicator = " on ";
 const string CommandParser::endTimeIndicator = " by ";
@@ -97,25 +97,64 @@ string CommandParser::extractUserCommand(string input) {
 	start = startIndex(input);
 	int end;
 	end = endIndex(input);
-	userInput = input.substr(end+1); 
+	userInput =input.substr(end+1);
+
 	return input.substr(start,end-start);
 }
 
+int CommandParser::findKeywordPosition(string searchString, string keyWord) {
+	int lenString = searchString.size();
+	int lenWord = keyWord.size();
+	std::string::iterator it(searchString.begin()), end(searchString.end());
+	std::string::iterator s_it(keyWord.begin()), s_end(keyWord.end());
+	it = std::search(it, end, s_it, s_end);
+
+	while(it!=(end-1))
+{
+	if(searchString.at(*(it-1)==' ') && searchString.at(*(it+lenWord)==' '))
+		return distance(searchString.begin(),it);
+	else
+		advance(it, distance(s_it, s_end));
+		it = search(it, end, s_it, s_end);
+
+}
+
+		return 0;
+
+
+}
+
 Task CommandParser::parseString(string userInput) {
-	int start = userInput.find("on");
-	string desc = userInput.substr(0,start);
-	userInput = userInput.substr(start+3);
-	int startDate = userInput.find_first_not_of(" ");
-	userInput = userInput.substr(startDate);
-	int endDate = userInput.find_first_of(" ");
-	string date = userInput.substr(startDate,endDate-startDate);
-	userInput = userInput.substr(endDate+1);
+	string str = "on";
+	string desc;
+	string date;
+	int start = userInput.find(str);
 	Task T1;
-	T1.setDate(date);
-	T1.setDescription(desc);
-	T1.setMonth(userInput);
-	//T1.setYear();
-	return T1;
+	if(start==string::npos) {
+		T1.setDescription(userInput);
+	}
+	else {
+		start = findKeywordPosition(userInput,str);
+		if(start==0) {
+			T1.setDescription(userInput);
+		}
+		else {
+			desc = userInput.substr(0,start);
+			userInput = userInput.substr(start+3);
+			int startDate = userInput.find_first_not_of(" ");
+			userInput = userInput.substr(startDate);
+			int endDate = userInput.find_first_of(" ");
+			date = userInput.substr(startDate,endDate-startDate);
+			userInput = userInput.substr(endDate+1);
+			T1.setDate(date);
+			T1.setDescription(desc);
+			T1.setMonth(userInput);
+		}
+		
+		
+		
+	}
+		return T1;
 }
 
 Task CommandParser::parserUpdate(string userInput){
@@ -126,9 +165,8 @@ Task CommandParser::parserUpdate(string userInput){
 	userInput = userInput.substr(endLine+1);
 	int startString = userInput.find_first_not_of(" ");
 	userInput = userInput.substr(startString);
-	Task T1;
+	Task T1 = parseString(userInput);
 	T1.setNumber(number);
-	T1.setUpdated(userInput);
 	return T1;
 
 }
@@ -149,10 +187,14 @@ CommandType CommandParser::getParserInput(string input){
 		return C1;
 	}
 	else if(command=="display") {
-		if(userInput!="")
-			taskDetails.setKeywords(userInput);
 		Display *D1;
+		//if(userInput!="") {
+		taskDetails.setKeywords(userInput);
 		D1 = new Display(taskDetails);
+		//}
+		//else {
+			//D1 = new Display();
+		//}
 		CommandType C1(D1);
 		return C1;
 	}

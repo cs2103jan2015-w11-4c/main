@@ -42,15 +42,14 @@ string Update::execute(string fileName,string filePath) {
 	string lineFromFile;
 	int lineNumber=1;
 	string userLine = T1.getNumber();
-	string newUserData = T1.getUpdated();
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
 			if(atoi(userLine.c_str())!=lineNumber) {
-				newFileData = newFileData + extractLineNumber(lineFromFile) + "\n";
+				newFileData = newFileData + lineFromFile + "\n";
 		}
 		else { 
 			statusOfUpdate=true;
-			lineFromFile = newUserData;
+			lineFromFile = T1.getDescription() + "/" + T1.getDate() + "/" + T1.getMonth() + "/" + T1.getYear() + "/";
 			newFileData = newFileData + lineFromFile + "\n";
 		}
 		lineNumber++;

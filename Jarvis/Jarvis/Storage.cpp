@@ -151,8 +151,8 @@ void Storage::clearFile(string outputFile,string filePath) {
 }
 */
 
-void Storage::replaceFileData(string deletedLine,string outputFile,string filePath) {
-	queue <string> fileData;
+void Storage::replaceFileData(string newFileData,string outputFile,string filePath) {
+	/*queue <string> fileData;
 	string file=readFile(outputFile,filePath);
 	string lineFromFile;
 	string word;
@@ -175,5 +175,16 @@ void Storage::replaceFileData(string deletedLine,string outputFile,string filePa
 			writefile << endl;
 			fileData.pop();
 	}
-	writefile.close();
+	writefile.close();*/
+	clearFile(outputFile,filePath);
+	istringstream in(newFileData);
+	string lineFromFile;
+	ofstream writefile;
+	outputFile = filePath + outputFile;
+	writefile.open(outputFile);
+	while(getline(in,lineFromFile)) {
+		writefile << lineFromFile << endl;
+	}
+
+
 }

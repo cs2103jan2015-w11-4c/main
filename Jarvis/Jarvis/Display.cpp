@@ -17,7 +17,7 @@ Display::~Display() {
 
 string Display::execute(string fileName,string filePath) {
 	
-	if(T1.getKeywords()=="") {
+	if(T1.getKeywords()=="all") {
 		return S1.readFile(fileName,filePath);
 	}
 

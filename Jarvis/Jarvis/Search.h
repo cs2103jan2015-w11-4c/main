@@ -22,6 +22,7 @@ public:
 	string execute(string,string);
 	string executeSearch(string,string);
 	string changeToLowerCase(string);
+	vector <string> extractWord(string,string);
 };
 
 #endif;
