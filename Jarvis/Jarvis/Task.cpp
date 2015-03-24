@@ -72,3 +72,11 @@ string Task::getKeywords() {
 void Task::setKeywords(string keywords) {
 	taskKeywords = keywords;
 }
+
+stack <string> Task::getStack() {
+	return inputStack;
+}
+
+void Task::setStack(stack <string> input) {
+	inputStack=input;
+}

@@ -2,6 +2,7 @@
 #define TASK_H
 
 #include <string>
+#include <stack>
 using namespace std;
 
 class Task {
@@ -14,6 +15,7 @@ private:
 	string taskMonth;
 	string taskYear;
 	string taskKeywords;
+	stack <string> inputStack;
 
 public:
 	Task();
@@ -32,6 +34,8 @@ public:
 	string getYear();
 	void setKeywords(string);
 	string getKeywords();
+	stack <string> getStack();
+	void setStack(stack <string>);
 };
 
 #endif

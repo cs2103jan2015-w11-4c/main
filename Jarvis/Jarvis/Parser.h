@@ -59,7 +59,7 @@ public:
 	static string getDescription(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
-	CommandType getParserInput(string);
+	CommandType getParserInput(string,stack <string>);
 	static string getStartDate(string input);
 	static string getStartTime(string input);
 	static string getEndDate(string input);

@@ -41,7 +41,7 @@ void UI::main(int argc, char* argv[]){
 		userCommand = temp.extractUserCommand(userInput);
 
 		if (userCommand != "exit" && userCommand != "display"){
-			displayLine(temp.executeCommand(userInput, fileName, filePath));
+			displayLine(temp.executeCommand(userInput,inputStack, fileName, filePath));
 		}
 		else if (userCommand == "exit"){
 			isRunning = false;
@@ -49,7 +49,7 @@ void UI::main(int argc, char* argv[]){
 		}
 		else if (userCommand == "display"){
 			string displaytemp;
-			displaytemp = temp.executeCommand(userInput, fileName, filePath);
+			displaytemp = temp.executeCommand(userInput,inputStack, fileName, filePath);
 
 			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
 			cout << "Current Date: " << now.date() << endl;

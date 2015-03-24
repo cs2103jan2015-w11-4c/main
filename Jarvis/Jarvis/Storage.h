@@ -26,7 +26,7 @@ public:
 	int startIndex(string);
 	int endIndex(string);
 	string extractUserCommand(string,string&);
-
+	void updateFileData(string,string,string,string);
 };
 
 #endif;

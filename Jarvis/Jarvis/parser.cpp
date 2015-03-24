@@ -170,7 +170,7 @@ Task CommandParser::parserUpdate(string userInput){
 	return T1;
 
 }
-CommandType CommandParser::getParserInput(string input){
+CommandType CommandParser::getParserInput(string input,stack <string> inputStack){
 	Task taskDetails; 
 	string command;
 	command = extractUserCommand(input);
@@ -200,6 +200,7 @@ CommandType CommandParser::getParserInput(string input){
 	}
 	else if(command=="delete") {
 		taskDetails.setNumber(userInput);
+		taskDetails.setStack(inputStack);
 		Delete *Del;
 		Del = new Delete(taskDetails);
 		CommandType C1(Del);
@@ -208,6 +209,7 @@ CommandType CommandParser::getParserInput(string input){
 	}	
 	else if(command=="update") {
 		taskDetails = parserUpdate(userInput);
+		taskDetails.setStack(inputStack);
 		Update *U1;
 		U1 = new Update(taskDetails);
 		CommandType C1(U1);

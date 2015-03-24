@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <queue>
+#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
 
@@ -151,40 +152,59 @@ void Storage::clearFile(string outputFile,string filePath) {
 }
 */
 
-void Storage::replaceFileData(string newFileData,string outputFile,string filePath) {
-	/*queue <string> fileData;
-	string file=readFile(outputFile,filePath);
+void Storage::replaceFileData(string deletedData,string outputFile,string filePath) {
+	//queue <string> fileData;
+	string fileData=readFile(outputFile,filePath);
 	string lineFromFile;
-	string word;
-	istringstream in(file);
- 	while(getline(in,lineFromFile)) {	
-		if(lineFromFile!=deletedLine) {
-			fileData.push(lineFromFile);
+	string newData="";
+	istringstream in(fileData);
+	boost::trim(deletedData);
+ 	while(getline(in,lineFromFile)) {
+		string originalLine = lineFromFile;
+		boost::trim(lineFromFile);
+		if(lineFromFile!=deletedData) {
+			newData = newData + originalLine + "\n";
 		}
 	}
-	ofstream writefile;
-	outputFile = filePath + outputFile;
-	writefile.open(outputFile,ios::trunc);
-	while(!fileData.empty()) {
-		istringstream line((fileData.front()).substr(3));
-		while(line>>word) {
-				if(word!="on") {
-					writefile << word << "/";
-				}
-			}
-			writefile << endl;
-			fileData.pop();
-	}
-	writefile.close();*/
 	clearFile(outputFile,filePath);
-	istringstream in(newFileData);
-	string lineFromFile;
+	string line;
+	istringstream data(newData);
 	ofstream writefile;
 	outputFile = filePath + outputFile;
 	writefile.open(outputFile);
-	while(getline(in,lineFromFile)) {
-		writefile << lineFromFile << endl;
+	while(getline(data,line)) {
+		writefile << line << endl;
 	}
+	writefile.close();
+	
+}
 
-
+void Storage::updateFileData(string originalData , string updatedData,string outputFile,string filePath) {
+	string fileData=readFile(outputFile,filePath);
+	string lineFromFile;
+	string newData="";
+	boost::trim(originalData);
+	istringstream in(fileData);
+ 	while(getline(in,lineFromFile)) {
+		string originalLine = lineFromFile;
+		boost::trim(lineFromFile);
+		if(lineFromFile!=originalData) {
+			newData = newData + originalLine + "\n";
+		}
+		else {
+			newData = newData + updatedData + "\n";
+		}
+	}
+	
+	clearFile(outputFile,filePath);
+	string line;
+	istringstream data(newData);
+	ofstream writefile;
+	outputFile = filePath + outputFile;
+	writefile.open(outputFile);
+	while(getline(data,line)) {
+		writefile << line << endl;
+	}
+	writefile.close();
+	
 }

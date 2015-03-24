@@ -65,29 +65,31 @@ string Search::executeSearch(string fileName,string filePath) {
 	string line,token;
 	vector <string> tokens;
 	string delimiter = "/";
-	istringstream word(keywordsToSearch);
+	
 	bool isFound;
+	int count=0;
 	istringstream in(fileData);
 	while(getline(in, line)) {
-		isFound=true;
-		while (word>>token && isFound) {
+		istringstream word(keywordsToSearch);
+		while (word>>token) {
 			tokens = extractWord(line,delimiter);
 			while(!tokens.empty()) {
 				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
 					isFound=true;
+					count++;
 					break;
 				}
 				else {
 					isFound=false;
 				}
 				tokens.pop_back();
-				
 			}
+			if(isFound==false)
+				break;
 		}
-		if(isFound)
-			linesWithWords = linesWithWords + line + "\n";
+			if(isFound)
+				linesWithWords = linesWithWords + line + "\n";
     }
-	
 
 	if(linesWithWords=="") {
 		return  "The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 

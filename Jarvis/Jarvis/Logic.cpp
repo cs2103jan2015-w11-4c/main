@@ -7,13 +7,19 @@
 const string INDENTIFIERS = ".,!? ";
 
 Logic::Logic() {
+
 }
+
 
 Logic::~Logic() {
 }
 
-stack <string> Logic::getStack(){
+stack <string> Logic::getStack() {
 	return inputStack;
+}
+
+void Logic::setStack(stack <string> input) {
+	inputStack=input;
 }
 
 int Logic::startIndex(string input) {
@@ -34,12 +40,12 @@ string Logic::extractUserCommand(string input) {
 	return input.substr(start,end-start);
 }
 
-	
-string Logic::executeCommand(string input, string fileName, string filePath) {
-	inputStack.push(input);
-	string s="";
+
+string Logic::executeCommand(string input,stack <string> userStack, string fileName, string filePath) {
+	inputStack=userStack;
+	string s;
 	CommandParser P1;
-	CommandType C1 = P1.getParserInput(input);
+	CommandType C1 = P1.getParserInput(input,getStack());
 	s = C1.run(fileName,filePath);
 	/*command = extractUserCommand(input);
 	

@@ -35,38 +35,38 @@ string Delete::extractLineNumber(string input) {
 }
 
 string Delete::execute(string fileName,string filePath) {
-	/*Logic L1;
-	stack <string> commandQueue = L1.getStack();
-	commandQueue.pop();
-	string lastInput = commandQueue.top();*/
+	CommandParser P1;
+	string s;
+	stack <string> commandStack = T1.getStack();
+	commandStack.pop();
+	string lastInput = commandStack.top();
 	//Call parser to execute lastInput. It will return a command type object that I will execute to get a input string.
-	/*Display *D1;
-	D1 = new Display();
-	CommandType C1(D1);
-	string input = C1.run(fileName,filePath);*/
-	string input = S1.readFile(fileName,filePath);
+	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string input = C1.run(fileName,filePath);
 	istringstream file(input);
 	string lineFromFile;
 	int lineNumber=1;
-	string newData="";
+	string deletedData="";
 	string userLine = T1.getNumber();
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
-			if(atoi(userLine.c_str())!=lineNumber) {
-				newData = newData + lineFromFile + "\n";
+			if(atoi(userLine.c_str())==lineNumber) {
+				deletedData = deletedData + lineFromFile + "\n";
 			}
 			
 	}
 		lineNumber++;
 	}
 	
-	if(newData!="") {
-		S1.replaceFileData(newData,fileName,filePath);
+	if(deletedData!="") {
+		S1.replaceFileData(deletedData,fileName,filePath);
 		return "Deleted successfully\n";
 	}
 	
 	else {
 		return "error in deletion since task does not exist\n";
 	}
+	s=deletedData;
+	return s;
 
 }

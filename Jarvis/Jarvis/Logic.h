@@ -29,12 +29,12 @@ private:
 public:
 	Logic();
 	~Logic();
-	string executeCommand(string,string,string);
+	string executeCommand(string,stack <string>,string,string);
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
 	stack <string> getStack();
-
+	void setStack(stack <string>);
 };
 
 #endif
