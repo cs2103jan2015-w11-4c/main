@@ -10,6 +10,7 @@
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <vector>
+#include <tuple>
 #include <algorithm>
 #include <map>
 #include "Logic.h"
@@ -26,7 +27,7 @@ private:
 	static const string MESSAGE_COMMAND;
 	static const string MESSAGE_WELCOME;
 	static const string MESSAGE_BYE;
-	static vector <pair <string, date>> UImemory;
+	static vector <tuple <string, date>> UImemory;
 	//static vector <string> months;
 
 public:

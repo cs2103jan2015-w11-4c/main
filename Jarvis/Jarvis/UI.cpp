@@ -11,7 +11,7 @@ const string UI::MESSAGE_BYE = "Goodbye! Press any key to terminate the program 
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
 const string IDENTIFIERS = "/";
-vector <pair <string, date>> UI::UImemory;
+vector <tuple <string, date>> UI::UImemory;
 //vector<string> UI::months = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 //int month_no = 2;
 
@@ -26,13 +26,13 @@ void UI::main(int argc, char* argv[]){
 	displayLine(buffer);
 	stack <string> inputStack;
 
-	cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
+	std::cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
 	string filePath;
 	getline(cin, filePath);
 	filePath += "\\";
 
 	while (isRunning){
-		cout << MESSAGE_COMMAND;
+		std::cout << MESSAGE_COMMAND;
 		string userInput;
 		getline(cin, userInput);
 		inputStack.push(userInput);
@@ -51,10 +51,10 @@ void UI::main(int argc, char* argv[]){
 			string displaytemp;
 			displaytemp = temp.executeCommand(userInput,inputStack, fileName, filePath);
 			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
-			cout << "Current Date: " << now.date() << endl;
+			std::cout << "Current Date: " << now.date() << endl;
 
 			time_duration tod = now.time_of_day();
-			cout << "Current Time: " << tod.hours() << ':' << tod.minutes() << ':' << tod.seconds() << endl << endl;
+			std::cout << "Current Time: " << tod.hours() << ':' << tod.minutes() << ':' << tod.seconds() << endl << endl;
 
 			istringstream in(displaytemp);
 			string extractLine;
@@ -71,8 +71,8 @@ void UI::main(int argc, char* argv[]){
 				it++;
 				if (*it == ""){ //floating task
 					date d(not_a_date_time);
-					UImemory.push_back(make_pair(taskDes, d));
-					sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+					UImemory.push_back(make_tuple(taskDes, d));
+					//sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
 				}
 				else {
 					taskDate = *it;
@@ -90,8 +90,8 @@ void UI::main(int argc, char* argv[]){
 					
 					date d(from_undelimited_string(taskDay));
 					
-					UImemory.push_back(make_pair(taskDes, d));
-					sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+					UImemory.push_back(make_tuple(taskDes, d));
+					//sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
 
 				}
 
@@ -106,31 +106,31 @@ void UI::main(int argc, char* argv[]){
 
 void UI::displayUI() {
 
-	vector <pair <string, date>>::iterator iter, iter2;
+	vector <tuple <string, date>>::iterator iter, iter2;
 
 	date nullDate(not_a_date_time);
 	iter2 = UImemory.begin();
 
-	cout << "=======================================================" << endl;
+	std::cout << "=======================================================" << endl;
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
-		if (iter->second != iter2->second) {
-			cout << "=======================================================" << endl; //different date
+		if (get<1>(*iter) != get<1>(*iter2)) {
+			std::cout << "=======================================================" << endl; //different date
 		}
 
-		if (iter->second == nullDate ) {
-					cout << "Do this anytime!\t\t";
+		if (get<1>(*iter) == nullDate ) {
+					std::cout << "Do this anytime!\t\t";
 				} else {
-					cout << "Deadline: " << iter->second << "\t\t";
+					std::cout << "Deadline: " << get<1>(*iter) << "\t\t";
 				}
-		cout << "Task: " << iter->first << endl;
+		std::cout << "Task: " << get<0>(*iter) << endl;
 			
 		
 		if (iter != UImemory.begin()) {
 			iter2++;
 		}
 	}
-	cout << "=======================================================" << endl << endl;
+	std::cout << "=======================================================" << endl << endl;
 }
 
 string UI::getMonthIndex(string name) {
@@ -167,5 +167,5 @@ string UI::lowerCase(string input) {
 }
 
 void UI::displayLine(string text){
-	cout << text << endl;
+	std::cout << text << endl;
 }
