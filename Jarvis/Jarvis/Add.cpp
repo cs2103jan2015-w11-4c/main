@@ -24,4 +24,14 @@ string Add::execute(string fileName,string filePath) {
 
 }
 
+string Add::executeUndo(string fileName,string filePath) {
+	Delete D1(T1);
+	string data = D1.getDeleteTask();
+	bool status = S1.writeBackToFile(data,fileName,filePath);
+	if(status)
+		return "The task *" + D1.getDeleteTask() + "* has been added back";
+	else
+		return "Error occured when doing undo. Please try again";
+}
+
 

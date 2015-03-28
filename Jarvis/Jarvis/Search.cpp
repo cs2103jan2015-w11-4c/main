@@ -23,32 +23,40 @@ string Search::execute(string fileName,string filePath) {
 	string linesWithWords="" ;
 	string keywordsToSearch = T1.getKeywords();
 	string line,token;
-	string lowerCaseLine;
-	string data="";
-	istringstream word(keywordsToSearch);
+	vector <string> tokens;
+	string delimiter = "/ ";
+	bool isFound;
 	istringstream in(fileData);
-	while (word>>token) {
-		while(getline(in, line)) {
-			lowerCaseLine = changeToLowerCase(line);
-			if (lowerCaseLine.find(changeToLowerCase(token)) != string::npos) {
-				linesWithWords = linesWithWords + line.substr(2) + "\n";
+	while(getline(in, line)) {
+		istringstream word(keywordsToSearch);
+		while (word>>token) {
+			boost::trim(token);
+			tokens = extractWord(line,delimiter);
+			while(!tokens.empty()) {
+				boost::trim(tokens.back());
+				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
+					linesWithWords = linesWithWords + line + "\n";
+					isFound=true;
+					break;
+				}
+				else {
+					isFound=false;
+				}
+				tokens.pop_back();
+			
 			}
+			if(isFound==true)
+				break;
 		}
     }
-	
 
-   if(fileData=="") {
+	if(linesWithWords=="") {
 		return  "The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 
 	}
-	else {
-		int i=1;
-		istringstream in(linesWithWords);
-		while(getline(in, line)) {
-			data = data + to_string(i) + ". " + line + "\n";
-			i++;
-		}
-		return data;
-	}
+	else
+	   return linesWithWords;
+	
+
 }
 
 vector <string> Search::extractWord(string input,string delimiter) {
@@ -65,7 +73,6 @@ string Search::executeSearch(string fileName,string filePath) {
 	string line,token;
 	vector <string> tokens;
 	string delimiter = "/";
-	
 	bool isFound;
 	int count=0;
 	istringstream in(fileData);

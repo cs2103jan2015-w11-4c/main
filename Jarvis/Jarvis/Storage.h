@@ -14,8 +14,7 @@ class Storage {
 
 private:
 	string task;
-	static vector <Task> tasklist;
-
+	static vector <string> tasklist;
 
 public:
 
@@ -27,6 +26,8 @@ public:
 	int endIndex(string);
 	string extractUserCommand(string,string&);
 	void updateFileData(string,string,string,string);
+	vector <string> getTaskVector();
+	bool writeBackToFile(string,string,string);
 };
 
 #endif;

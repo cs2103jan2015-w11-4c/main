@@ -4,6 +4,7 @@
 #include "Task.h"
 #include "Command.h"
 #include "Storage.h"
+#include "Delete.h"
 #include <iostream>
 
 using namespace std;
@@ -18,6 +19,7 @@ public:
 	Add(Task);
 	~Add();
 	string execute(string,string); 
+	string executeUndo(string,string);
 	
 };
 

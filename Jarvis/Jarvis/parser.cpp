@@ -82,6 +82,13 @@ bool Utility::isUpdate(string command) {
 bool Utility::isDisplay(string command) {
 	return (command.compare(Command::COMMAND_DISPLAY) == SAME);
 }*/
+Task CommandParser::getTaskObject() {
+	return taskDetails;
+}
+
+string CommandParser::getUserInput() {
+	return userInput;
+}
 
 int CommandParser::startIndex(string input) {
 	
@@ -171,10 +178,9 @@ Task CommandParser::parserUpdate(string userInput){
 
 }
 CommandType CommandParser::getParserInput(string input,stack <string> inputStack){
-	Task taskDetails; 
 	string command;
 	command = extractUserCommand(input);
-
+	taskDetails.setStack(inputStack);
 	//eg add lunch with mom on 16 feb
 	// command now equals "add"
 	//userInput stores " lunch with mom on 16 feb"
@@ -200,7 +206,6 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 	}
 	else if(command=="delete") {
 		taskDetails.setNumber(userInput);
-		taskDetails.setStack(inputStack);
 		Delete *Del;
 		Del = new Delete(taskDetails);
 		CommandType C1(Del);
@@ -232,6 +237,13 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		Search *S1;
 		S1 = new Search(taskDetails);
 		CommandType C1(S1);
+		return C1;
+	}
+	else if(command=="undo") {
+		taskDetails.setKeywords(userInput);
+		Undo *U1;
+		U1 = new Undo(taskDetails);
+		CommandType C1(U1);
 		return C1;
 	}
 	else {

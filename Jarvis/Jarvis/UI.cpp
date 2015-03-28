@@ -50,7 +50,6 @@ void UI::main(int argc, char* argv[]){
 		else if (userCommand == "display"){
 			string displaytemp;
 			displaytemp = temp.executeCommand(userInput,inputStack, fileName, filePath);
-
 			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
 			cout << "Current Date: " << now.date() << endl;
 
@@ -136,25 +135,25 @@ void UI::displayUI() {
 
 string UI::getMonthIndex(string name) {
 
-	map<string, string> months
-	{
-		{ "jan", "01" },
-		{ "feb", "02" },
-		{ "mar", "03" },
-		{ "apr", "04" },
-		{ "may", "05" },
-		{ "jun", "06" },
-		{ "jul", "07" },
-		{ "aug", "08" },
-		{ "sep", "09" },
-		{ "oct", "10" },
-		{ "nov", "11" },
-		{ "dec", "12" }
-	};
+	map<string, string> months;
+	map<string,string>::iterator iter;
 
-	const auto iter = months.find(name);
+		months["jan"]="01";
+		months["feb"]="02";
+		months["mar"]="03";
+		months["apr"]="04";
+		months["may"]="05";
+		months["jun"]="06";
+		months["jul"]="07";
+		months["aug"]="08";
+		months["sep"]="09";
+		months["oct"]="10";
+		months["nov"]="11";
+		months["dec"]="12";
 
-	if (iter != months.cend())
+	 iter = months.find(name);
+
+	if (iter != months.end())
 		return iter->second;
 	return "";
 }

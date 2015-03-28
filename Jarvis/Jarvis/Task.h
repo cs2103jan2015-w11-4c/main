@@ -16,6 +16,7 @@ private:
 	string taskYear;
 	string taskKeywords;
 	stack <string> inputStack;
+	string undoString;
 
 public:
 	Task();
@@ -36,6 +37,7 @@ public:
 	string getKeywords();
 	stack <string> getStack();
 	void setStack(stack <string>);
+	string getUndoString();
+	void setUndoString(string);
 };
-
 #endif

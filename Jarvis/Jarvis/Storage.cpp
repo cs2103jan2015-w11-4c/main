@@ -7,12 +7,14 @@
 
 using namespace std;
 
-vector <Task> Storage::tasklist;
+vector <string> Storage::tasklist;
 const string IDENTIFIERS = "/";
+
+
 
 bool Storage::writeFile(Task task, string outputfile,string filePath) {     //if adding/editing function, returns boolean value
 	
-	tasklist.push_back(task);
+	//tasklist.push_back(task);
 	
 	int size;
 	size = tasklist.size();
@@ -42,6 +44,15 @@ bool Storage::writeFile(Task task, string outputfile,string filePath) {     //if
 		//return false;
 //	}
 }
+
+bool Storage::writeBackToFile(string deletedString, string fileName,string filePath) {
+	ofstream myfile;
+	fileName = filePath + fileName;
+	myfile.open(fileName.c_str(),ios::app);
+	myfile << deletedString << endl;
+	return true;
+}
+
 int Storage::startIndex(string input) {
 	
 	return input.find_first_not_of(IDENTIFIERS);
@@ -120,7 +131,7 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 
 
 void Storage::clearFile(string outputFile,string filePath) {
-	//outputFile = filePath + outputFile;
+	outputFile = filePath + outputFile;
 	ofstream writefile;
 	writefile.open(outputFile,ios::trunc);
 	writefile.close();
@@ -153,7 +164,6 @@ void Storage::clearFile(string outputFile,string filePath) {
 */
 
 void Storage::replaceFileData(string deletedData,string outputFile,string filePath) {
-	//queue <string> fileData;
 	string fileData=readFile(outputFile,filePath);
 	string lineFromFile;
 	string newData="";
@@ -208,3 +218,6 @@ void Storage::updateFileData(string originalData , string updatedData,string out
 	writefile.close();
 	
 }
+
+
+

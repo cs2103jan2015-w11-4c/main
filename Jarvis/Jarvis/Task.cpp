@@ -10,6 +10,7 @@ Task::Task() {
 	taskMonth="";
 	taskYear="2015";
 	taskKeywords="";
+	undoString="";
 }
 
 Task::~Task() {
@@ -79,4 +80,12 @@ stack <string> Task::getStack() {
 
 void Task::setStack(stack <string> input) {
 	inputStack=input;
+}
+
+void Task::setUndoString(string undo) {
+	undoString = undo;
+}
+
+string Task::getUndoString() {
+	return undoString;
 }

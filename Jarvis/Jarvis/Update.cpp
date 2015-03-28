@@ -7,6 +7,8 @@ using namespace std;
 
 
 const string INDENTIFIERS = ".,!? ";
+string Update::originalTask;
+string Update::updatedTask;
 
 
 Update::Update(Task TaskAttributes) {
@@ -62,6 +64,9 @@ string Update::execute(string fileName,string filePath) {
 	}
 	if(!newFileData.empty()) {
 		S1.updateFileData(originalData,newFileData,fileName,filePath);
+		setOriginalTask(originalData);
+		setUpdatedTask(newFileData);
+		
 	}
 	
 	if(statusOfUpdate) {
@@ -73,3 +78,21 @@ string Update::execute(string fileName,string filePath) {
 	return newFileData;
 
 }
+
+void Update::setOriginalTask(string task) {
+	originalTask = task;
+}
+
+string Update::getOriginalTask() {
+	return originalTask;
+}
+
+void Update::setUpdatedTask(string task) {
+	updatedTask = task;
+}
+
+string Update::getUpdatedTask() {
+	return updatedTask;
+}
+
+

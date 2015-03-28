@@ -12,7 +12,9 @@
 #include "Update.h"
 #include "Clear.h"
 #include "Search.h"
+#include "Undo.h"
 #include "WrongFormatCommand.h"
+#include "Task.h"
 #include <algorithm>
 #include <iterator>
 
@@ -74,6 +76,8 @@ public:
 	string check(string);
 	string trim(string const&);
 	int findKeywordPosition(string, string);
+	string getUserInput();
+	Task getTaskObject();
 
 private:
 	string userInput;
@@ -99,6 +103,7 @@ private:
 
 	vector<string> parsedInput;
 	static CommandType  C1;
+	Task taskDetails; 
 };
 
 #endif

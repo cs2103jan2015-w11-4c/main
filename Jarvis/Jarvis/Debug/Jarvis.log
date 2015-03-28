@@ -1,63 +1,13 @@
-﻿Build started 25-03-2015 02:26:34.
+﻿Build started 27-03-2015 22:26:35.
      1>Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Update.cpp WrongFormatCommand.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
          WrongFormatCommand.cpp
          Update.cpp
+         Undo.cpp
          Storage.cpp
          UI.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(140): error C2601: 'months' : local function definitions are illegal
-                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(137): this line contains a '{' which has not yet been matched
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(141): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(141): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(142): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(142): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(142): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(143): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(143): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(143): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(144): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(144): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(144): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(145): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(145): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(145): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(146): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(146): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(146): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(147): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(147): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(147): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(148): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(148): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(148): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(149): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(149): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(149): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(150): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(150): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(150): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(151): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(151): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(151): error C2143: syntax error : missing ';' before ','
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(152): error C2143: syntax error : missing ';' before '{'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(152): error C2143: syntax error : missing ';' before '}'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(155): error C2275: 'boost::gregorian::months' : illegal use of this type as an expression
-                 c:\boost\1.57.0\vc\11.0\boost\date_time\gregorian\greg_duration_types.hpp(28) : see declaration of 'boost::gregorian::months'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(155): error C2228: left of '.find' must have class/struct/union
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(155): error C2065: 'name' : undeclared identifier
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(157): error C3536: 'iter': cannot be used before it is initialized
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(157): error C2275: 'boost::gregorian::months' : illegal use of this type as an expression
-                 c:\boost\1.57.0\vc\11.0\boost\date_time\gregorian\greg_duration_types.hpp(28) : see declaration of 'boost::gregorian::months'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(157): error C2228: left of '.cend' must have class/struct/union
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(158): error C3536: 'iter': cannot be used before it is initialized
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(158): error C2227: left of '->second' must point to class/struct/union/generic type
-                 type is 'int'
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(159): fatal error C1903: unable to recover from previous error(s); stopping compilation
-         Task.cpp
-         Search.cpp
-     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\search.cpp(105): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2176): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2157) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<_Mystr>,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -81,7 +31,39 @@
                      IteratorT=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
                      RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
                  ]
-                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\search.cpp(56) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\ui.cpp(66) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     RangeT=std::string
+                 ]
+         Task.cpp
+         Search.cpp
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\search.cpp(112): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2176): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2157) : see declaration of 'std::_Copy_impl'
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<_Mystr>,char*>(_InIt,_InIt,_OutIt)' being compiled
+                 with
+                 [
+                     _OutIt=char *,
+                     _Mystr=std::_String_val<std::_Simple_types<char>>,
+                     _InIt=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
+                     RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
+                 ]
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\search.cpp(64) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
                  with
                  [
                      CharT=char,
@@ -91,12 +73,57 @@
          Logic.cpp
          Display.cpp
          Delete.cpp
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2176): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2157) : see declaration of 'std::_Copy_impl'
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
+                 with
+                 [
+                     _OutIt=char *,
+                     _InIt=const char *
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=const char *,
+                     RangeT=boost::iterator_range<const char *>
+                 ]
+                 c:\boost\1.57.0\vc\11.0\boost\algorithm\string\classification.hpp(206) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT>::is_any_ofF<boost::iterator_range<IteratorT>>(const RangeT &)' being compiled
+                 with
+                 [
+                     CharT=char,
+                     IteratorT=const char *,
+                     RangeT=boost::iterator_range<const char *>
+                 ]
+                 c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\delete.cpp(77) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 with
+                 [
+                     CharT=char,
+                     RangeT=const char [2]
+                 ]
          CommandType.cpp
          Clear.cpp
          Add.cpp
          Generating Code...
-     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)) -- FAILED.
+     1>c:\users\vatsala\desktop\yr2sem2\cs2103\main\main\jarvis\jarvis\undo.cpp(65): warning C4715: 'Undo::execute' : not all control paths return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
+         Debug\Clear.obj
+         Debug\CommandType.obj
+         Debug\Delete.obj
+         Debug\Display.obj
+         Debug\Logic.obj
+         Debug\parser.obj
+         Debug\Search.obj
+         Debug\Task.obj
+         Debug\UI.obj
+         Debug\Storage.obj
+         Debug\Undo.obj
+         Debug\Update.obj
+         Debug\WrongFormatCommand.obj
+         Jarvis.vcxproj -> C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Debug\Jarvis.exe
+     1>Done Building Project "C:\Users\vatsala\Desktop\Yr2Sem2\CS2103\main\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:16.75
+Time Elapsed 00:00:22.94

@@ -1,12 +1,13 @@
 #include "Delete.h"
 #include <sstream>
 #include <iostream>
-
+#include <boost/algorithm/string.hpp>
 #include <stack>
 using namespace std;
 
 
 const string INDENTIFIERS = ".,!? ";
+string Delete::deleteTask;
 
 
 Delete::Delete(Task TaskAttributes) {
@@ -60,13 +61,29 @@ string Delete::execute(string fileName,string filePath) {
 	
 	if(deletedData!="") {
 		S1.replaceFileData(deletedData,fileName,filePath);
+		setDeleteTask(deletedData);
 		return "Deleted successfully\n";
 	}
 	
 	else {
 		return "error in deletion since task does not exist\n";
 	}
-	s=deletedData;
-	return s;
 
+}
+
+string Delete::executeUndo(string fileName,string filePath) {
+	string fileData = S1.readFile(fileName,filePath);
+	vector <string> data;
+	boost::split(data,fileData,boost::is_any_of("\n"));
+	data.pop_back();
+	S1.replaceFileData(data.back(),fileName,filePath);
+	return "The task *" + T1.getUndoString() + "* has been deleted";
+
+}
+
+string Delete::getDeleteTask() {
+	return deleteTask;
+}
+void Delete::setDeleteTask(string task) {
+	deleteTask=task;
 }
