@@ -11,9 +11,11 @@ const string UI::MESSAGE_BYE = "Goodbye! Press any key to terminate the program 
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
 const string IDENTIFIERS = "/";
-vector <tuple <string, date>> UI::UImemory;
+vector <tuple <int, string, date>> UI::UImemory;
 //vector<string> UI::months = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 //int month_no = 2;
+
+vector <pair <int, int>> UI::indexPair;
 
 template<int M, template<typename> class F = std::less>
 struct TupleCompare
@@ -50,14 +52,29 @@ void UI::main(int argc, char* argv[]){
 		string userCommand;
 		userCommand = temp.extractUserCommand(userInput);
 
-		if (userCommand != "exit" && userCommand != "display"){
-			displayLine(temp.executeCommand(userInput,inputStack, fileName, filePath));
+		if (userCommand != "exit" && userCommand != "display"){ //add, update, delete, clear
+			//setindex
+			indexPair.clear();
+			int displayedIndex = 1;
+			vector <tuple<int, string, date>>::iterator iter;
+			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
+			{
+				indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
+				displayedIndex++;
+
+			}
+			displayLine(temp.executeCommand(userInput, inputStack, fileName, filePath));
+
+
+
+			
 		}
 		else if (userCommand == "exit"){
 			isRunning = false;
 			displayLine(MESSAGE_BYE);
 		}
 		else if (userCommand == "display"){
+			UImemory.clear();
 			string displaytemp;
 			displaytemp = temp.executeCommand(userInput,inputStack, fileName, filePath);
 			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
@@ -69,6 +86,7 @@ void UI::main(int argc, char* argv[]){
 			istringstream in(displaytemp);
 			string extractLine;
 			string taskDes, taskDate, taskMonth, taskYear, taskDay, nextSubstring;
+			int origIndex = 1;
 
 			while (getline(in, extractLine)) {
 				
@@ -81,8 +99,8 @@ void UI::main(int argc, char* argv[]){
 				it++;
 				if (*it == ""){ //floating task
 					date d(not_a_date_time);
-					UImemory.push_back(make_tuple(taskDes, d));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<1>());
+					UImemory.push_back(make_tuple(origIndex, taskDes, d));
+					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
 					
 				}
 				else {
@@ -101,15 +119,14 @@ void UI::main(int argc, char* argv[]){
 					
 					date d(from_undelimited_string(taskDay));
 					
-					UImemory.push_back(make_tuple(taskDes, d));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<1>());
+					UImemory.push_back(make_tuple(origIndex, taskDes, d));
+					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
 
 				}
-
+				origIndex++;
 			}
 
 			displayUI();
-			UImemory.clear();
 		}
 	}
 	return;
@@ -117,7 +134,8 @@ void UI::main(int argc, char* argv[]){
 
 void UI::displayUI() {
 
-	vector <tuple <string, date>>::iterator iter, iter2;
+	vector <tuple <int, string, date>>::iterator iter, iter2;
+	int lineNo = 1;
 
 	date nullDate(not_a_date_time);
 	iter2 = UImemory.begin();
@@ -125,21 +143,23 @@ void UI::displayUI() {
 	std::cout << "=======================================================" << endl;
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
-		if (get<1>(*iter) != get<1>(*iter2)) {
+
+		if (get<2>(*iter) != get<2>(*iter2)) {
 			std::cout << "=======================================================" << endl; //different date
 		}
 
-		if (get<1>(*iter) == nullDate ) {
-					std::cout << "Do this anytime!\t\t";
+		if (get<2>(*iter) == nullDate ) {
+					std::cout << lineNo << ". Do this anytime!\t\t";
 				} else {
-					std::cout << "Deadline: " << get<1>(*iter) << "\t\t";
+					std::cout << lineNo << ". Deadline: " << get<2>(*iter) << "\t\t";
 				}
-		std::cout << "Task: " << get<0>(*iter) << endl;
+		std::cout << "Task: " << get<1>(*iter) << endl;
 			
 		
 		if (iter != UImemory.begin()) {
 			iter2++;
 		}
+		lineNo++;
 	}
 	std::cout << "=======================================================" << endl << endl;
 }

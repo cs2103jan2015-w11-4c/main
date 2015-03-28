@@ -1,7 +1,9 @@
 #include "Parser.h"
-
+#include "UI.h"
 
 using namespace std;
+
+vector <pair <int, int>>::iterator iter;
 
 //string CommandParser::userInput = "";
 const string INDENTIFIERS = "./?! ";
@@ -205,6 +207,11 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		return C1;
 	}
 	else if(command=="delete") {
+		for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
+			if (atoi(userInput.c_str()) == iter->first) {
+				userInput = to_string(iter->second);
+			}
+		}
 		taskDetails.setNumber(userInput);
 		Delete *Del;
 		Del = new Delete(taskDetails);

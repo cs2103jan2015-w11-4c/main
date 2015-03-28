@@ -17,6 +17,7 @@ private:
 	string taskKeywords;
 	stack <string> inputStack;
 	string undoString;
+	//int index;
 
 public:
 	Task();
@@ -39,5 +40,9 @@ public:
 	void setStack(stack <string>);
 	string getUndoString();
 	void setUndoString(string);
+	/*
+	void setIndex(int);
+	int getIndex();
+	*/
 };
 #endif

@@ -89,3 +89,12 @@ void Task::setUndoString(string undo) {
 string Task::getUndoString() {
 	return undoString;
 }
+/*
+void Task::setIndex(int userIndex) {
+	index = userIndex;
+}
+
+int Task::getIndex() {
+	return index;
+}
+*/

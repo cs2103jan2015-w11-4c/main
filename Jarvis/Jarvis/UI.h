@@ -27,7 +27,7 @@ private:
 	static const string MESSAGE_COMMAND;
 	static const string MESSAGE_WELCOME;
 	static const string MESSAGE_BYE;
-	static vector <tuple <string, date>> UImemory;
+	static vector <tuple <int,string, date>> UImemory;
 	//static vector <string> months;
 
 public:
@@ -38,6 +38,8 @@ public:
 	static string lowerCase(string);
 	static string getMonthIndex(string);
 	static void displayUI();
+	
+	static vector <pair <int, int>> indexPair;
 
 };
 
