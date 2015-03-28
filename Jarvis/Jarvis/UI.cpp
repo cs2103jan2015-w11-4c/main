@@ -15,6 +15,16 @@ vector <tuple <string, date>> UI::UImemory;
 //vector<string> UI::months = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 //int month_no = 2;
 
+template<int M, template<typename> class F = std::less>
+struct TupleCompare
+{
+	template<typename T>
+	bool operator()(T const &t1, T const &t2)
+	{
+		return F<typename tuple_element<M, T>::type>()(std::get<M>(t1), std::get<M>(t2));
+	}
+};
+
 int main(int argc, char* argv[]){
 	UI::main(argc, argv);
 	return 0;
@@ -72,7 +82,8 @@ void UI::main(int argc, char* argv[]){
 				if (*it == ""){ //floating task
 					date d(not_a_date_time);
 					UImemory.push_back(make_tuple(taskDes, d));
-					//sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+					sort(UImemory.begin(), UImemory.end(), TupleCompare<1>());
+					
 				}
 				else {
 					taskDate = *it;
@@ -91,7 +102,7 @@ void UI::main(int argc, char* argv[]){
 					date d(from_undelimited_string(taskDay));
 					
 					UImemory.push_back(make_tuple(taskDes, d));
-					//sort(UImemory.begin(), UImemory.end(), boost::bind(&pair<string, date>::second, _1) < boost::bind(&pair<string, date>::second, _2));
+					sort(UImemory.begin(), UImemory.end(), TupleCompare<1>());
 
 				}
 

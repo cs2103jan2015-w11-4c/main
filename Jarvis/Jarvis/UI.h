@@ -38,6 +38,7 @@ public:
 	static string lowerCase(string);
 	static string getMonthIndex(string);
 	static void displayUI();
+
 };
 
 #endif
