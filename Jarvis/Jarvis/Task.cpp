@@ -66,51 +66,6 @@ string Task::getYear() {
 	return taskYear;
 }
 
-void Task::setHour(string hour){
-	taskHour = hour;
-}
-
-string Task::getHour()
-{
-	return taskHour;
-}
-
-void Task::setMinute(string minute){
-	taskMinute = minute;
-}
-
-string Task::getMinute()
-{
-	return taskMinute;
-}
-
-void Task::setStartHour(string StartHour){
-	taskStartHour = StartHour;
-}
-
-string Task::getStartHour()
-{
-	return taskStartHour;
-}
-
-void Task::setStartMinute(string StartMinute){
-	taskStartMinute = StartMinute;
-}
-
-string Task::getStartMinute()
-{
-	return taskStartMinute;
-}
-
-void Task::setEndHour(string EndHour){
-	taskEndHour = EndHour;
-}
-
-string Task::getEndHour()
-{
-	return taskEndHour;
-}
-
 string Task::getKeywords() {
 	return taskKeywords;
 }

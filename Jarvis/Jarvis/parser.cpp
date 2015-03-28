@@ -7,9 +7,6 @@ using namespace std;
 const string INDENTIFIERS = "./?! ";
 const string CommandParser::startDateIndicator = " on ";
 const string CommandParser::endTimeIndicator = " by ";
-const string CommandParser::hourIndicator = ":";
-const string CommandParser::startTimeIndicator = "from";
-const string CommandParser::deadlineTimeIndicator = "to";
 /*const string CommandParser::commandIndicator = " ";
 
 const string CommandParser::startDayIndicator = "/";
@@ -138,14 +135,6 @@ Task CommandParser::parseString(string userInput) {
 	string str = "on";
 	string desc;
 	string date;
-	string month;
-	string hour;
-	string minute;
-	string StartHour;
-	string StartMinute;
-	string EndHour;
-	string EndMinute;
-
 	int start = userInput.find(str);
 	Task T1;
 	if(start==string::npos) {
@@ -164,46 +153,15 @@ Task CommandParser::parseString(string userInput) {
 			int endDate = userInput.find_first_of(" ");
 			date = userInput.substr(startDate,endDate-startDate);
 			userInput = userInput.substr(endDate+1);
-            int endMonth = userInput.find_first_of(" ");
-			month = userInput.substr(0,endMonth);
-			
-			if(int start = userInput.find("by")){
-				int startTime = userInput.find_first_not_of(" ");
-				userInput = userInput.substr(startTime);
-				int startHour = userInput.find(":");
-				hour = userInput.substr(startTime, startHour-startTime);
-				int startMinute = userInput.find_first_not_of(" ");
-				minute = userInput.substr(startMinute);
-			}
-			else if(int start = userInput.find("from")){
-				int startTime = userInput.find_first_not_of(" ");
-				userInput = userInput.substr(startTime);
-				int startHour = userInput.find(":");
-				StartHour = userInput.substr(startTime, startHour-startTime);
-				int startMinute = userInput.find_first_not_of(" ");
-				StartMinute = userInput.substr(startMinute);
-				int deadlineTime = userInput.find("to");
-				int endTime = userInput.find_first_not_of(" ");
-				userInput = userInput.substr(endTime);
-				int endhour = userInput.find(":");
-				EndHour = userInput.substr(endTime, endhour-endTime);
-				int endminute = userInput.find_first_not_of(" ");
-				EndMinute = userInput.substr(endminute);
-
-			}
 			T1.setDate(date);
 			T1.setDescription(desc);
-			T1.setMonth(month);
-			T1.setHour(hour);
-			T1.setMinute(minute);
-			T1.setStartHour(StartHour);
-			T1.setStartMinute(StartMinute);
-			T1.setEndHour(EndHour);
-			T1.setEndMinute(EndMinute);
-		
-		    return T1;
+			T1.setMonth(userInput);
 		}
+		
+		
+		
 	}
+		return T1;
 }
 
 Task CommandParser::parserUpdate(string userInput){

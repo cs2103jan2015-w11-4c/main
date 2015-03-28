@@ -95,8 +95,6 @@ private:
 	const static string hourIndicator;
 	const static string endDateIndicator;
 	const static string endDayIndicator;
-	const static string deadlineTimeIndicator;
-
 
 	const static int startingPosition;
 	const static int positionModerator1;
