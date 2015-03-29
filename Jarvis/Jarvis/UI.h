@@ -13,6 +13,8 @@
 #include <tuple>
 #include <algorithm>
 #include <map>
+#include <Windows.h>
+#include <iomanip>
 #include "Logic.h"
 
 using namespace std;
@@ -28,7 +30,6 @@ private:
 	static const string MESSAGE_WELCOME;
 	static const string MESSAGE_BYE;
 	static vector <tuple <int,string, date>> UImemory;
-	//static vector <string> months;
 
 public:
 
@@ -38,8 +39,9 @@ public:
 	static string lowerCase(string);
 	static string getMonthIndex(string);
 	static void displayUI();
-	
 	static vector <pair <int, int>> indexPair;
+	static void setColour(int);
+	//static void displayTodaysTask(Logic, string, stack<string>, string, string);
 
 };
 

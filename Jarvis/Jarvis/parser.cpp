@@ -170,7 +170,13 @@ Task CommandParser::parserUpdate(string userInput){
 	int startLine = userInput.find_first_not_of(" ");
 	userInput = userInput.substr(startLine);
 	int endLine = userInput.find_first_of(" ");
+	
 	string number = userInput.substr(0,endLine);
+	for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
+		if (atoi(number.c_str()) == iter->first) {
+			number = to_string(iter->second);
+		}
+	}
 	userInput = userInput.substr(endLine+1);
 	int startString = userInput.find_first_not_of(" ");
 	userInput = userInput.substr(startString);
