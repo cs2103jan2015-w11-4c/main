@@ -20,7 +20,7 @@ public:
 
 	bool writeFile(Task, string,string);   //for adding/editing return boolean to Logic
 	string readFile (string,string);		//display items
-	void clearFile(string,string);
+	bool clearFile(string,string);
 	void replaceFileData(string,string,string);
 	int startIndex(string);
 	int endIndex(string);
