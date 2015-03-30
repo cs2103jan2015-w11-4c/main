@@ -14,10 +14,16 @@ private:
 	string taskDate;
 	string taskMonth;
 	string taskYear;
+	string taskHour;
+	string taskMinute;
+	string taskStartHour;
+	string taskStartMinute;
+	string taskEndHour;
+	string taskEndMinute;
+
 	string taskKeywords;
 	stack <string> inputStack;
 	string undoString;
-	//int index;
 
 public:
 	Task();
@@ -34,15 +40,24 @@ public:
 	string getMonth();
 	void setYear(string);
 	string getYear();
+	void setHour(string);
+	string getHour();
+	void setMinute(string);
+	string getMinute();
+	void setStartHour(string);
+	string getStartHour();
+	void setStartMinute(string);
+	string getStartMinute();
+	void setEndHour(string);
+	string getEndHour();
+	void setEndMinute(string);
+	string getEndMinute();
+
 	void setKeywords(string);
 	string getKeywords();
 	stack <string> getStack();
 	void setStack(stack <string>);
 	string getUndoString();
 	void setUndoString(string);
-	/*
-	void setIndex(int);
-	int getIndex();
-	*/
 };
 #endif
