@@ -32,8 +32,20 @@ int main(int argc, char* argv[]){
 void UI::main(int argc, char* argv[]){
 	setColour(15);
 	string fileName = argv[1];
-	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]);
+	while (fileName.substr(fileName.size() - 4, fileName.size()) != ".txt") //to catch invalid txt file
+	{
+		setColour(12);
+		cout << endl <<"Please specify a valid text file: ";
+		setColour(15);
+		getline(cin, fileName);
+		char *cstr = new char[fileName.length() + 1];
+		strcpy(cstr, fileName.c_str());
+
+	}
+
+	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]); //maybe REMOVE this line?
 	displayLine(buffer);
+	
 	stack <string> inputStack;
 	std::cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
 	string filePath;
@@ -154,7 +166,7 @@ void UI::displayUI() {
 		}
 
 		if (get<2>(*iter) == nullDate ) {
-					std::cout << lineNo << ". Do this anytime!\t\t";
+					std::cout << lineNo << ". Do this anytime!\t";
 				} else {
 				std::cout << lineNo << ". " << get<2>(*iter) << "\t\t";
 				}
