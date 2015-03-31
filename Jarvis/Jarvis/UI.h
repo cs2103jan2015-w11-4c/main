@@ -29,7 +29,7 @@ private:
 	static const string MESSAGE_COMMAND;
 	static const string MESSAGE_WELCOME;
 	static const string MESSAGE_BYE;
-	static vector <tuple <int,string, date>> UImemory;
+	static vector <tuple <int,string, ptime, ptime>> UImemory;
 
 public:
 
@@ -41,6 +41,14 @@ public:
 	static void displayUI();
 	static vector <pair <int, int>> indexPair;
 	static void setColour(int);
+	static string prepareTaskDay(vector<string>);
+	static string prepareByEndHourEndMin(vector<string>);
+	static string prepareStartHourStartMin(vector<string>);
+	static string prepareEndHourEndMin(vector<string>);
+	static bool isFloating(vector <string>);
+	static bool isDeadline(vector <string>);
+	static bool isTimeTask1(vector <string>); //only has end hour and min
+	static bool isTimeTask2(vector <string>); // start hour, start min, end hour, end min
 	//static void displayTodaysTask(Logic, string, stack<string>, string, string);
 
 };
