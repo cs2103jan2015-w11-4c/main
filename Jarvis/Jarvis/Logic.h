@@ -11,6 +11,7 @@
 #include "Update.h"
 #include "Clear.h"
 #include "Search.h"
+#include "UI.h"
 #include <stack>
 //#include <boost/algorithm/string/trim.hpp>
 
@@ -35,6 +36,7 @@ public:
 	int endIndex(string);
 	stack <string> getStack();
 	void setStack(stack <string>);
+	string correctNumber(string);
 };
 
 #endif

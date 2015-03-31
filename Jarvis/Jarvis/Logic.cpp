@@ -5,6 +5,7 @@
 #include <assert.h>
 
 const string INDENTIFIERS = ".,!? ";
+vector <pair <int, int>>::iterator iter;
 
 Logic::Logic() {
 
@@ -116,4 +117,14 @@ string Logic::executeCommand(string input,stack <string> userStack, string fileN
 	//	cout << "An exception occurred. Exception : Wrong format of command  " << s;
 //}
 return s;
+}
+
+string Logic::correctNumber(string no) {
+	string number;
+	for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
+		if (atoi(no.c_str()) == iter->first) {
+			number = to_string(iter->second);
+		}
+	}
+return number;
 }

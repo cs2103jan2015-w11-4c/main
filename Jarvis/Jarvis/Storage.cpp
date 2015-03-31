@@ -29,7 +29,7 @@ bool Storage::writeFile(Task task, string outputfile,string filePath) {     //if
 	ofstream myfile;//write the new sentence into the file
 	outputfile = filePath + outputfile;
 	myfile.open(outputfile.c_str(),ios::app);
-	myfile << task.getDescription() << "/" << task.getDate() << "/" << task.getMonth() << "/" << task.getYear() << "/" << endl;
+	myfile << task.getDescription() << "/" << task.getDate() << "/" << task.getMonth() << "/" << task.getYear() << "/" << task.getHour() << "/" << task.getMinute() << "/" << task.getStartHour() << "/" << task.getStartMinute() << "/" << task.getEndHour() << "/" << task.getEndMinute() << "/" << endl;
 	//int i=0;
 	//for (int i=0; i<size; i++) {
 	//myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
@@ -218,6 +218,5 @@ void Storage::updateFileData(string originalData , string updatedData,string out
 	writefile.close();
 	
 }
-
 
 

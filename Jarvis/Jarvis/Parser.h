@@ -22,23 +22,23 @@ using namespace std;
 
 /*class Utility {
 public:
-static bool stringToBool(string s);
-static string boolToString(bool b);
-static CommandType stringToCommandType(string command);
-static string CommandTypeToString(CommandType C1);
-static bool isValidCommand(CommandType C1);
-string extractUserCommand(string);
+	static bool stringToBool(string s);
+	static string boolToString(bool b);
+	static CommandType stringToCommandType(string command);
+	static string CommandTypeToString(CommandType C1);
+	static bool isValidCommand(CommandType C1);
+	string extractUserCommand(string);
 
-
+	
 private:
-static bool isExit(string command);
-static bool isAdd(string command);
-static bool isDelete(string command);
-static bool isUpdate(string command);
-static bool isDisplay(string command);
-
-static const int SAME;
-string userInput;
+	static bool isExit(string command);
+	static bool isAdd(string command);
+	static bool isDelete(string command);
+	static bool isUpdate(string command);
+	static bool isDisplay(string command);
+	
+	static const int SAME;
+	string userInput;
 };*/
 
 
@@ -61,7 +61,7 @@ public:
 	static string getDescription(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
-	CommandType getParserInput(string, stack <string>);
+	CommandType getParserInput(string,stack <string>);
 	static string getStartDate(string input);
 	static string getStartTime(string input);
 	static string getEndDate(string input);
@@ -78,7 +78,9 @@ public:
 	int findKeywordPosition(string, string);
 	string getUserInput();
 	Task getTaskObject();
-
+	string changeToLowerCase(string input);
+	bool isDeadlineTask(vector <string>,vector<string>&,Task&);
+	bool isMonth(string);
 private:
 	string userInput;
 	static string startDate;
@@ -86,7 +88,9 @@ private:
 	static string startTime;
 	static string location;
 	static string name;
-
+	bool timedTask;
+	bool floatingTask;
+	bool deadlineTask;
 	const static string commandIndicator;
 	const static string startDateIndicator;
 	const static string startDayIndicator;
@@ -101,11 +105,11 @@ private:
 	const static int startingPosition;
 	const static int positionModerator1;
 	const static int positionModerator2;
-	const static string endTimeIndicator;
+	const static string endTimeIndicator; 
 
 	vector<string> parsedInput;
 	static CommandType  C1;
-	Task taskDetails;
+	Task taskDetails; 
 };
 
 #endif

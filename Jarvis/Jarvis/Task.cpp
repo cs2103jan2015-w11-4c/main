@@ -102,12 +102,17 @@ string Task::getStartMinute()
 	return taskStartMinute;
 }
 
-void Task::setEndHour(string EndHour){
-	taskEndHour = EndHour;
+void Task::setEndMinute(string minute) {
+	taskEndMinute = minute;
+
 }
 
-void Task::setEndMinute(string EndMinute){
-	taskEndMinute = EndMinute;
+string Task::getEndMinute() {
+	return taskEndMinute;
+}
+
+void Task::setEndHour(string EndHour){
+	taskEndHour = EndHour;
 }
 
 
