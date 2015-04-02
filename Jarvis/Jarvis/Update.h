@@ -27,6 +27,7 @@ public:
 	string getOriginalTask();
 	void setUpdatedTask(string);
 	string getUpdatedTask();
+	string lowerCase(string);
 };
 
 #endif

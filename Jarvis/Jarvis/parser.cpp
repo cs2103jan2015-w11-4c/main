@@ -175,12 +175,12 @@ Task CommandParser::parseString(string userInput) {
 	Task T1;
 	if(start==string::npos) {
 		T1.setDescription(userInput);
-		T1.setYear("");
 	}
 	else {
 		start = findKeywordPosition(userInput,str);
 		if(start==0) {
 			T1.setDescription(userInput);
+			T1.setYear("");
 			return T1;
 		}
 		else {

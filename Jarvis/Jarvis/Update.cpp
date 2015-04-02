@@ -54,7 +54,7 @@ string Update::execute(string fileName,string filePath) {
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
 			if(atoi(userLine.c_str())==lineNumber) {
-				newFileData = T1.getDescription() + "/" + T1.getDate() + "/" + T1.getMonth() + "/" + T1.getYear() + "/";
+				newFileData = T1.getDescription() + "/" + T1.getDate() + "/" +  lowerCase((T1.getMonth()).substr(0,3)) + "/" + T1.getYear() + "/";
 				originalData = lineFromFile;
 				statusOfUpdate=true;
 				break;
@@ -95,4 +95,10 @@ string Update::getUpdatedTask() {
 	return updatedTask;
 }
 
+string Update::lowerCase(string input) {
+
+	transform(input.begin(), input.end(), input.begin(), ::tolower);
+
+	return input;
+}
 

@@ -1,10 +1,5 @@
-coding /1/april/2015///////
-lunch /1/april/2015/14/00/////
-orange /1/april/2015/15/00/////
-apple /1/april/2015/14/30/////
-pear /1/april/2015/11/30/////
-breakfast /1/april/2015/09/00/////
-football /1/april/2015///10/00/11/00/
-swimming//////////
-sleep /1/april/2015///////
-laptop /30/march/2015///////
+lunch /20/march/2015/
+dinner /30/march/2015/
+breakfast /10/january/2015/
+homework///2015/
+january from 1000 to 1300/20/january/2015/

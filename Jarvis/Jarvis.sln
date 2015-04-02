@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jarvis", "Jarvis\Jarvis.vcxproj", "{2063DC09-6A7D-4847-A5E0-67FA6F34753A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JarvisTest", "JarvisTest\JarvisTest.vcxproj", "{11B032CB-9085-443B-B175-54E972B16D35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{2063DC09-6A7D-4847-A5E0-67FA6F34753A}.Debug|Win32.Build.0 = Debug|Win32
 		{2063DC09-6A7D-4847-A5E0-67FA6F34753A}.Release|Win32.ActiveCfg = Release|Win32
 		{2063DC09-6A7D-4847-A5E0-67FA6F34753A}.Release|Win32.Build.0 = Release|Win32
+		{11B032CB-9085-443B-B175-54E972B16D35}.Debug|Win32.ActiveCfg = Debug|Win32
+		{11B032CB-9085-443B-B175-54E972B16D35}.Debug|Win32.Build.0 = Debug|Win32
+		{11B032CB-9085-443B-B175-54E972B16D35}.Release|Win32.ActiveCfg = Release|Win32
+		{11B032CB-9085-443B-B175-54E972B16D35}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

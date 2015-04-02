@@ -71,11 +71,13 @@ string Display::execute(string fileName,string filePath) {
 		ptime now = microsec_clock::local_time();
 		date today = now.date();
 		boost::split(dateVector,to_simple_string(today),boost::is_any_of("-"));
-		string keywords = dateVector[2] +" " + getFullMonth(dateVector[1]) + " " + dateVector[0];
+		if(dateVector[2].at(0)=='0')
+			dateVector[2] = dateVector[2].at(1);
+		string keywords = dateVector[2] +" " + dateVector[1] + " " + dateVector[0];
 		T1.setKeywords(keywords);
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
-			return "There are no tasks scheduled for today - " + keywords +"\n";
+			return "Error: There are no tasks scheduled for today - " + keywords +"\n";
 		}
 		else {
 			return S2.executeSearch(fileName,filePath);
@@ -87,11 +89,13 @@ string Display::execute(string fileName,string filePath) {
 		date_duration dd(1);
 		date tomorrow = now.date() + dd;
 		boost::split(dateVector,to_simple_string(tomorrow),boost::is_any_of("-"));
-		string keywords = dateVector[2] +" " + getFullMonth(dateVector[1]) + " " + dateVector[0];
+		if(dateVector[2].at(0)=='0')
+			dateVector[2] = dateVector[2].at(1);
+		string keywords = dateVector[2] +" " + dateVector[1] + " " + dateVector[0];
 		T1.setKeywords(keywords);
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
-			return "There are no tasks scheduled for tomorrow - " + keywords +"\n";
+			return "Error: There are no tasks scheduled for tomorrow - " + keywords +"\n";
 		}
 		else {
 			return S2.executeSearch(fileName,filePath);
@@ -109,11 +113,11 @@ string Display::execute(string fileName,string filePath) {
 		string dateNumber = dateVector[2];
 		if(dateVector[2].at(0)=='0')
 			dateVector[2] = dateVector[2].at(1);
-		string keywords = dateVector[2] +" " + getFullMonth(dateVector[1]) + " " + dateVector[0];
+		string keywords = dateVector[2] +" " +dateVector[1] + " " + dateVector[0];
 		T1.setKeywords(keywords);
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
-			return "There are no tasks scheduled for "+ dayName + " - " + keywords +"\n";
+			return "Error: There are no tasks scheduled for "+ dayName + " - " + keywords +"\n";
 		}
 		else {
 			return S2.executeSearch(fileName,filePath);
@@ -122,7 +126,12 @@ string Display::execute(string fileName,string filePath) {
 	}
 	else {
 		Search S2(T1);
-		return S2.executeSearch(fileName,filePath);
+		if(S2.executeSearch(fileName,filePath)=="") {
+			return "Error: There are no tasks scheduled with the keywords "+T1.getKeywords()+"\n";
+		}
+		else {
+			return S2.executeSearch(fileName,filePath);
+		}
 	}
 
 }

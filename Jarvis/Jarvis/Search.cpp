@@ -51,7 +51,7 @@ string Search::execute(string fileName,string filePath) {
     }
 
 	if(linesWithWords=="") {
-		return  "The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 
+		return  "Error: The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 
 	}
 	else
 	   return linesWithWords;
@@ -98,10 +98,6 @@ string Search::executeSearch(string fileName,string filePath) {
 				linesWithWords = linesWithWords + line + "\n";
     }
 
-	if(linesWithWords=="") {
-		return  "The words * " + keywordsToSearch + " * do not exist in file"  + "\n"; 
-	}
-	else
 	   return linesWithWords;
 	
 

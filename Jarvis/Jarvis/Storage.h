@@ -28,6 +28,7 @@ public:
 	void updateFileData(string,string,string,string);
 	vector <string> getTaskVector();
 	bool writeBackToFile(string,string,string);
+	string lowerCase(string);
 };
 
 #endif;
