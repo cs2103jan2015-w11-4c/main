@@ -54,7 +54,7 @@ string Update::execute(string fileName,string filePath) {
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
 			if(atoi(userLine.c_str())==lineNumber) {
-				newFileData = T1.getDescription() + "/" + T1.getDate() + "/" +  lowerCase((T1.getMonth()).substr(0,3)) + "/" + T1.getYear() + "/";
+				newFileData = T1.getDescription() + "/" + T1.getDate() + "/" +  lowerCase((T1.getMonth()).substr(0,3)) + "/" + T1.getYear() +  "/" + T1.getHour() + "/" + T1.getMinute() + "/" + T1.getStartHour() + "/" + T1.getStartMinute() + "/" + T1.getEndHour() + "/" + T1.getEndMinute() + "/" + "\n";
 				originalData = lineFromFile;
 				statusOfUpdate=true;
 				break;

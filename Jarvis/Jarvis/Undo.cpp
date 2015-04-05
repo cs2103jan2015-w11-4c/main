@@ -38,7 +38,8 @@ string Undo::execute(string fileName, string filePath) {
 			return userFeedback;
 		}
 		else if(lastCommand==DELETE_COMMAND) {
-			Add A1(T1);
+			RecurringTask R1;
+			Add A1(T1,R1);
 			userFeedback = A1.executeUndo(fileName,filePath);
 			return userFeedback;
 

@@ -19,7 +19,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,6 +73,7 @@
     <ClInclude Include="Display.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="RecurringTask.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="Storage.h" />
     <ClInclude Include="Task.h" />
@@ -91,6 +92,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="parser.cpp" />
+    <ClCompile Include="RecurringTask.cpp" />
     <ClCompile Include="Search.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="UI.cpp" />

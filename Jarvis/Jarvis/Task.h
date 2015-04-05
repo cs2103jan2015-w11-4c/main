@@ -20,6 +20,9 @@ private:
 	string taskStartMinute;
 	string taskEndHour;
 	string taskEndMinute;
+	bool isErrorDate;
+	bool isCommandError;
+	bool isTimeError;
 
 	string taskKeywords;
 	stack <string> inputStack;
@@ -52,12 +55,18 @@ public:
 	string getEndHour();
 	void setEndMinute(string);
 	string getEndMinute();
-
+	void setErrorDate(bool);
+	bool getErrorDate();
+	void setCommandError(bool);
+	bool getCommandError();
+	bool getTimeError();
+	void setTimeError(bool);
 	void setKeywords(string);
 	string getKeywords();
 	stack <string> getStack();
 	void setStack(stack <string>);
 	string getUndoString();
 	void setUndoString(string);
+
 };
 #endif

@@ -1,7 +1,11 @@
 #include "Parser.h"
+#include "RecurringTask.h"
+#include <stdlib.h>
 #include <boost/algorithm/string.hpp>
 
 using namespace std;
+using namespace boost::gregorian;
+using namespace boost::posix_time;
 
 //string CommandParser::userInput = "";
 const string INDENTIFIERS = "./?! ";
@@ -10,81 +14,7 @@ const string CommandParser::endTimeIndicator = " by ";
 const string CommandParser::hourIndicator = ":";
 const string CommandParser::startTimeIndicator = "from";
 const string CommandParser::deadlineTimeIndicator = "to";
-/*const string CommandParser::commandIndicator = " ";
 
-const string CommandParser::startDayIndicator = "/";
-const string CommandParser::startTimeIndicator = " at ";
-const string CommandParser::currentYear = "2015";
-
-const string CommandParser::hourIndicator = ":.";
-
-
-
-const int CommandParser::startingPosition = 0;
-const int CommandParser::positionModerator1 = 1;
-const int CommandParser::positionModerator2 = 2;
-
-
-string CommandParser::startDate = "";
-string CommandParser::startTime = "";
-string CommandParser::endDate = "";
-
-
-//vector<string> CommandParser::parsedInput;
-//Command::CommandType CommandParser::_command = Command::CommandType::TASKINVALID;
-
-
-
-/*Command::CommandType Command::stringToCommandType(string command) {
-	if (isExit(command)) {
-		return Command::CommandType::EXIT;
-	}
-	if (isAdd(command)) {
-		return Command::CommandType::TASKADD;
-	}
-	if (isDelete(command)) {
-		return Command::CommandType::TASKDELETE;
-	}
-	if (isUpdate(command)) {
-		return Command::CommandType::TASKUPDATE;
-	}
-	if (isDisplay(command)) {
-		return Command::CommandType::TASKDISPLAY;
-	}
-}*/
-
-
-/*string CommandTypeToString(Command::CommandType cmd) {
-	switch (cmd) {
-	case Command::CommandType::EXIT:
-		return Command::COMMAND_EXIT;
-	case Command::CommandType::TASKADD:
-		return Command::COMMAND_ADD;
-	case Command::CommandType::TASKDELETE:
-		return Command::COMMAND_DELETE;
-	case Command::CommandType::TASKUPDATE:
-		return Command::COMMAND_UPDATE;
-
-	default:
-		return Command::COMMAND_INVALID;
-	}
-}*/
-
-/*bool Utility::isExit(string command) {
-	return (command.compare(Command::COMMAND_EXIT) == SAME);
-}
-bool Utility::isAdd(string command) {
-	return (command.compare(Command::COMMAND_ADD) == SAME);
-}
-bool Utility::isDelete(string command) {
-	return (command.compare(Command::COMMAND_DELETE) == SAME);
-}
-bool Utility::isUpdate(string command) {
-	return (command.compare(Command::COMMAND_UPDATE) == SAME);
-}
-bool Utility::isDisplay(string command) {
-	return (command.compare(Command::COMMAND_DISPLAY) == SAME);
-}*/
 Task CommandParser::getTaskObject() {
 	return taskDetails;
 }
@@ -149,16 +79,76 @@ int CommandParser::findKeywordPosition(string searchString, string keyWord) {
 
 }
 
-bool CommandParser::isMonth(string input) {
-	if(input=="january" || input=="february" || input=="march" ||  input=="april" ||  input=="may" ||  input=="june" ||  input=="july" || input=="august" ||  input=="september" ||  input=="october" ||  input=="november" ||  input=="december")
+int CommandParser::getMonthNumber(string name) {
+
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months["january"]=1;
+		months["february"]=2;
+		months["march"]=3;
+		months["april"]=4;
+		months["may"]=5;
+		months["june"]=6;
+		months["july"]=7;
+		months["august"]=8;
+		months["september"]=9;
+		months["october"]=10;
+		months["november"]=11;
+		months["december"]=12;
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
+
+bool CommandParser::isHourValid(string hour) {
+	try{
+		int number = stoi(hour);
+		if(number>=0 && number<=23){
+			return true;
+		}
+		else
+			return false;
+	}
+	catch(const std::invalid_argument) {
+
+		return false; 
+
+	}
+}
+
+bool CommandParser::isMinuteValid(string minute) {
+	try{
+		int number = stoi(minute);
+		if(number>=0 && number<=59){
+			return true;
+		}
+		else
+			return false;
+	}
+	catch(const std::invalid_argument) {
+
+		return false; 
+
+	}
+}
+
+bool CommandParser::isDayValid(string taskDay) {
+	if(taskDay=="day" || taskDay=="monday" || taskDay=="tuesday" || taskDay=="wednesday" || taskDay=="thursday" || taskDay=="friday" || taskDay=="saturday" || taskDay=="sunday")
 		return true;
-	else
+	else 
 		return false;
+
 }
 
 
 
-Task CommandParser::parseString(string userInput) {
+
+Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	string desc;
 	string date;
 	string month;
@@ -169,74 +159,303 @@ Task CommandParser::parseString(string userInput) {
 	string EndHour;
 	string EndMinute;
 	string str = "on";
-	userInput = changeToLowerCase(userInput);
+	int gregDate,gregMonth,gregYear=2015;
+	bool deadline,floating,timedBy,timedFrom,recurring=false;
 	boost::trim(userInput);
-	int start = userInput.find(str);
+	vector <string> tokens;
 	Task T1;
-	if(start==string::npos) {
-		T1.setDescription(userInput);
-	}
-	else {
-		start = findKeywordPosition(userInput,str);
-		if(start==0) {
-			T1.setDescription(userInput);
-			T1.setYear("");
-			return T1;
-		}
-		else {
-			desc = userInput.substr(0,start);
-			userInput = userInput.substr(start+3);
-			int startDate = userInput.find_first_not_of(" ");
-			userInput = userInput.substr(startDate);
-			int endDate = userInput.find_first_of(" ");
-			date = userInput.substr(startDate,endDate-startDate);
-			userInput = userInput.substr(endDate+1);
-			int endMonth = userInput.find_first_of(" ");
-			month = userInput.substr(0,endMonth);
-			T1.setDate(date);
-			T1.setDescription(desc);
-			T1.setMonth(month);
-			if(endMonth==userInput.size()) {
-				return T1;
+	int i;
+	boost::split(tokens,userInput,boost::is_any_of(" "));
+	//Search for "on" keyword
+	for(i=0;i<tokens.size();i++) {
+		if(tokens[i]=="on") {
+			if((i+3)<=tokens.size()) {
+				try {
+					gregDate = stoi(tokens[i+1]);
+				}
+				catch (const std::invalid_argument) {
+					deadline = false;
+					break;
+				}
+	
+				gregMonth = getMonthNumber(tokens[i+2]);
+				
+				try {
+					boost::gregorian::date d(gregYear, gregMonth, gregDate);
+					ptime now = microsec_clock::local_time();
+					boost::gregorian::date today = now.date();
+					if(d<today) {
+						T1.setErrorDate(true);
+						deadline=false;
+					}
+					else {
+						deadline=true;
+						break;
+					}
+					}
+				catch (std::out_of_range) {
+					bool value=true;
+					T1.setErrorDate(value);
+					deadline=false;
+				}
 			}
-			userInput = userInput.substr(endMonth+1);
-			int keywordStart = userInput.find_first_not_of(" ");
-			userInput = userInput.substr(keywordStart);
-			int keywordEnd = userInput.find_first_of(" ");
-			string word = userInput.substr(keywordStart,keywordEnd-keywordStart);
-			if(word=="by") {
-				userInput = userInput.substr(keywordEnd+1);
-				hour = userInput.substr(0,userInput.find_first_of(":"));
-				userInput = userInput.substr(userInput.find_first_of(":")+1);
-				minute = userInput;
+	}
+
+	}
+	if(i==tokens.size()) //if on keyword doesnt exist, then not a deadline task
+		deadline=false;
+
+	if(deadline) {
+		for(int j=0;j<i;j++) {
+			desc = desc + tokens[j] + " ";
+		}
+		T1.setDescription(desc);
+		T1.setDate(tokens[i+1]);
+		T1.setMonth(tokens[i+2]);
+		if((i+3)==tokens.size())
+			return T1;
+		else if((i+5)==tokens.size()) {//by timed task
+			if(tokens[i+3]=="by") {
+				vector <string> byTime;
+				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));
+				if(isHourValid(byTime[0]) && isMinuteValid(byTime[1]) && byTime.size()==2) {
+					T1.setHour(byTime[0]);
+					T1.setMinute(byTime[1]);
+				}
+				else {
+					bool value=true;
+					T1.setTimeError(value);
+				}
+
 
 			}
-			else if(word=="from") {
-				userInput = userInput.substr(keywordEnd+1);
-				StartHour = userInput.substr(userInput.find_first_not_of(" "),userInput.find_first_of(":")-userInput.find_first_not_of(" "));
-				userInput = userInput.substr(userInput.find_first_of(":")+1);
-				StartMinute = userInput.substr(0,userInput.find_first_of(" "));
-				userInput = userInput.substr(userInput.find_first_of(" ")+1);
-				int word2 = userInput.find("to");
-				userInput = userInput.substr(word2+2);
-				EndHour = userInput.substr(userInput.find_first_not_of(" "),userInput.find_first_of(":")-userInput.find_first_not_of(" "));
-				userInput = userInput.substr(userInput.find_first_of(":")+1);
-				EndMinute = userInput.substr(0,userInput.find_first_of(" "));
+			else {
+				bool value=true;
+				T1.setCommandError(value);
 			}
-			
-			T1.setHour(hour);
-			T1.setMinute(minute);
-			T1.setStartHour(StartHour);
-			T1.setStartMinute(StartMinute);
-			T1.setEndHour(EndHour);
-			T1.setEndMinute(EndMinute);
-		}
-		
-		
-		
-	}
-	return T1;
 	
+		}
+		else if((i+7)==tokens.size()) { // from to timed task
+			if(tokens[i+3]=="from" && tokens[i+5]=="to") {
+				vector <string> fromTime;
+				boost::split(fromTime,tokens[i+4],boost::is_any_of(":"));
+				
+				vector <string> toTime;
+				boost::split(toTime,tokens[i+6],boost::is_any_of(":"));
+				if(isHourValid(toTime[0]) && isHourValid(fromTime[0]) && isMinuteValid(toTime[1]) && isMinuteValid(fromTime[1]) && fromTime.size()==2 && toTime.size()==2) {
+					T1.setEndHour(toTime[0]);
+					T1.setEndMinute(toTime[1]);
+					T1.setStartHour(fromTime[0]);
+					T1.setStartMinute(fromTime[1]);
+				}
+
+				else {
+					bool value=true;
+					T1.setTimeError(value);
+				}
+
+
+			}
+
+			else {
+				bool value=true;
+				T1.setCommandError(value);
+			}
+
+
+		}
+		else {                          //error in format of input 
+			bool value=true;
+			T1.setCommandError(value);
+			return T1;
+		}
+	
+	
+	
+	
+	}
+
+	else if(!deadline && !T1.getErrorDate()) {
+		int a;
+		for(a=0;a<tokens.size();a++) {  //recurring task
+			 if(tokens[a]=="every") {
+				 if((a+2)<=tokens.size() && isDayValid(tokens[a+1])) {
+					 if((a+5)==tokens.size() && tokens[a+2]=="until") {
+						try {
+							gregDate = stoi(tokens[a+3]);
+						}
+						catch (const std::invalid_argument) {
+							recurring = false;
+							break;
+						}
+	
+						gregMonth = getMonthNumber(tokens[a+4]);
+				
+						try {
+							boost::gregorian::date d(gregYear, gregMonth, gregDate);
+							ptime now = microsec_clock::local_time();
+							boost::gregorian::date today = now.date();
+							if(d<today) {
+								R1.setRecurringError(true);
+								R1.setRecurring(false);
+							}
+							else {
+								recurring=true;
+								R1.setRecurring(recurring);
+							}
+							for(int b=0;b<a;b++) {
+								desc = desc + tokens[b] + " ";
+							}
+							T1.setDescription(desc);
+							R1.setTaskDay(tokens[a+1]);
+							R1.setEndDate(tokens[a+3]);
+							R1.setEndMonth(tokens[a+4]);
+							break;
+						}
+						catch (std::out_of_range) {
+							bool value=true;
+							T1.setErrorDate(value);
+							recurring=false;
+						}
+
+					}
+					 else if((a+7)==tokens.size() && tokens[a+2]=="by" && tokens[a+4]=="until") {
+						vector <string> byRecTime;
+						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
+						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
+							T1.setHour(byRecTime[0]);
+							T1.setMinute(byRecTime[1]);
+						}
+
+						else {
+							bool value=true;
+							T1.setTimeError(value);
+							return T1;
+						}
+						
+						try {
+							gregDate = stoi(tokens[a+5]);
+						}
+						catch (const std::invalid_argument) {
+							R1.setRecurringError(true);
+							break;
+						}
+	
+						gregMonth = getMonthNumber(tokens[a+6]);
+				
+						try {
+							boost::gregorian::date d(gregYear, gregMonth, gregDate);
+							ptime now = microsec_clock::local_time();
+							boost::gregorian::date today = now.date();
+							if(d<today) {
+								R1.setRecurringError(true);
+								R1.setRecurring(false);
+							}
+							else {
+								recurring=true;
+								R1.setRecurring(recurring);
+							}
+							for(int b=0;b<a;b++) {
+								desc = desc + tokens[b] + " ";
+							}
+							T1.setDescription(desc);
+							R1.setTaskDay(tokens[a+1]);
+							R1.setEndDate(tokens[a+5]);
+							R1.setEndMonth(tokens[a+6]);
+							break;
+						}
+						catch (std::out_of_range) {
+							bool value=true;
+							T1.setErrorDate(value);
+							recurring=false;
+						}
+
+
+
+					 }
+					 else if((a+9)==tokens.size() && tokens[a+2]=="from" && tokens[a+4]=="to" && tokens[a+6]=="until") {
+						vector <string> fromRecTime;
+				boost::split(fromRecTime,tokens[a+3],boost::is_any_of(":"));
+				
+				vector <string> toRecTime;
+				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
+				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
+					T1.setEndHour(toRecTime[0]);
+					T1.setEndMinute(toRecTime[1]);
+					T1.setStartHour(fromRecTime[0]);
+					T1.setStartMinute(fromRecTime[1]);
+				}
+						else {
+							bool value=true;
+							T1.setTimeError(value);
+							return T1;
+						}
+						
+						try {
+							gregDate = stoi(tokens[a+7]);
+						}
+						catch (const std::invalid_argument) {
+							R1.setRecurringError(true);
+							break;
+						}
+	
+						gregMonth = getMonthNumber(tokens[a+8]);
+				
+						try {
+							boost::gregorian::date d(gregYear, gregMonth, gregDate);
+							ptime now = microsec_clock::local_time();
+							boost::gregorian::date today = now.date();
+							if(d<today) {
+								R1.setRecurringError(true);
+								R1.setRecurring(false);
+							}
+							else {
+								recurring=true;
+								R1.setRecurring(recurring);
+							}
+							for(int b=0;b<a;b++) {
+								desc = desc + tokens[b] + " ";
+							}
+							T1.setDescription(desc);
+							R1.setTaskDay(tokens[a+1]);
+							R1.setEndDate(tokens[a+7]);
+							R1.setEndMonth(tokens[a+8]);
+							break;
+						}
+						catch (std::out_of_range) {
+							bool value=true;
+							T1.setErrorDate(value);
+							recurring=false;
+						}
+					 }
+					 else {
+						 bool value=true;
+						 R1.setRecurringError(value);
+
+					}
+				 }
+
+			}
+
+		}
+		if(a==tokens.size()) {
+			bool value=false;
+			R1.setRecurring(false);
+		}
+	}
+
+	if(!deadline && !recurring) {
+		for(int j=0;j<tokens.size();j++) {
+			desc = desc + tokens[j] + " ";
+		}
+		T1.setDescription(desc);
+	}
+	else if(T1.getErrorDate()) {
+		return T1;
+	}
+
+
+return T1;
 }
 
 Task CommandParser::parserUpdate(string userInput){
@@ -247,7 +466,8 @@ Task CommandParser::parserUpdate(string userInput){
 	userInput = userInput.substr(endLine+1);
 	int startString = userInput.find_first_not_of(" ");
 	userInput = userInput.substr(startString);
-	Task T1 = parseString(userInput);
+	RecurringTask R1;
+	Task T1 = parseString(userInput,R1);
 	Logic L1;
 	T1.setNumber(L1.correctNumber(number));
 	return T1;
@@ -255,31 +475,24 @@ Task CommandParser::parserUpdate(string userInput){
 }
 CommandType CommandParser::getParserInput(string input,stack <string> inputStack){
 	string command;
+	RecurringTask R1;
 	boost::trim(input);
 	command = extractUserCommand(input);
 	command = changeToLowerCase(command);
 	boost::trim(command);
 	taskDetails.setStack(inputStack);
-	//eg add lunch with mom on 16 feb
-	// command now equals "add"
-	//userInput stores " lunch with mom on 16 feb"
 
 	if(command=="add") {
-		taskDetails = parseString(userInput);
+		taskDetails = parseString(userInput,R1);
 		Add *A1;
-		A1=new Add(taskDetails);
+		A1=new Add(taskDetails,R1);
 		CommandType C1(A1);
 		return C1;
 	}
 	else if(command=="display") {
 		Display *D1;
-		//if(userInput!="") {
 		taskDetails.setKeywords(userInput);
 		D1 = new Display(taskDetails);
-		//}
-		//else {
-			//D1 = new Display();
-		//}
 		CommandType C1(D1);
 		return C1;
 	}
@@ -335,79 +548,3 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 }
 
 
-/*CommandParser::userInput = ui; 
-
-string CommandParser::getStartDate(string input) {
-	try {
-		unsigned int start = input.rfind(startDateIndicator);
-		if (start == string::npos) {
-			return CommandParser::NOT_EXIST;
-		}
-		start += positionModerator1;
-		startDate = input.substr(start, input.size() - start);
-		return startDate;
-	} catch (exception &) {
-		return CommandParser::NOT_EXIST;
-	}
-}
-
-
-string CommandParser::getStartTime(){
-
-	try {
-		if (startTime == CommandParser::NOT_EXIST) {
-			return CommandParser::NOT_EXIST;
-		}
-		if (startTime.find_first_of(hourIndicator)==string::npos) {
-			return startTime;
-		}
-		else {
-			return startTime.substr(startingPosition,startTime.find_first_of(hourIndicator));
-		}
-	} catch (exception &) {
-		return CommandParser::NOT_EXIST;
-	}
-}
-
-string CommandParser::getStartYear() {
-	if (startDate == CommandParser::NOT_EXIST) {
-		return CommandParser::NOT_EXIST;
-	} else {
-
-		if (startDate.find_first_of(startDayIndicator) == startDate.find_last_of(startDayIndicator)){ 
-			return currentYear;
-		}
-		string year = startDate.substr(startDate.find_last_of(startDayIndicator),
-			startDate.size() - startDate.find_last_of(startDayIndicator));
-		startDate = startDate.substr(startingPosition,startDate.find_last_of(startDayIndicator));
-		return year;
-	}
-}
-
-string CommandParser::getStartMonth() {
-	
-	if (startDate == CommandParser::NOT_EXIST) {
-		return CommandParser::NOT_EXIST;
-	}
-	string month = startDate.substr(startDate.find_first_of(startDayIndicator)+positionModerator1,
-		startDate.find_last_of(startDayIndicator) - startDate.find_first_of(startDayIndicator)-positionModerator1);
-	startDate = startDate.substr(startingPosition,startDate.find_first_of(startDayIndicator));
-	return month;
-}
-
-string CommandParser::getDescription(string input) {
-	return CommandParser::NOT_EXIST;
-}
-
-
-//same for getStartTime/Location/EndDate/Description
-
-//vector <string> CommandParser::parsedInput;
-
-/*vector<string> CommandParser::getParsedUserInput(string input){
-
-	vector<string> CommandParser::parsedInput(Task::ATTR::SIZE);
-	CommandParser::parsedInput[Task::ATTR::COMMAND] = CommandParser::getCommand(input);
-
-	return CommandParser::parsedInput;
-}*/

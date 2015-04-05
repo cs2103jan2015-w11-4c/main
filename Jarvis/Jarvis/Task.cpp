@@ -11,6 +11,15 @@ Task::Task() {
 	taskYear = "2015";
 	taskKeywords = "";
 	undoString = "";
+	taskHour="";
+	taskMinute="";
+	taskStartHour="";
+	taskStartMinute="";
+	taskEndHour="";
+	taskEndMinute="";
+	isErrorDate=false;
+	isCommandError=false;
+	isTimeError=false;
 }
 
 Task::~Task() {
@@ -144,3 +153,32 @@ void Task::setUndoString(string undo) {
 string Task::getUndoString() {
 	return undoString;
 }
+
+void Task::setErrorDate(bool value) {
+	isErrorDate = value;
+}
+
+bool Task::getErrorDate() {
+	return isErrorDate;
+}
+
+bool Task::getCommandError() {
+
+	return isCommandError;
+}
+
+void Task::setCommandError(bool value) {
+	isCommandError=value;
+
+}
+
+bool Task::getTimeError() {
+
+	return isTimeError;
+}
+
+void Task::setTimeError(bool value) {
+	isTimeError=value;
+
+}
+

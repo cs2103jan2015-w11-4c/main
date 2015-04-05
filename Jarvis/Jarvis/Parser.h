@@ -2,6 +2,9 @@
 #define COMMANDPARSER_H
 #include "Command.h"
 #include "CommandType.h"
+#include "RecurringTask.h"
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include <vector>
 #include <string>
@@ -20,26 +23,6 @@
 
 using namespace std;
 
-/*class Utility {
-public:
-	static bool stringToBool(string s);
-	static string boolToString(bool b);
-	static CommandType stringToCommandType(string command);
-	static string CommandTypeToString(CommandType C1);
-	static bool isValidCommand(CommandType C1);
-	string extractUserCommand(string);
-
-	
-private:
-	static bool isExit(string command);
-	static bool isAdd(string command);
-	static bool isDelete(string command);
-	static bool isUpdate(string command);
-	static bool isDisplay(string command);
-	
-	static const int SAME;
-	string userInput;
-};*/
 
 
 class CommandParser {
@@ -71,7 +54,7 @@ public:
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
-	Task parseString(string);
+	Task parseString(string,RecurringTask&);
 	Task parserUpdate(string);
 	string check(string);
 	string trim(string const&);
@@ -80,7 +63,10 @@ public:
 	Task getTaskObject();
 	string changeToLowerCase(string input);
 	bool isDeadlineTask(vector <string>,vector<string>&,Task&);
-	bool isMonth(string);
+	int getMonthNumber(string);
+	bool isHourValid(string);
+	bool isMinuteValid(string);
+	bool isDayValid(string);
 private:
 	string userInput;
 	static string startDate;
