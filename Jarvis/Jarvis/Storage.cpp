@@ -18,7 +18,7 @@ bool Storage::writeFile(Task task, string outputfile,string filePath) {     //wr
 	ofstream myfile;				                    //open the file for output, declare an ofstream var  //write the new sentence into the file 
 	outputfile = filePath + outputfile;   
 	myfile.open(outputfile.c_str(),ios::app);           //open a file(my outputfile) with ofstream
-	myfile << task.getDescription() << "/" << task.getDate() << "/" << lowerCase((task.getMonth()).substr(0,3)) << "/" << task.getYear() << "/" << task.getHour() << "/" << task.getMinute() << "/" << task.getStartHour() << "/" << task.getStartMinute() << "/" << task.getEndHour() << "/" << task.getEndMinute() << "/" << task.getStatus() << "/" << endl;
+	myfile << task.getDescription() << "/" << task.getDate() << "/" << lowerCase((task.getMonth()).substr(0,3)) << "/" << task.getYear() << "/" << task.getHour() << "/" << task.getMinute() << "/" << task.getStartHour() << "/" << task.getStartMinute() << "/" << task.getEndHour() << "/" << task.getEndMinute() << "/" << task.getStatus() << endl;
 	myfile.close();
 
 //checking success of writing into file
@@ -41,7 +41,7 @@ bool Storage::writeFile(Task task, string outputfile,string filePath) {     //wr
 		getline(readagain, readlineagain);
 	}
 
-	if (readlineagain == (task.getDescription() + "/" + task.getDate() + "/" + lowerCase((task.getMonth()).substr(0,3)) + "/" + task.getYear() + "/" + task.getHour() + "/" + task.getMinute() + "/" + task.getStartHour() + "/" + task.getStartMinute() + "/" + task.getEndHour() + "/" + task.getEndMinute() + "/" + task.getStatus() + "/")) {
+	if (readlineagain == (task.getDescription() + "/" + task.getDate() + "/" + lowerCase((task.getMonth()).substr(0,3)) + "/" + task.getYear() + "/" + task.getHour() + "/" + task.getMinute() + "/" + task.getStartHour() + "/" + task.getStartMinute() + "/" + task.getEndHour() + "/" + task.getEndMinute() + "/" + task.getStatus())) {
 		readagain.close();
 		return true;
 	}

@@ -6,12 +6,17 @@ using namespace boost::gregorian;
 using namespace boost::posix_time;
 
 const string UI::MESSAGE_COMMAND = "command: ";
-const string UI::MESSAGE_WELCOME = "\n**********************\n* Welcome to Jarvis. *\n**********************\nCommands available: \n( add, delete, display, update, clear, exit)\nData will be written into ";
+const string UI::MESSAGE_WELCOME1 = "\n*******************************************************************************************************";
+const string UI::MESSAGE_WELCOME2 = "*****************************************";
+const string UI::MESSAGE_WELCOME3 = " Welcome to Jarvis. ";
+const string UI::MESSAGE_WELCOME4 = "******************************************";
+const string UI::MESSAGE_WELCOME5 = "*******************************************************************************************************\n\n";
+const string UI::MESSAGE_WELCOME6 = "Commands available : \n(add, delete, display, update, clear, exit)\n\nData will be written into ";
 const string UI::MESSAGE_BYE = "Goodbye!";
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
 const string IDENTIFIERS = "/";
-vector <tuple <int, string, ptime, ptime>> UI::UImemory;
+vector <tuple <int, string, ptime, ptime, string>> UI::UImemory;
 vector <pair <int, int>> UI::indexPair;
 
 template<int M, template<typename> class F = std::less>
@@ -31,9 +36,10 @@ int main(void){
 
 void UI::main(){
 	setColour(15);
-	cout << "File name: ";
+	cout << "Hey there! What do you want your file to be name as? (*.txt): ";
 	string fileName;
 	getline(cin, fileName);
+	system("cls");
 
 	while (fileName.substr(fileName.size() - 4, fileName.size()) != ".txt") //to catch invalid txt file
 	{
@@ -41,22 +47,36 @@ void UI::main(){
 		cout << endl <<"Please specify a valid text file: ";
 		setColour(15);
 		getline(cin, fileName);
-		char *cstr = new char[fileName.length() + 1];
-		strcpy(cstr, fileName.c_str());
+		//char *cstr = new char[fileName.length() + 1];
+		//strcpy(cstr, fileName.c_str());
 
 	}
-
-	string welcome = MESSAGE_WELCOME + fileName;
-	displayLine(welcome);
+	
+	setColour(3);
+	displayLine(MESSAGE_WELCOME1);
+	cout << MESSAGE_WELCOME2;
+	
+	setColour(13);
+	cout << MESSAGE_WELCOME3;
+	
+	setColour(3);
+	displayLine(MESSAGE_WELCOME4);
+	displayLine(MESSAGE_WELCOME5);
+	
+	setColour(15);
+	string welcomeTextFile = MESSAGE_WELCOME6 + fileName;
+	displayLine(welcomeTextFile);
 	
 	stack <string> inputStack;
-	std::cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
+	std::cout << "\n*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
 	string filePath;
 	getline(cin, filePath);
 	filePath += "\\";
-
+	
+	
 	while (isRunning){
-		std::cout << endl << MESSAGE_COMMAND;
+		
+		std::cout << endl << MESSAGE_COMMAND; 
 		
 		string userInput;
 		getline(cin, userInput);
@@ -87,51 +107,8 @@ void UI::main(){
 			time_duration tod = now.time_of_day();
 			std::cout << "Current Time: " << tod.hours() << ':' << tod.minutes() << ':' << tod.seconds() << endl << endl;
 
-			istringstream in(displaytemp);
-			string extractLine;
-			string taskDes;
-			int origIndex = 1;
-
-			while (getline(in, extractLine)) {
-
-				vector <string> tokens;
-				boost::split(tokens, extractLine, boost::is_any_of(IDENTIFIERS));
-
-				vector<string>::iterator it= tokens.begin();
-				int count = 0;
-				
-				taskDes = *it;
-				if (isFloating(tokens)){ //floating task
-
-					ptime d(not_a_date_time);
-					UImemory.push_back(make_tuple(origIndex, taskDes, d, d));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
-
-				} else if (isDeadline(tokens)){
-											
-					ptime d(from_iso_string(prepareTaskDay(tokens)+"T235959"));
-					ptime d2(not_a_date_time);
-
-					UImemory.push_back(make_tuple(origIndex, taskDes, d, d2));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
-
-				} else if (isTimeTask1(tokens)){ //only has end hour and min
-
-					ptime d(from_iso_string(prepareTaskDay(tokens) + "T" + prepareByEndHourEndMin(tokens) + "01")); // HH:MM:01 indicates TimeTask1, i.e. only end hour and min
-					ptime d2(not_a_date_time);
-					UImemory.push_back(make_tuple(origIndex, taskDes, d, d2));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
-				} else  {
-					ptime d(from_iso_string(prepareTaskDay(tokens) + "T" + prepareStartHourStartMin(tokens) + "02")); // HH:MM:02 indicates TimeTask2, i.e. start hour start min
-					ptime d2(from_iso_string(prepareTaskDay(tokens) + "T" + prepareEndHourEndMin(tokens) + "03")); // HH:MM:03 indicates TimeTask2, i.e. end hour end min
-					UImemory.push_back(make_tuple(origIndex, taskDes, d, d2));
-					sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
-				}
-
-				
-				origIndex++;
-			}
-
+			prepareUImemory(displaytemp);
+			
 			displayUI();
 		} else if (userCommand == "exit"){
 			
@@ -142,29 +119,160 @@ void UI::main(){
 			system("cls");
 			//setindex
 			int displayedIndex = 1;
-			vector <tuple<int, string, ptime, ptime>>::iterator iter;
+			vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
 			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 			{
 				indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
 				displayedIndex++;
 
 			}
-			displayLine(temp.executeCommand(userInput, inputStack, fileName, filePath));
+			
+			string statusMessage = temp.executeCommand(userInput, inputStack, fileName, filePath);
+			defaultView("display all", inputStack, fileName, filePath);
+			displayLine(statusMessage);
 		}
 		
 	}
 	return;
 }
 
-void UI::displayUI() {
-	vector <tuple <int, string, ptime, ptime>>::iterator iter, iter2;
-	int lineNo = 1;
+void UI::prepareUImemory(string displaytemp){
+	istringstream in(displaytemp);
+	string extractLine;
+	string taskDes;
+	string status;
+	int origIndex = 1;
 
+	while (getline(in, extractLine)) {
+
+		vector <string> tokens;
+		boost::split(tokens, extractLine, boost::is_any_of(IDENTIFIERS));
+
+		vector<string>::iterator it = tokens.begin();
+		vector<string>::iterator itEnd = tokens.end();
+		--itEnd;
+		int count = 0;
+
+		taskDes = *it;
+		status = *itEnd;
+		if (isFloating(tokens)){ //floating task
+
+			ptime d(not_a_date_time);
+			UImemory.push_back(make_tuple(origIndex, taskDes, d, d, status));
+			sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
+
+		}
+		else if (isDeadline(tokens)){
+
+			ptime d(from_iso_string(prepareTaskDay(tokens) + "T235959"));
+			ptime d2(not_a_date_time);
+
+			UImemory.push_back(make_tuple(origIndex, taskDes, d, d2, status));
+			sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
+
+		}
+		else if (isTimeTask1(tokens)){ //only has end hour and min
+
+			ptime d(from_iso_string(prepareTaskDay(tokens) + "T" + prepareByEndHourEndMin(tokens) + "01")); // HH:MM:01 indicates TimeTask1, i.e. only end hour and min
+			ptime d2(not_a_date_time);
+			UImemory.push_back(make_tuple(origIndex, taskDes, d, d2, status));
+			sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
+		}
+		else  {
+			ptime d(from_iso_string(prepareTaskDay(tokens) + "T" + prepareStartHourStartMin(tokens) + "02")); // HH:MM:02 indicates TimeTask2, i.e. start hour start min
+			ptime d2(from_iso_string(prepareTaskDay(tokens) + "T" + prepareEndHourEndMin(tokens) + "03")); // HH:MM:03 indicates TimeTask2, i.e. end hour end min
+			UImemory.push_back(make_tuple(origIndex, taskDes, d, d2, status));
+			sort(UImemory.begin(), UImemory.end(), TupleCompare<2>());
+		}
+
+
+		origIndex++;
+	}
+	return;
+}
+
+void UI::defaultView(string userInput, stack <string> inputStack, string fileName, string filePath){
+	UImemory.clear();
+	string displaytemp;
+	Logic temp;
+	displaytemp = temp.executeCommand(userInput, inputStack, fileName, filePath);
+
+	if (displaytemp.substr(0, 7) == "Error: ")
+	{
+		displayLine(displaytemp);
+	}
+
+	prepareUImemory(displaytemp);
+	
+	//current date & time
+	ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
+	std::cout << "Current Date: " << now.date() << endl;
+
+	time_duration tod = now.time_of_day();
+	std::cout << "Current Time: " << tod.hours() << ':' << tod.minutes() << ':' << tod.seconds() << endl << endl;
+
+	setColour(3);
+	std::cout << "=======================================================================================================" << endl;
+	setColour(15);
+	std::cout << "These are the tasks for today" << endl;
+	setColour(3);
+	std::cout << "=======================================================================================================" << endl;
+	setColour(13);
+	cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
+	setColour(9);
+	std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
+	setColour(15);
+	vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
+	int lineNo = 1;
+	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
+	{
+		if (get<2>(*iter).date() == now.date())
+		{
+			//print out tasks for today
+			
+			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59") { //this is a deadline task
+				std::cout << lineNo << ".";
+				if (lineNo < 10){
+					std::cout << " "; //for alignment
+				}
+				std::cout << setw(8) << "  " << setw(8) << left << " by 23:59  ";//deadline tasks don't have time duration, end at 23:59
+			}
+			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
+				std::cout << lineNo << ".";
+				if (lineNo < 10){
+					std::cout << " "; //for alignment
+				}
+				std::cout << setw(8) << "  " << setw(8) << left << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
+			}
+			else { //TimeTask2
+				std::cout << lineNo << ".";
+				if (lineNo < 10){
+					std::cout << " "; //for alignment
+				}
+				std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
+			}
+			std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl;
+			lineNo++;
+		}
+
+	}
+	setColour(3);
+	std::cout << "=======================================================================================================" << endl << endl;
+
+	setColour(15);
+	std::cout << "Status message: ";
+	return;
+}
+
+void UI::displayUI() {
+	vector <tuple <int, string, ptime, ptime, string>>::iterator iter, iter2;
+	int lineNo = 1;
+	int floating = 0;
 	ptime nullDate(not_a_date_time);
 	iter2 = UImemory.begin();
-
-	setColour(13);
-	cout << "No." << setw(1) << " " << setw(8) << "Deadline" << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
+	ptime now = microsec_clock::local_time();
+	bool overdue = false;
+	
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl;
 	setColour(15);
@@ -178,35 +286,80 @@ void UI::displayUI() {
 			setColour(15);
 		}
 
-		if (get<2>(*iter) == nullDate ) { 
-				std::cout << lineNo << "." << setw(1) << " " << setw(8) << "Anytime!";//print Deadline
-				std::cout << setw(8) << " " << setw(8) << "        --    ";//print time duration
-				} else { //not floating task
+		if (get<2>(*iter) == nullDate) { //only print out header for first floating task
+			if (floating == 0) {
+				std::cout << setw(1) << " Do these tasks anytime!" << endl; 
+				setColour(3);
+				std::cout << "=======================================================================================================" << endl; //different date
+				setColour(13);
+				cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
+				setColour(9);
+				std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
+				setColour(15);
+				}
 				std::cout << lineNo << ".";
-					if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
-					std::cout<< setw(1) << " " << setw(8) << to_simple_string(get<2>(*iter)).substr(0, 11); //print deadline if different date
-					}
-					else
-					{
-					std::cout << setw(1) << "            " << setw(8);
-					}
+				if (lineNo < 10){
+					std::cout << " "; //for alignment
+				}
+				std::cout << setw(8) << "  " << setw(8) << "     --    ";
+				floating++;
+		}
+		else { //not floating task
+			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
+				//check if task is overdue
+				if ((get<2>(*iter)).date() < now.date())
+				{
+					overdue = true;
+					setColour(12);
+					std::cout << setw(1) << " Overdue warning! : [" << setw(8) << to_simple_string(get<2>(*iter)).substr(0, 11) << "]" << endl; //print deadline if different date	
+					std::cout << "=======================================================================================================" << endl; //different date
+					cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << left << "Task" << endl;
+					std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
+				}
+				else {
+					std::cout << setw(1) << " Deadline: [" << setw(8) << to_simple_string(get<2>(*iter)).substr(0, 11) << "]" << endl; //print deadline if different date	
+					setColour(3);
+					std::cout << "=======================================================================================================" << endl; //different date
+					setColour(13);
+					cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << left <<"Task" << endl;
+					setColour(9);
+					std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
+					setColour(15);
+				}
+			}
+		
 
-					if (to_simple_string(get<2>(*iter)).substr(12,8) == "23:59:59") { //this is a deadline task
-						std::cout << setw(8) << "  " << setw(8) << "     --    ";//deadline tasks don't have time duration
-					} else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
-						std::cout << setw(8) << "  " << setw(8) << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
-					} else { //TimeTask2
-						std::cout << setw(8) << " " << setw(8) << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
+				if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59") { //this is a deadline task
+					std::cout << lineNo << ".";
+					if (lineNo < 10){
+						std::cout << " "; //for alignment
 					}
+					std::cout << setw(8) << "  " << setw(8) << left << " by 23:59  ";//deadline tasks don't have time duration, end at 23:59
+				}
+				else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
+					std::cout << lineNo << ".";
+					if (lineNo < 10){
+						std::cout << " "; //for alignment
+					}
+					std::cout << setw(8) << "  " << setw(8) << left << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
+				}
+				else { //TimeTask2
+					std::cout << lineNo << ".";
+					if (lineNo < 10){
+						std::cout << " "; //for alignment
+					}
+					std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
+				}
 
 			}
 
-		
-		std::cout << setw(10) << " " << setw(10) << left <<get<1>(*iter) << endl; //print out Task
 
+			std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl; //print out Task
+		
 		if (iter != UImemory.begin()) {
 			iter2++;
 		}
+		overdue = false;
 		lineNo++;
 	}
 	

@@ -27,14 +27,20 @@ private:
 	static const int MAX_BUFFER_SIZE = 255;
 	static char buffer[MAX_BUFFER_SIZE];
 	static const string MESSAGE_COMMAND;
-	static const string MESSAGE_WELCOME;
+	static const string MESSAGE_WELCOME1;
+	static const string MESSAGE_WELCOME2;
+	static const string MESSAGE_WELCOME3;
+	static const string MESSAGE_WELCOME4;
+	static const string MESSAGE_WELCOME5;
+	static const string MESSAGE_WELCOME6;
 	static const string MESSAGE_BYE;
-	static vector <tuple <int,string, ptime, ptime>> UImemory;
+	static vector <tuple <int,string, ptime, ptime, string>> UImemory;
 
 public:
 
 	static void main();
-	static void displayLine(string);
+	static void defaultView(string, stack <string>, string, string);
+	static void displayLine( string);
 	void getStatus(bool status);
 	static string lowerCase(string);
 	static string getMonthIndex(string);
@@ -49,6 +55,7 @@ public:
 	static bool isDeadline(vector <string>);
 	static bool isTimeTask1(vector <string>); //only has end hour and min
 	static bool isTimeTask2(vector <string>); // start hour, start min, end hour, end min
+	static void prepareUImemory(string);
 	//static void displayTodaysTask(Logic, string, stack<string>, string, string);
 
 };
