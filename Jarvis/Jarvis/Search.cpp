@@ -79,16 +79,20 @@ string Search::executeSearch(string fileName,string filePath) {
 	while(getline(in, line)) {
 		istringstream word(keywordsToSearch);
 		while (word>>token) {
+			count=0;
 			tokens = extractWord(line,delimiter);
-			while(!tokens.empty()) {
+			reverse(tokens.begin(),tokens.end());
+			tokens.pop_back();
+			while(count<3 && !tokens.empty()) {
 				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
 					isFound=true;
-					count++;
+					
 					break;
 				}
 				else {
 					isFound=false;
 				}
+				count++;
 				tokens.pop_back();
 			}
 			if(isFound==false)
@@ -97,7 +101,6 @@ string Search::executeSearch(string fileName,string filePath) {
 			if(isFound)
 				linesWithWords = linesWithWords + line + "\n";
     }
-
 	   return linesWithWords;
 	
 

@@ -41,6 +41,31 @@ string Display::getFullMonth(string name) {
 	return "";
 }
 
+int Display::getMonthNumber(string name) {
+
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months["january"]=1;
+		months["february"]=2;
+		months["march"]=3;
+		months["april"]=4;
+		months["may"]=5;
+		months["june"]=6;
+		months["july"]=7;
+		months["august"]=8;
+		months["september"]=9;
+		months["october"]=10;
+		months["november"]=11;
+		months["december"]=12;
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
 int Display::getDayNumber(string name) {
 
 	map<string,int>dayName;
@@ -63,6 +88,9 @@ int Display::getDayNumber(string name) {
 
 string Display::execute(string fileName,string filePath) {
 	vector <string> dateVector;
+	vector <string> keywordVector;
+	bool dateMonth;
+	boost::split(keywordVector,T1.getKeywords(),boost::is_any_of(" "));
 	if(T1.getKeywords()=="all") {
 		return S1.readFile(fileName,filePath);
 	}
@@ -127,11 +155,11 @@ string Display::execute(string fileName,string filePath) {
 	else {
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
-			return "Error: There are no tasks scheduled with the keywords "+T1.getKeywords()+"\n";
+			return "Error: There are no tasks scheduled in the time - "+T1.getKeywords()+". Please enter a valid date. \n";
 		}
 		else {
 			return S2.executeSearch(fileName,filePath);
 		}
-	}
 
+	}
 }

@@ -24,6 +24,7 @@ public:
 	string getFullMonth(string);
 	int getDayNumber(string);
 	string execute(string,string);
+	int getMonthNumber(string);
 
 };
 
