@@ -1,4 +1,4 @@
-﻿Build started 6/4/2015 5:43:30 PM.
+﻿Build started 6/4/2015 8:49:09 PM.
      1>Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Logic.cpp parser.cpp RecurringTask.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
@@ -168,4 +168,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:29.64
+Time Elapsed 00:00:29.47

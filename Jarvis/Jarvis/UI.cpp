@@ -166,7 +166,7 @@ void UI::displayUI() {
 	setColour(13);
 	cout << "No." << setw(1) << " " << setw(8) << "Deadline" << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
 	setColour(3);
-	std::cout << "========================================================================" << endl;
+	std::cout << "=======================================================================================================" << endl;
 	setColour(15);
 	
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
@@ -174,13 +174,13 @@ void UI::displayUI() {
 
 		if (to_simple_string(get<2>(*iter)).substr(0,11) != to_simple_string(get<2>(*iter2)).substr(0,11)) {
 			setColour(3);
-			std::cout << "========================================================================" << endl; //different date
+			std::cout << "=======================================================================================================" << endl; //different date
 			setColour(15);
 		}
 
 		if (get<2>(*iter) == nullDate ) { 
 				std::cout << lineNo << "." << setw(1) << " " << setw(8) << "Anytime!";//print Deadline
-				std::cout << setw(8) << " " << setw(8) << "      --   ";//print time duration
+				std::cout << setw(8) << " " << setw(8) << "        --    ";//print time duration
 				} else { //not floating task
 				std::cout << lineNo << ".";
 					if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
@@ -192,9 +192,9 @@ void UI::displayUI() {
 					}
 
 					if (to_simple_string(get<2>(*iter)).substr(12,8) == "23:59:59") { //this is a deadline task
-						std::cout << setw(8) << " " << setw(8) << "   --   ";//deadline tasks don't have time duration
+						std::cout << setw(8) << "  " << setw(8) << "     --    ";//deadline tasks don't have time duration
 					} else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
-						std::cout << setw(8) << " " << setw(8) << "by " + to_simple_string(get<2>(*iter)).substr(12, 5);
+						std::cout << setw(8) << "  " << setw(8) << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
 					} else { //TimeTask2
 						std::cout << setw(8) << " " << setw(8) << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 					}
@@ -202,7 +202,7 @@ void UI::displayUI() {
 			}
 
 		
-		std::cout << setw(8) << " " << setw(8) << get<1>(*iter) << endl; //print out Task
+		std::cout << setw(10) << " " << setw(10) << left <<get<1>(*iter) << endl; //print out Task
 
 		if (iter != UImemory.begin()) {
 			iter2++;
@@ -211,7 +211,7 @@ void UI::displayUI() {
 	}
 	
 	setColour(3);
-	std::cout << "========================================================================" << endl << endl;
+	std::cout << "=======================================================================================================" << endl << endl;
 	setColour(15);
 }
 
