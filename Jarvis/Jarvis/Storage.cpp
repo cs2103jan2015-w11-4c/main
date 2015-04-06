@@ -12,37 +12,45 @@ const string IDENTIFIERS = "/";
 
 
 
-bool Storage::writeFile(Task task, string outputfile,string filePath) {     //if adding/editing function, returns boolean value
+bool Storage::writeFile(Task task, string outputfile,string filePath) {     //writes sentence into file
 	
-	//tasklist.push_back(task);
-	
-	int size;
-	size = tasklist.size();
-	//assert(size >= 1);
-
-	//for (int i = 0; i < size; i++)
-	//{
-		//cout << tasklist[i] << endl;
-	//}
-	//Asert(i!=2);
-	//start writing into myfile/
-	ofstream myfile;//write the new sentence into the file
-	outputfile = filePath + outputfile;
-	myfile.open(outputfile.c_str(),ios::app);
+	//writing the new task into outputfile*
+	ofstream myfile;				                    //open the file for output, declare an ofstream var  //write the new sentence into the file 
+	outputfile = filePath + outputfile;   
+	myfile.open(outputfile.c_str(),ios::app);           //open a file(my outputfile) with ofstream
 	myfile << task.getDescription() << "/" << task.getDate() << "/" << lowerCase((task.getMonth()).substr(0,3)) << "/" << task.getYear() << "/" << task.getHour() << "/" << task.getMinute() << "/" << task.getStartHour() << "/" << task.getStartMinute() << "/" << task.getEndHour() << "/" << task.getEndMinute() << "/" << endl;
-	//int i=0;
-	//for (int i=0; i<size; i++) {
-	//myfile << i+1 << "." << tasklist[i] << endl;      //write specific sentence in. naming like 1.meow   2. woof
-	//}
 	myfile.close();
 
+//checking success of writing into file
 
-	//if (tasklist[size-1]==(task)){                  //return status
+	ifstream readfile(outputfile);                      //outputfile is the name of the file where my data is stored. Open the file to READ
+	string readLine = "";
+
+	int i = 0;
+
+	while(!readfile.eof()) {                     //final getline obtains a blank string. Reloop using i-1 to obtain last useful line
+		getline(readfile, readLine);
+		i++;
+	} 
+	readfile.close();
+
+	ifstream readagain(outputfile);        //reopen file
+	string readlineagain = "";
+
+	for (int k=1; k < i; k++) {
+		getline(readagain, readlineagain);
+	}
+
+	if (readlineagain == (task.getDescription() + "/" + task.getDate() + "/" + lowerCase((task.getMonth()).substr(0,3)) + "/" + task.getYear() + "/" + task.getHour() + "/" + task.getMinute() + "/" + task.getStartHour() + "/" + task.getStartMinute() + "/" + task.getEndHour() + "/" + task.getEndMinute() + "/")) {
+		readagain.close();
 		return true;
-	//}
-	//else {
-		//return false;
-//	}
+	}
+
+	else {
+		return false;
+	} 
+	
+
 }
 
 bool Storage::writeBackToFile(string deletedString, string fileName,string filePath) {
@@ -73,36 +81,23 @@ string Storage::extractUserCommand(string input , string &substring) {
 
 
 
-
-//open file then print vector instead??
-															
-//vector <string> 
-string Storage::readFile(string outputfile,string filePath) {				//display all items and return a VECTOR
+string Storage::readFile(string outputfile,string filePath) {				//display all items and return a string (fileContent)
 	outputfile = filePath + outputfile;
 	ifstream readfile(outputfile);
 	string fileContent="";
 	string line;
-	string taskDes,taskDate,taskMonth,taskYear , nextSubstring;
-	//char c;
-	//If the file is empty
-	if(readfile.peek()==std::ifstream::traits_type::eof()) {
+	//string taskDes,taskDate,taskMonth,taskYear , nextSubstring;
+	if(readfile.peek()==std::ifstream::traits_type::eof()) {                //if file is empty
 		cout << "Currently there are no tasks to be done. The file is empty." << endl << endl;
 	}
 
 	else {
 		int lineNumber=1;
 		while(!readfile.eof()) {
-			getline(readfile,line);
+			getline(readfile,line);											//take line = sentence
 			if(!line.empty()) {
-				/*taskDes = extractUserCommand(line, nextSubstring);
-				line = nextSubstring;
-				taskDate = extractUserCommand(line, nextSubstring);
-				line = nextSubstring;
-				taskMonth = extractUserCommand(line , nextSubstring);
-				line = nextSubstring;
-				taskYear = extractUserCommand(line , nextSubstring);
-				fileContent = fileContent + to_string(lineNumber) + ". " + taskDes + " on " + taskDate + " " + taskMonth + " " + taskYear +"\n";*/
-				fileContent = fileContent + line + "\n";
+			
+				fileContent = fileContent + line + "\n";					//sending data back in a string 
 				lineNumber++;
 				
 			}
@@ -112,94 +107,87 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 	return fileContent;
 
 }
-	/*	 ofstream myfile;									
-		myfile.open(outputfile.c_str());
-		int i=0;
-
-		while (tasklist[i]!="") {					   	  
-			myfile<<i+1<<". "<<tasklist[i] <<endl;         
-			++i;
-		}
-		myfile.close();
-	*/
-
-	//return tasklist;
+	
 
 
 
 
 
-
-void Storage::clearFile(string outputFile,string filePath) {
-	outputFile = filePath + outputFile;
+bool Storage::clearFile(string outputFile,string filePath) {
+	outputFile = filePath + outputFile;                                         //get whole file path of file
 	ofstream writefile;
-	writefile.open(outputFile,ios::trunc);
+	writefile.open(outputFile,ios::trunc);                                      //clear all contents of file
 	writefile.close();
-}
 
-
-	/*int sizebeforedelete = tasklist.size();
-	tasklist.erase(tasklist.begin() + (number-1));
-
-	if (tasklist.size() == (sizebeforedelete - 1)) {                  //return status
+	ifstream readfile(outputFile);
+	if(readfile.peek() == std::ifstream::traits_type::eof()) {              	//if file is empty
+		readfile.close();
 		return true;
 	}
 	else {
-		return false;
+		return false;                                                           //return success status
 	}
-	}
-	*/
 
-
-/* bool Storage::returnStatusAdded(vector <string> tasklist) {   //if adding/delete succeed return with boolean 0 or 1
-	int size;
-	size = tasklistsize();
-	if (tasklist[size-1] == task){
-		return true;
-	}
-	else {
-		return false;
-	}
 }
-*/
 
-void Storage::replaceFileData(string deletedData,string outputFile,string filePath) {
-	string fileData=readFile(outputFile,filePath);
+
+//deletion, ignore same line and loop all other lines that's not deleted
+bool Storage::replaceFileData(string deletedData,string outputFile,string filePath) {
+	string fileData=readFile(outputFile,filePath);								//display data and return in string
 	string lineFromFile;
 	string newData="";
 	istringstream in(fileData);
 	boost::trim(deletedData);
- 	while(getline(in,lineFromFile)) {
-		string originalLine = lineFromFile;
+ 	while(getline(in,lineFromFile)) {								//using istringstream
+		string originalLine = lineFromFile;                          //trim lines i obtain from my file cause i've also trimmed the line i wanna delete
 		boost::trim(lineFromFile);
 		if(lineFromFile!=deletedData) {
-			newData = newData + originalLine + "\n";
+			newData = newData + originalLine + "\n";                 //compile the lines i dont intend to replace
 		}
 	}
 	clearFile(outputFile,filePath);
 	string line;
 	istringstream data(newData);
-	ofstream writefile;
+	ofstream writefile;                                              //open w intention to write new updated information into file
 	outputFile = filePath + outputFile;
 	writefile.open(outputFile);
 	while(getline(data,line)) {
-		writefile << line << endl;
+		writefile << line << endl;                                   //newData (data) into output file
 	}
 	writefile.close();
+
+	
+	//checking if deleted successfully
+	ifstream readfile(outputFile);        //reopen file
+	string readline = "";
+
+	while (!readfile.eof()) {
+		getline(readfile, readline);
+		if (readline == deletedData) {
+			readfile.close();
+			return false;
+		}
+	}
+			readfile.close();
+			return true;
+		
+	
 	
 }
 
-void Storage::updateFileData(string originalData , string updatedData,string outputFile,string filePath) {
-	string fileData=readFile(outputFile,filePath);
+//change breakfast on 1 march to dinner date on 10 march
+//update 1 dinner date on 10 march
+bool Storage::updateFileData(string originalData , string updatedData,string outputFile,string filePath) {
+	string fileData=readFile(outputFile,filePath);            //returns a string
 	string lineFromFile;
 	string newData="";
-	boost::trim(originalData);
-	istringstream in(fileData);
- 	while(getline(in,lineFromFile)) {
+	boost::trim(originalData);                        //trim the line i want to find & replace
+	istringstream in(fileData);                          //original line from file
+ 	while(getline(in,lineFromFile)) {                        //lines from in istringstream 
 		string originalLine = lineFromFile;
-		boost::trim(lineFromFile);
-		if(lineFromFile!=originalData) {
-			newData = newData + originalLine + "\n";
+		boost::trim(lineFromFile);                    
+		if(lineFromFile!=originalData) {                   //trim line from file
+			newData = newData + originalLine + "\n";            //not the line i wanna find to replace
 		}
 		else {
 			newData = newData + updatedData + "\n";
@@ -216,6 +204,22 @@ void Storage::updateFileData(string originalData , string updatedData,string out
 		writefile << line << endl;
 	}
 	writefile.close();
+
+	
+	//checking if line is replaced
+	ifstream readfile(outputFile);        //reopen file
+	string readline = "";
+
+	while (!readfile.eof()) {
+		getline(readfile, readline);
+		if (readline == updatedData) {
+			readfile.close();
+			return true;
+		}
+	}
+			readfile.close();
+			return false;
+			
 	
 }
 
