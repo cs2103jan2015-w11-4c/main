@@ -20,6 +20,7 @@ private:
 	string taskStartMinute;
 	string taskEndHour;
 	string taskEndMinute;
+	string taskStatus;
 	bool isErrorDate;
 	bool isCommandError;
 	bool isTimeError;
@@ -55,6 +56,8 @@ public:
 	string getEndHour();
 	void setEndMinute(string);
 	string getEndMinute();
+	void setStatus(string);
+	string getStatus();
 	void setErrorDate(bool);
 	bool getErrorDate();
 	void setCommandError(bool);

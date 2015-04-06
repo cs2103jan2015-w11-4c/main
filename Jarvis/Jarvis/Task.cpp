@@ -17,6 +17,7 @@ Task::Task() {
 	taskStartMinute="";
 	taskEndHour="";
 	taskEndMinute="";
+	taskStatus = "low"; //default low priorty, change be changed to High or Done (check off the list)
 	isErrorDate=false;
 	isCommandError=false;
 	isTimeError=false;
@@ -128,6 +129,15 @@ void Task::setEndHour(string EndHour){
 string Task::getEndHour()
 {
 	return taskEndHour;
+}
+
+void Task::setStatus(string Status){
+	taskStatus = Status;
+}
+
+string Task::getStatus()
+{
+	return taskStatus;
 }
 
 string Task::getKeywords() {

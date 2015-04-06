@@ -33,7 +33,7 @@ private:
 
 public:
 
-	static void main(int, char*[]);
+	static void main();
 	static void displayLine(string);
 	void getStatus(bool status);
 	static string lowerCase(string);

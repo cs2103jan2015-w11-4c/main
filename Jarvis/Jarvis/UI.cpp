@@ -6,7 +6,7 @@ using namespace boost::gregorian;
 using namespace boost::posix_time;
 
 const string UI::MESSAGE_COMMAND = "command: ";
-const string UI::MESSAGE_WELCOME = "\n**********************\n* Welcome to Jarvis. *\n**********************\nCommands available: \n( add, delete, display, update, clear, exit)\nData will be written into %s.\n";
+const string UI::MESSAGE_WELCOME = "\n**********************\n* Welcome to Jarvis. *\n**********************\nCommands available: \n( add, delete, display, update, clear, exit)\nData will be written into ";
 const string UI::MESSAGE_BYE = "Goodbye!";
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
@@ -24,14 +24,17 @@ struct TupleCompare
 	}
 };
 
-int main(int argc, char* argv[]){
-	UI::main(argc, argv);
+int main(void){
+	UI::main();
 	return 0;
 }
 
-void UI::main(int argc, char* argv[]){
+void UI::main(){
 	setColour(15);
-	string fileName = argv[1];
+	cout << "File name: ";
+	string fileName;
+	getline(cin, fileName);
+
 	while (fileName.substr(fileName.size() - 4, fileName.size()) != ".txt") //to catch invalid txt file
 	{
 		setColour(12);
@@ -43,8 +46,8 @@ void UI::main(int argc, char* argv[]){
 
 	}
 
-	sprintf_s(buffer, MESSAGE_WELCOME.c_str(), argv[1]); //maybe REMOVE this line?
-	displayLine(buffer);
+	string welcome = MESSAGE_WELCOME + fileName;
+	displayLine(welcome);
 	
 	stack <string> inputStack;
 	std::cout << "*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
@@ -134,6 +137,7 @@ void UI::main(int argc, char* argv[]){
 			
 			isRunning = false;
 			displayLine(MESSAGE_BYE);
+			system("pause");
 		} else { //add, update, delete, clear
 			system("cls");
 			//setindex
