@@ -77,7 +77,7 @@ string Done::execute(string fileName,string filePath) {
 	}
 	
 	else {
-		return "Please put a correct number. The task could not be marked as done.\n";
+		return "Error: Please put a correct number. The task could not be marked as done.\n";
 	}
 
 }

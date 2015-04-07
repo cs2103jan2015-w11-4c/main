@@ -617,6 +617,7 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 	command = extractUserCommand(input);
 	command = changeToLowerCase(command);
 	boost::trim(command);
+	boost::trim(userInput);
 	taskDetails.setStack(inputStack);
 
 	if(command=="add") {
@@ -628,8 +629,13 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 	}
 	else if(command=="display") {
 		Display *D1;
+		Logic L1;
 		if(userInput=="display")
 			taskDetails.setKeywords("");
+		else if(changeToLowerCase(userInput)=="done") {
+			L1.setDisplayDone(true);
+			taskDetails.setKeywords(userInput);
+		}
 		else 
 			taskDetails.setKeywords(userInput);
 		D1 = new Display(taskDetails);

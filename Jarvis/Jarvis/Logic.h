@@ -26,6 +26,7 @@ private:
 	string command;
 	string userInput;
 	stack <string> inputStack;
+	bool isDone;
 
 public:
 	Logic();
@@ -37,6 +38,8 @@ public:
 	stack <string> getStack();
 	void setStack(stack <string>);
 	string correctNumber(string);
+	void setDisplayDone(bool);
+	bool getDisplayDone();
 };
 
 #endif

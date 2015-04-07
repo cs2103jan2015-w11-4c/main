@@ -66,7 +66,7 @@ string Delete::execute(string fileName,string filePath) {
 	}
 	
 	else {
-		return "error in deletion since task does not exist\n";
+		return "Error: Could not delete task since task does not exist\n";
 	}
 
 }

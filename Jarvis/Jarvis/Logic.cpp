@@ -8,7 +8,7 @@ const string INDENTIFIERS = ".,!? ";
 vector <pair <int, int>>::iterator iter;
 
 Logic::Logic() {
-
+	isDone=false;
 }
 
 
@@ -127,4 +127,12 @@ string Logic::correctNumber(string no) {
 		}
 	}
 return number;
+}
+
+void Logic::setDisplayDone(bool value) {
+	isDone = value;
+}
+
+bool Logic::getDisplayDone() {
+	return isDone;
 }

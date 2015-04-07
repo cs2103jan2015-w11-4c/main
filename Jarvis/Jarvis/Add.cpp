@@ -90,7 +90,7 @@ string Add::execute(string fileName,string filePath) {
 	bool statusOfAdd;
 	if(R1.getRecurring()) {
 		if(R1.getRecurringError())
-			return "Invalid form of recurring task.";
+			return "Error: Invalid form of recurring task.";
 		else if(R1.getWord()=="until") {
 			if(R1.getTaskDay()=="day") {
 				ptime now = microsec_clock::local_time();
@@ -136,7 +136,7 @@ string Add::execute(string fileName,string filePath) {
 				status = "Added recurring task successfully\n";
 			}
 			else { 
-				status= "Error in adding recurring task\n";
+				status= "Error: Could not add recurring task\n";
 			}
 		}
 
@@ -185,14 +185,14 @@ string Add::execute(string fileName,string filePath) {
 
 			}
 			else {
-				return "Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+				return "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
 
 			}
 			if(statusOfAdd) {
 				status = "Added recurring task successfully\n";
 			}
 			else { 
-				status= "Error in adding recurring task\n";
+				status= "Error: Could not add recurring task\n";
 			}
 
 		}
@@ -200,19 +200,19 @@ string Add::execute(string fileName,string filePath) {
 
 	else if(!R1.getRecurring()) {
 	if(R1.getRecurringError()) 
-		return "Invalid date entered for task. Please enter a valid date\n";
+		return "Error: Invalid date entered for task. Please enter a valid date\n";
 	if(T1.getErrorDate())
-		return "Invalid date entered for task. Please enter a valid date\n";
+		return "Error: Invalid date entered for task. Please enter a valid date\n";
 	if(T1.getCommandError()) 
-		return "Invalid format of task. Please enter a valid format\n";
+		return "Error: Invalid format of task. Please enter a valid format\n";
 	if(T1.getTimeError())
-		return "Invalid time entered for task. Please enter a valid time in the 24 hour clock\n";
+		return "Error: Invalid time entered for task. Please enter a valid time in the 24 hour clock\n";
  	bool statusOfAdd = S1.writeFile(T1,fileName,filePath);
 	if(statusOfAdd) {
 		status = "Added successfully\n";
 	}
 	else { 
-		status= "Error in adding\n";
+		status= "Error: Could not add task\n";
 	}
 	
 	}
@@ -227,7 +227,7 @@ string Add::executeUndo(string fileName,string filePath) {
 	if(status)
 		return "The task *" + D1.getDeleteTask() + "* has been added back";
 	else
-		return "Error occured when doing undo. Please try again";
+		return "Error: Error occured when doing undo. Please try again";
 }
 
 

@@ -73,7 +73,7 @@ string Update::execute(string fileName,string filePath) {
 		return "Updated Successfully\n";
 	}
 	else {
-		return "error in updating task since task specified by line number does not exist\n";
+		return "Error: Task could not be updated since task specified by line number does not exist\n";
 	}
 	return newFileData;
 

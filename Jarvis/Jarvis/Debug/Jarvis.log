@@ -1,8 +1,6 @@
-﻿Build started 08-04-2015 03:22:35.
+﻿Build started 08-04-2015 03:48:58.
      1>Project "C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppClean.targets(75,5): warning : Access to the path 'C:\USERS\VATSALA\DOCUMENTS\JARVIS\MAIN\JARVIS\DEBUG\JARVIS.EXE' is denied.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppClean.targets(75,5): warning : Access to the path 'C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.exe' is denied.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Done.cpp Logic.cpp parser.cpp RecurringTask.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
          WrongFormatCommand.cpp
@@ -230,4 +228,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:01:14.06
+Time Elapsed 00:01:27.22

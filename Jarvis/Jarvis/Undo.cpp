@@ -1,13 +1,13 @@
 #include "Undo.h"
 #include <boost/algorithm/string.hpp>
 
-const string ERROR_DISPLAY = "Undo is supported only for ADD,DELETE,UPDATE,CLEAR\nCannot undo";
+const string ERROR_DISPLAY = "Error: Undo is supported only for ADD,DELETE,UPDATE,CLEAR\nCannot undo";
 const string DISPLAY_COMMAND = "display"; 
 const string ADD_COMMAND = "add";
 const string DELETE_COMMAND = "delete";
 const string UPDATE_COMMAND = "update";
 const string CLEAR_COMMAND = "clear";
-const string ERROR_UNDO = "Incorrect format of command *undo*\n Enter *undo last* to undo the last command";
+const string ERROR_UNDO = "Error: Incorrect format of command *undo*\n Enter *undo last* to undo the last command";
 const string UNDO_KEYWORD = "last";
 
 Undo::Undo(Task taskObject) {
