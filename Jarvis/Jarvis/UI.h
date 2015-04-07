@@ -34,6 +34,7 @@ private:
 	static const string MESSAGE_WELCOME4;
 	static const string MESSAGE_WELCOME5;
 	static const string MESSAGE_WELCOME6;
+	static const string MESSAGE_COMMANDS_AVAIL;
 	static const string MESSAGE_BYE;
 	static vector <tuple <int,string, ptime, ptime, string>> UImemory;
 

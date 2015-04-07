@@ -11,7 +11,8 @@ const string UI::MESSAGE_WELCOME2 = "*****************************************";
 const string UI::MESSAGE_WELCOME3 = " Welcome to Jarvis. ";
 const string UI::MESSAGE_WELCOME4 = "******************************************";
 const string UI::MESSAGE_WELCOME5 = "*******************************************************************************************************\n\n";
-const string UI::MESSAGE_WELCOME6 = "Commands available : \n(add, delete, display, update, clear, exit)\n\nData will be written into ";
+const string UI::MESSAGE_COMMANDS_AVAIL = "\t\t\tCommands available : \n\t\t\t(add, delete, display, update, clear, search, exit)\n\t\t\t===================================================\n\t\t\tEnter [?] for help on the list of commands avalable.\n\n";
+const string UI::MESSAGE_WELCOME6 = "Data will be written into ";
 const string UI::MESSAGE_BYE = "Goodbye!";
 char UI::buffer[MAX_BUFFER_SIZE];
 bool isRunning = true;
@@ -65,6 +66,7 @@ void UI::main(){
 	displayLine(MESSAGE_WELCOME5);
 	
 	setColour(15);
+	displayLine(MESSAGE_COMMANDS_AVAIL);
 	string welcomeTextFile = MESSAGE_WELCOME6 + fileName;
 	displayLine(welcomeTextFile);
 	
@@ -115,15 +117,22 @@ void UI::main(){
 			isRunning = false;
 			displayLine(MESSAGE_BYE);
 			system("pause");
-		} else { //add, update, delete, clear
+		}
+		else if (userCommand == "?") {
+			system("cls");
+			displayLine(MESSAGE_COMMANDS_AVAIL);
+		}
+		else { //add, update, delete, clear
 			system("cls");
 			//setindex
 			int displayedIndex = 1;
 			vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
 			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 			{
-				indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
-				displayedIndex++;
+				if (get<4>(*iter) != "done"){
+					indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
+					displayedIndex++;
+				}
 
 			}
 			
@@ -230,14 +239,14 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 		{
 			//print out tasks for today
 			
-			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59") { //this is a deadline task
+			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59" && get<4>(*iter) != "done") { //this is a deadline task
 				std::cout << lineNo << ".";
 				if (lineNo < 10){
 					std::cout << " "; //for alignment
 				}
 				std::cout << setw(8) << "  " << setw(8) << left << " by 23:59  ";//deadline tasks don't have time duration, end at 23:59
 			}
-			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
+			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01" && get<4>(*iter) != "done"){ // TimeTask1
 				std::cout << lineNo << ".";
 				if (lineNo < 10){
 					std::cout << " "; //for alignment
@@ -245,14 +254,18 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 				std::cout << setw(8) << "  " << setw(8) << left << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
 			}
 			else { //TimeTask2
-				std::cout << lineNo << ".";
-				if (lineNo < 10){
-					std::cout << " "; //for alignment
+				if (get<4>(*iter) != "done") {
+					std::cout << lineNo << ".";
+					if (lineNo < 10){
+						std::cout << " "; //for alignment
+					}
+					std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 				}
-				std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 			}
-			std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl;
-			lineNo++;
+			if (get<4>(*iter) != "done") {
+				std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl;
+				lineNo++;
+			}
 		}
 
 	}
@@ -260,6 +273,8 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 	std::cout << "=======================================================================================================" << endl << endl;
 
 	setColour(15);
+
+	displayLine(MESSAGE_COMMANDS_AVAIL);
 	std::cout << "Status message: ";
 	return;
 }
@@ -286,7 +301,7 @@ void UI::displayUI() {
 			setColour(15);
 		}
 
-		if (get<2>(*iter) == nullDate) { //only print out header for first floating task
+		if (get<2>(*iter) == nullDate  && get<4>(*iter) != "done") { //only print out header for first floating task
 			if (floating == 0) {
 				std::cout << setw(1) << " Do these tasks anytime!" << endl; 
 				setColour(3);
@@ -305,9 +320,9 @@ void UI::displayUI() {
 				floating++;
 		}
 		else { //not floating task
-			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
+			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11) && get<4>(*iter) != "done") {
 				//check if task is overdue
-				if ((get<2>(*iter)).date() < now.date())
+				if ((get<2>(*iter)).date() < now.date() && get<4>(*iter) != "done")
 				{
 					overdue = true;
 					setColour(12);
@@ -329,14 +344,14 @@ void UI::displayUI() {
 			}
 		
 
-				if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59") { //this is a deadline task
+			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59"  && get<4>(*iter) != "done") { //this is a deadline task
 					std::cout << lineNo << ".";
 					if (lineNo < 10){
 						std::cout << " "; //for alignment
 					}
 					std::cout << setw(8) << "  " << setw(8) << left << " by 23:59  ";//deadline tasks don't have time duration, end at 23:59
 				}
-				else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"){ // TimeTask1
+			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"  && get<4>(*iter) != "done"){ // TimeTask1
 					std::cout << lineNo << ".";
 					if (lineNo < 10){
 						std::cout << " "; //for alignment
@@ -344,23 +359,28 @@ void UI::displayUI() {
 					std::cout << setw(8) << "  " << setw(8) << left << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
 				}
 				else { //TimeTask2
-					std::cout << lineNo << ".";
-					if (lineNo < 10){
-						std::cout << " "; //for alignment
+					if (get<4>(*iter) != "done"){
+						std::cout << lineNo << ".";
+						if (lineNo < 10){
+							std::cout << " "; //for alignment
+						}
+						std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 					}
-					std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 				}
 
 			}
 
-
+		if (get<4>(*iter) != "done") {
 			std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl; //print out Task
+		}
 		
 		if (iter != UImemory.begin()) {
 			iter2++;
 		}
 		overdue = false;
-		lineNo++;
+		if (get<4>(*iter) != "done") {
+			lineNo++;
+		}
 	}
 	
 	setColour(3);
