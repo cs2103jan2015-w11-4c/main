@@ -25,7 +25,7 @@ public:
 	int getDayNumber(string);
 	string execute(string,string);
 	int getMonthNumber(string);
-
+	string changeToLowerCase(string);
 };
 
 #endif

@@ -30,6 +30,7 @@ struct TupleCompare
 };
 
 int main(void){
+	PlaySound("C:\\Users\\Gabriel\\Documents\\GitHub\\main\\Jarvis\\Jarvis\\audioFile.wav", NULL, SND_ASYNC);
 	UI::main();
 	return 0;
 }
@@ -75,7 +76,6 @@ void UI::main(){
 	
 	
 	while (isRunning){
-		
 		std::cout << endl << MESSAGE_COMMAND; 
 		
 		string userInput;

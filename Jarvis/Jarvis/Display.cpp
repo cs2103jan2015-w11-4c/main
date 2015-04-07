@@ -89,8 +89,25 @@ int Display::getDayNumber(string name) {
 string Display::execute(string fileName,string filePath) {
 	vector <string> dateVector;
 	vector <string> keywordVector;
-	bool dateMonth;
-	boost::split(keywordVector,T1.getKeywords(),boost::is_any_of(" "));
+	string word;
+	if(T1.getKeywords()!="") {
+	boost::trim(T1.getKeywords());
+	vector <string> tokensBeforeTrim;
+	int i;
+	boost::split(tokensBeforeTrim,T1.getKeywords(),boost::is_any_of(" "));
+	for(i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i].find_first_not_of(' ') != string::npos) {
+			keywordVector.push_back(changeToLowerCase(tokensBeforeTrim[i]));
+		}
+	}
+	T1.setKeywords("");
+	for(i=0;i<keywordVector.size()-1;i++) 
+		word = word + keywordVector[i] + " ";
+	if(i==keywordVector.size()-1)
+		word = word + keywordVector[i];
+	T1.setKeywords(word);
+	//remove spaces and put to lower case
+
 	if(T1.getKeywords()=="all") {
 		return S1.readFile(fileName,filePath);
 	}
@@ -162,4 +179,24 @@ string Display::execute(string fileName,string filePath) {
 		}
 
 	}
+}
+
+	else {
+
+		return "Error: Please enter a valid keyword after   *DISPLAY*   to view your tasks";
+	}
+}
+
+string Display::changeToLowerCase(string input) {
+	string lowerCase="";
+	for(int i=0;i<input.size();i++) {
+		if(input[i]>='A' && input[i]<='Z') {
+			input[i] = tolower(input[i]);
+			lowerCase = lowerCase + input[i];
+		}
+		else {
+			lowerCase = lowerCase + input[i];
+		}
+	}
+	return lowerCase;
 }

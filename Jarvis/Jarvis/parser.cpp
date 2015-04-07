@@ -163,9 +163,20 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	bool deadline,floating,timedBy,timedFrom,recurring=false;
 	boost::trim(userInput);
 	vector <string> tokens;
+	vector <string> tokensBeforeTrim;
+	vector <string> originalTokens;
 	Task T1;
 	int i;
-	boost::split(tokens,userInput,boost::is_any_of(" "));
+	boost::split(tokensBeforeTrim,userInput,boost::is_any_of(" "));
+	for(i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i].find_first_not_of(' ') != string::npos) {
+			originalTokens.push_back(tokensBeforeTrim[i]);
+			tokens.push_back(changeToLowerCase(tokensBeforeTrim[i]));
+		}
+	}
+	
+
+
 	//Search for "on" keyword
 	for(i=0;i<tokens.size();i++) {
 		if(tokens[i]=="on") {
@@ -175,7 +186,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				}
 				catch (const std::invalid_argument) {
 					deadline = false;
-					break;
+					continue;
 				}
 	
 				gregMonth = getMonthNumber(tokens[i+2]);
@@ -207,7 +218,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 
 	if(deadline) {
 		for(int j=0;j<i;j++) {
-			desc = desc + tokens[j] + " ";
+			desc = desc + originalTokens[j] + " ";
 		}
 		T1.setDescription(desc);
 		T1.setDate(tokens[i+1]);
@@ -278,9 +289,10 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	else if(!deadline && !T1.getErrorDate()) {
 		int a;
 		for(a=0;a<tokens.size();a++) {  //recurring task
-			 if(tokens[a]=="every") {
+			 if(tokens[a]=="every") { 
 				 if((a+2)<=tokens.size() && isDayValid(tokens[a+1])) {
-					 if((a+5)==tokens.size() && tokens[a+2]=="until") {
+					 if((a+5)==tokens.size() && tokens[a+2]=="until"){
+							 R1.setWord(tokens[a+2]);
 						try {
 							gregDate = stoi(tokens[a+3]);
 						}
@@ -304,7 +316,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 								R1.setRecurring(recurring);
 							}
 							for(int b=0;b<a;b++) {
-								desc = desc + tokens[b] + " ";
+								desc = desc + originalTokens[b] + " ";
 							}
 							T1.setDescription(desc);
 							R1.setTaskDay(tokens[a+1]);
@@ -319,7 +331,19 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 
 					}
-					 else if((a+7)==tokens.size() && tokens[a+2]=="by" && tokens[a+4]=="until") {
+						 
+					 else if((a+3)==tokens.size() && (tokens[a+2]).at(0)=='x' && isdigit(tokens[a+2].at(1))) {
+							 R1.setWord(tokens[a+2]);
+							 for(int b=0;b<a;b++) {
+								 desc = desc + originalTokens[b] + " ";
+							}
+							 T1.setDescription(desc);
+							 R1.setTaskDay(tokens[a+1]);
+							 R1.setRecurring(true);
+							 break;
+						}
+						
+					 else if((a+7)==tokens.size() && tokens[a+2]=="by") {
 						vector <string> byRecTime;
 						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
 						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
@@ -332,7 +356,8 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							T1.setTimeError(value);
 							return T1;
 						}
-						
+						if(tokens[a+4]=="until") {
+							R1.setWord(tokens[a+4]);
 						try {
 							gregDate = stoi(tokens[a+5]);
 						}
@@ -356,7 +381,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 								R1.setRecurring(recurring);
 							}
 							for(int b=0;b<a;b++) {
-								desc = desc + tokens[b] + " ";
+								desc = desc + originalTokens[b] + " ";
 							}
 							T1.setDescription(desc);
 							R1.setTaskDay(tokens[a+1]);
@@ -373,7 +398,32 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 
 
 					 }
-					 else if((a+9)==tokens.size() && tokens[a+2]=="from" && tokens[a+4]=="to" && tokens[a+6]=="until") {
+						
+					 }
+					
+					 else if((a+5)==tokens.size() && (tokens[a+4]).at(0)=='x' && isdigit(tokens[a+4].at(1))) {
+							vector <string> byRecTime;
+						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
+						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
+							T1.setHour(byRecTime[0]);
+							T1.setMinute(byRecTime[1]);
+						}
+
+						else {
+							bool value=true;
+							T1.setTimeError(value);
+							return T1;
+						}
+							R1.setWord(tokens[a+4]);
+							for(int b=0;b<a;b++) {
+								desc = desc + originalTokens[b] + " ";
+							}
+							T1.setDescription(desc);
+							R1.setTaskDay(tokens[a+1]);
+							R1.setRecurring(true);
+							 break;
+						}
+					 else if((a+9)==tokens.size() && tokens[a+2]=="from" && tokens[a+4]=="to") {
 						vector <string> fromRecTime;
 				boost::split(fromRecTime,tokens[a+3],boost::is_any_of(":"));
 				
@@ -390,7 +440,8 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							T1.setTimeError(value);
 							return T1;
 						}
-						
+						if(tokens[a+6]=="until") {
+							R1.setWord(tokens[a+6]);
 						try {
 							gregDate = stoi(tokens[a+7]);
 						}
@@ -414,7 +465,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 								R1.setRecurring(recurring);
 							}
 							for(int b=0;b<a;b++) {
-								desc = desc + tokens[b] + " ";
+								desc = desc + originalTokens[b] + " ";
 							}
 							T1.setDescription(desc);
 							R1.setTaskDay(tokens[a+1]);
@@ -428,6 +479,36 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							recurring=false;
 						}
 					 }
+						
+	
+					 }
+					 
+					 else if((a+7)==tokens.size() && (tokens[a+6]).at(0)=='x' && isdigit(tokens[a+6].at(1))) {
+								vector <string> fromRecTime;
+							boost::split(fromRecTime,tokens[a+3],boost::is_any_of(":"));
+				
+				vector <string> toRecTime;
+				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
+				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
+					T1.setEndHour(toRecTime[0]);
+					T1.setEndMinute(toRecTime[1]);
+					T1.setStartHour(fromRecTime[0]);
+					T1.setStartMinute(fromRecTime[1]);
+				}
+						else {
+							bool value=true;
+							T1.setTimeError(value);
+							return T1;
+						}	 
+						 R1.setWord(tokens[a+6]);
+							 for(int b=0;b<a;b++) {
+								 desc = desc + originalTokens[b] + " ";
+							}
+							T1.setDescription(desc);
+							R1.setTaskDay(tokens[a+1]);
+							 R1.setRecurring(true);
+							 break;
+					}
 					 else {
 						 bool value=true;
 						 R1.setRecurringError(value);
@@ -444,9 +525,9 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 		}
 	}
 
-	if(!deadline && !recurring) {
-		for(int j=0;j<tokens.size();j++) {
-			desc = desc + tokens[j] + " ";
+	if(!deadline && !R1.getRecurring()) {
+		for(int j=0;j<originalTokens.size();j++) {
+			desc = desc + originalTokens[j] + " ";
 		}
 		T1.setDescription(desc);
 	}
@@ -491,7 +572,10 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 	}
 	else if(command=="display") {
 		Display *D1;
-		taskDetails.setKeywords(userInput);
+		if(userInput=="display")
+			taskDetails.setKeywords("");
+		else 
+			taskDetails.setKeywords(userInput);
 		D1 = new Display(taskDetails);
 		CommandType C1(D1);
 		return C1;

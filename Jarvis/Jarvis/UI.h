@@ -15,6 +15,7 @@
 #include <map>
 #include <Windows.h>
 #include <iomanip>
+#include <mmsystem.h>
 #include "Logic.h"
 
 using namespace std;

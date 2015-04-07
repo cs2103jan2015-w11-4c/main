@@ -1,4 +1,4 @@
-﻿Build started 07-04-2015 03:46:28.
+﻿Build started 07-04-2015 23:28:30.
      1>Project "C:\Users\vatsala\Documents\Jarvis\main\Jarvis\JarvisTest\JarvisTest.vcxproj" on node 2 (Rebuild target(s)).
      1>Project "C:\Users\vatsala\Documents\Jarvis\main\Jarvis\JarvisTest\JarvisTest.vcxproj" (1) is building "C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Jarvis\Jarvis.vcxproj" (2) on node 2 (GetTargetPath target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
@@ -26,4 +26,4 @@
 
 Build FAILED.
 
-Time Elapsed 00:00:11.59
+Time Elapsed 00:00:09.65

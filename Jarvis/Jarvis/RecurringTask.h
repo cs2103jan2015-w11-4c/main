@@ -13,6 +13,7 @@ private:
 	string endDate;
 	string endMonth;
 	string endYear;
+	string keyword;
 
 
 public:
@@ -30,6 +31,8 @@ public:
 	void setRecurring(bool);
 	bool getRecurringError();
 	void setRecurringError(bool);
+	void setWord(string);
+	string getWord();
 
 
 

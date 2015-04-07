@@ -91,9 +91,8 @@ string Add::execute(string fileName,string filePath) {
 	if(R1.getRecurring()) {
 		if(R1.getRecurringError())
 			return "Invalid form of recurring task.";
-		else {
+		else if(R1.getWord()=="until") {
 			if(R1.getTaskDay()=="day") {
-				
 				ptime now = microsec_clock::local_time();
 				date today = now.date();
 				int gregYear = 2015;
@@ -109,12 +108,6 @@ string Add::execute(string fileName,string filePath) {
 					today = today + dd;
 				}
 
-			if(statusOfAdd) {
-				status = "Added recurring task successfully\n";
-			}
-			else { 
-				status= "Error in adding recurring task\n";
-			}
 			}
 
 			else {
@@ -139,13 +132,69 @@ string Add::execute(string fileName,string filePath) {
 					day = day + dd;
 				}
 			}
-		if(statusOfAdd) {
+			if(statusOfAdd) {
 				status = "Added recurring task successfully\n";
 			}
 			else { 
 				status= "Error in adding recurring task\n";
 			}
-		return status;
+		}
+
+		else {
+			char number =(R1.getWord()).at(1);
+			int recurringNumber =number - '0';
+			//cout << recurringNumber << endl;
+			//cout << R1.getTaskDay() << endl;
+			int countOfDays=0;
+			if(recurringNumber>0) {
+				if(R1.getTaskDay()=="day") {
+				ptime now = microsec_clock::local_time();
+				date today = now.date();
+				date_duration dd(1);
+				while(countOfDays<=recurringNumber) {
+					
+					T1.setDate(to_string(today.day()));
+					T1.setMonth(getMonthFromNumber(today.month()));
+					T1.setYear(to_string(today.year()));
+					cout << T1.getDate() << endl;
+					cout << T1.getMonth() << endl;
+					cout << T1.getYear() << endl;
+					statusOfAdd = S1.writeFile(T1,fileName,filePath);
+					countOfDays++;
+					today = today + dd;
+				}
+				}
+
+			else {
+				ptime now = microsec_clock::local_time();
+				string dayName = T1.getKeywords();
+				date today = now.date();
+				greg_weekday gregDay = getDayNumber(R1.getTaskDay());
+				first_day_of_the_week_after fdaf(gregDay);
+				date day = fdaf.get_date(date(today));
+				date_duration dd(7);
+				while(countOfDays<recurringNumber) {
+					T1.setDate(to_string(day.day()));
+					T1.setMonth(getMonthFromNumber(day.month()));
+					T1.setYear(to_string(day.year()));
+					statusOfAdd = S1.writeFile(T1,fileName,filePath);
+					countOfDays++;
+					day = day + dd;
+				}
+			}
+
+			}
+			else {
+				return "Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+
+			}
+			if(statusOfAdd) {
+				status = "Added recurring task successfully\n";
+			}
+			else { 
+				status= "Error in adding recurring task\n";
+			}
+
 		}
 	}
 
@@ -165,8 +214,10 @@ string Add::execute(string fileName,string filePath) {
 	else { 
 		status= "Error in adding\n";
 	}
-	return status;
+	
 	}
+	
+	return status;
 }
 
 string Add::executeUndo(string fileName,string filePath) {

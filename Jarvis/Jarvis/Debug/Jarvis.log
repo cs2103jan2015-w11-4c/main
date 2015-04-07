@@ -1,4 +1,4 @@
-﻿Build started 07-04-2015 03:45:11.
+﻿Build started 07-04-2015 23:27:28.
      1>Project "C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
        Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
      1>ClCompile:
@@ -72,11 +72,12 @@
          RecurringTask.cpp
          parser.cpp
      1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(37): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(170): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(172): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(280): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(282): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(448): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(171): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(181): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(183): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(291): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(293): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(529): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(163): warning C4101: 'timedBy' : unreferenced local variable
      1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(163): warning C4101: 'floating' : unreferenced local variable
      1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(163): warning C4101: 'timedFrom' : unreferenced local variable
@@ -102,7 +103,7 @@
                      IteratorT=const char *,
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(168) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\parser.cpp(170) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      CharT=char,
@@ -110,7 +111,9 @@
                  ]
          Logic.cpp
          Display.cpp
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(92): warning C4101: 'dateMonth' : unreferenced local variable
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(98): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(104): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(192): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2176): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\xutility(2157) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -133,7 +136,7 @@
                      IteratorT=const char *,
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(93) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\display.cpp(97) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<CharT> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      CharT=char,
@@ -172,10 +175,9 @@
          Clear.cpp
          Add.cpp
          Generating Code...
-     1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\add.cpp(170): warning C4715: 'Add::execute' : not all control paths return a value
      1>c:\users\vatsala\documents\jarvis\main\jarvis\jarvis\undo.cpp(66): warning C4715: 'Undo::execute' : not all control paths return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\vatsala\Documents\Jarvis\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
          Debug\Clear.obj
          Debug\CommandType.obj
          Debug\Delete.obj
@@ -195,4 +197,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:01:17.18
+Time Elapsed 00:01:01.81

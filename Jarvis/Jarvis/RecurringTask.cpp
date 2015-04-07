@@ -63,3 +63,11 @@ string RecurringTask::getEndYear() {
 void RecurringTask::setEndYear(string year) {
 	endYear = year;
 }
+
+void RecurringTask::setWord(string word) {
+	keyword=word;
+}
+
+string RecurringTask::getWord() {
+	return keyword;
+}
