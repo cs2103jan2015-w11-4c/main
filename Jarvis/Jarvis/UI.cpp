@@ -38,7 +38,7 @@ int main(void){
 
 void UI::main(){
 	setColour(15);
-	cout << "Hey there! What do you want your file to be name as? (*.txt): ";
+	cout << "Hey there! What do you want your file to be named as? (*.txt): ";
 	string fileName;
 	getline(cin, fileName);
 	system("cls");
@@ -74,6 +74,15 @@ void UI::main(){
 	std::cout << "\n*Copy address as text and paste below to specify file path." << endl << "Specify file path: ";
 	string filePath;
 	getline(cin, filePath);
+	size_t found = filePath.find_first_of("\\");
+	while(found == string::npos){ //if = npos, filePath does not contain "\"
+		setColour(12);
+		cout << "\nPlease specify a valid file path: ";
+		setColour(15);
+		getline(cin, filePath);
+		found = filePath.find_first_of("\\");
+	}
+	
 	filePath += "\\";
 	
 	
@@ -82,6 +91,12 @@ void UI::main(){
 		
 		string userInput;
 		getline(cin, userInput);
+		size_t start = userInput.find_first_not_of(" ");
+		if (start != string::npos)
+		{
+			userInput = userInput.substr(start);
+		}
+		userInput = lowerCase(userInput);
 		inputStack.push(userInput);
 		Logic temp;
 		string userCommand;
@@ -223,16 +238,17 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl;
 	setColour(15);
-	std::cout << "These are the tasks for today" << endl;
+	std::cout << "These are the tasks for today." << endl;
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl;
 	setColour(13);
-	cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
+	cout << "   " << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
 	setColour(9);
 	std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
 	setColour(15);
 	vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
-	int lineNo = 1;
+	
+	bool noTaskDisplay = false;
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
 		if (get<2>(*iter).date() == now.date())
@@ -240,34 +256,34 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 			//print out tasks for today
 			
 			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59" && get<4>(*iter) != "done") { //this is a deadline task
-				std::cout << lineNo << ".";
-				if (lineNo < 10){
-					std::cout << " "; //for alignment
-				}
+				std::cout << "   ";
+				
 				std::cout << setw(8) << "  " << setw(8) << left << " by 23:59  ";//deadline tasks don't have time duration, end at 23:59
 			}
 			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01" && get<4>(*iter) != "done"){ // TimeTask1
-				std::cout << lineNo << ".";
-				if (lineNo < 10){
-					std::cout << " "; //for alignment
-				}
+				std::cout << "   ";
+				
 				std::cout << setw(8) << "  " << setw(8) << left << "  by " + to_simple_string(get<2>(*iter)).substr(12, 5) + " ";
 			}
 			else { //TimeTask2
 				if (get<4>(*iter) != "done") {
-					std::cout << lineNo << ".";
-					if (lineNo < 10){
-						std::cout << " "; //for alignment
-					}
+					std::cout << "   ";
+					
 					std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
 				}
 			}
 			if (get<4>(*iter) != "done") {
 				std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl;
-				lineNo++;
+				
+				noTaskDisplay = true;
 			}
 		}
 
+	}
+	if (!noTaskDisplay)
+	{
+		setColour(12);
+		cout << "There are no tasks for today." << endl;
 	}
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl << endl;
@@ -291,7 +307,8 @@ void UI::displayUI() {
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl;
 	setColour(15);
-	
+	bool noTaskDisplay = false;
+
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
 
@@ -380,9 +397,14 @@ void UI::displayUI() {
 		overdue = false;
 		if (get<4>(*iter) != "done") {
 			lineNo++;
+			noTaskDisplay = true;
 		}
 	}
-	
+	if (!noTaskDisplay)
+	{
+		setColour(12);
+		cout << "There are no tasks to display" << endl;
+	}
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl << endl;
 	setColour(15);
