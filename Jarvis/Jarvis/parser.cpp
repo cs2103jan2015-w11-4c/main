@@ -145,6 +145,16 @@ bool CommandParser::isDayValid(string taskDay) {
 
 }
 
+bool CommandParser::isTimeValid(time_duration t){
+	ptime now = microsec_clock::local_time();
+	time_duration tod = now.time_of_day();
+	if(t>tod)
+		return true;
+	else
+		return false;
+
+}
+
 
 
 
@@ -159,6 +169,9 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	string EndHour;
 	string EndMinute;
 	string str = "on";
+	ptime now = microsec_clock::local_time();
+	time_duration tod = now.time_of_day();
+	cout << tod << endl;
 	int gregDate,gregMonth,gregYear=2015;
 	bool deadline,floating,timedBy,timedFrom,recurring=false;
 	boost::trim(userInput);
@@ -230,8 +243,14 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> byTime;
 				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));
 				if(isHourValid(byTime[0]) && isMinuteValid(byTime[1]) && byTime.size()==2) {
-					T1.setHour(byTime[0]);
-					T1.setMinute(byTime[1]);
+					string userTime = byTime[0]+":"+byTime[1]+":00";
+					time_duration td(duration_from_string(userTime));
+					if(isTimeValid(td)) {
+						T1.setHour(byTime[0]);
+						T1.setMinute(byTime[1]);
+					}
+					else 
+						T1.setTimeError(true);
 				}
 				else {
 					bool value=true;
@@ -254,10 +273,19 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> toTime;
 				boost::split(toTime,tokens[i+6],boost::is_any_of(":"));
 				if(isHourValid(toTime[0]) && isHourValid(fromTime[0]) && isMinuteValid(toTime[1]) && isMinuteValid(fromTime[1]) && fromTime.size()==2 && toTime.size()==2) {
+					string userStartTime = fromTime[0]+":"+fromTime[1]+":00";
+					time_duration tdStart(duration_from_string(userStartTime));
+					string userEndTime = toTime[0]+":"+toTime[1]+":00";
+					time_duration tdEnd(duration_from_string(userEndTime));
+					if(isTimeValid(tdStart)&&isTimeValid(tdEnd)) {
 					T1.setEndHour(toTime[0]);
 					T1.setEndMinute(toTime[1]);
 					T1.setStartHour(fromTime[0]);
 					T1.setStartMinute(fromTime[1]);
+					}
+					else
+						T1.setTimeError(true);
+
 				}
 
 				else {
@@ -347,8 +375,14 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						vector <string> byRecTime;
 						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
 						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
-							T1.setHour(byRecTime[0]);
-							T1.setMinute(byRecTime[1]);
+							string userTime = byRecTime[0]+":"+byRecTime[1]+":00";
+							time_duration td(duration_from_string(userTime));
+							if(isTimeValid(td)) {
+								T1.setHour(byRecTime[0]);
+								T1.setMinute(byRecTime[1]);
+							}
+						else 
+							T1.setTimeError(true);
 						}
 
 						else {
@@ -405,8 +439,14 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							vector <string> byRecTime;
 						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
 						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
-							T1.setHour(byRecTime[0]);
-							T1.setMinute(byRecTime[1]);
+							string userTime = byRecTime[0]+":"+byRecTime[1]+":00";
+							time_duration td(duration_from_string(userTime));
+							if(isTimeValid(td)) {
+								T1.setHour(byRecTime[0]);
+								T1.setMinute(byRecTime[1]);
+							}
+							else 
+								T1.setTimeError(true);
 						}
 
 						else {
@@ -430,10 +470,18 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> toRecTime;
 				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
 				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
+					string userStartTime = fromRecTime[0]+":"+fromRecTime[1]+":00";
+					time_duration tdStart(duration_from_string(userStartTime));
+					string userEndTime = toRecTime[0]+":"+toRecTime[1]+":00";
+					time_duration tdEnd(duration_from_string(userEndTime));
+					if(isTimeValid(tdStart)&&isTimeValid(tdEnd)) {
 					T1.setEndHour(toRecTime[0]);
 					T1.setEndMinute(toRecTime[1]);
 					T1.setStartHour(fromRecTime[0]);
 					T1.setStartMinute(fromRecTime[1]);
+					}
+					else
+						T1.setTimeError(true);
 				}
 						else {
 							bool value=true;
@@ -490,10 +538,18 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> toRecTime;
 				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
 				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
+					string userStartTime = fromRecTime[0]+":"+fromRecTime[1]+":00";
+					time_duration tdStart(duration_from_string(userStartTime));
+					string userEndTime = toRecTime[0]+":"+toRecTime[1]+":00";
+					time_duration tdEnd(duration_from_string(userEndTime));
+					if(isTimeValid(tdStart)&&isTimeValid(tdEnd)) {
 					T1.setEndHour(toRecTime[0]);
 					T1.setEndMinute(toRecTime[1]);
 					T1.setStartHour(fromRecTime[0]);
 					T1.setStartMinute(fromRecTime[1]);
+					}
+					else
+						T1.setTimeError(true);
 				}
 						else {
 							bool value=true;
@@ -622,6 +678,15 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		U1 = new Undo(taskDetails);
 		CommandType C1(U1);
 		return C1;
+	}
+	else if(command=="done") {
+		Logic L1;
+		taskDetails.setNumber(L1.correctNumber(userInput));
+		Done *DoneTask;
+		DoneTask = new Done(taskDetails);
+		CommandType C1(DoneTask);
+		return C1;
+
 	}
 	else {
 		WrongFormat *W1;

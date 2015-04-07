@@ -169,6 +169,15 @@ string Display::execute(string fileName,string filePath) {
 		}
 
 	}
+	else if(T1.getKeywords()=="done") {
+		Search S2(T1);
+		if(S2.execute(fileName,filePath)=="") {
+			return "Error: No tasks have been completed yet!\n";
+		}
+		else {
+			return S2.execute(fileName,filePath);
+		}
+	}
 	else {
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {

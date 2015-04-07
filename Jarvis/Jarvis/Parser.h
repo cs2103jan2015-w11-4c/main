@@ -18,6 +18,7 @@
 #include "Undo.h"
 #include "WrongFormatCommand.h"
 #include "Task.h"
+#include "Done.h"
 #include <algorithm>
 #include <iterator>
 
@@ -67,6 +68,7 @@ public:
 	bool isHourValid(string);
 	bool isMinuteValid(string);
 	bool isDayValid(string);
+	bool isTimeValid(boost::posix_time::time_duration);
 private:
 	string userInput;
 	static string startDate;

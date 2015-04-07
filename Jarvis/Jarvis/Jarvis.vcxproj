@@ -19,7 +19,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,6 +73,7 @@
     <ClInclude Include="CommandType.h" />
     <ClInclude Include="Delete.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="Done.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="RecurringTask.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="CommandType.cpp" />
     <ClCompile Include="Delete.cpp" />
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Done.cpp" />
     <ClCompile Include="Logic.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

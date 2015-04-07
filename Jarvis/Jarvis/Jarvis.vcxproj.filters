@@ -63,6 +63,9 @@
     <ClInclude Include="RecurringTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Done.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RecurringTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Done.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
