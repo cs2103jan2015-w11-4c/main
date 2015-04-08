@@ -114,7 +114,9 @@ void UI::main(){
 			
 			if (displaytemp.substr(0, 7) == "Error: ")
 			{
-				displayLine(displaytemp);
+				setColour(12);
+				displayLine(displaytemp.substr(7));
+				setColour(15);
 				continue;
 			}
 
@@ -142,6 +144,7 @@ void UI::main(){
 			//setindex
 			int displayedIndex = 1;
 			vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
+			
 			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 			{
 				if (get<4>(*iter) != "done"){
@@ -153,7 +156,19 @@ void UI::main(){
 			
 			string statusMessage = temp.executeCommand(userInput, inputStack, fileName, filePath);
 			defaultView("display all", inputStack, fileName, filePath);
-			displayLine(statusMessage);
+						
+			if (statusMessage.substr(0, 7) == "Error: ")
+			{
+				setColour(12);
+				displayLine(statusMessage.substr(7));
+				setColour(15);
+			} else {
+				setColour(10);
+				displayLine(statusMessage);
+				setColour(15);
+			}
+
+
 		}
 		
 	}
@@ -223,7 +238,9 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 
 	if (displaytemp.substr(0, 7) == "Error: ")
 	{
-		displayLine(displaytemp);
+		setColour(12);
+		displayLine(displaytemp.substr(7));
+		setColour(15);
 	}
 
 	prepareUImemory(displaytemp);
@@ -249,8 +266,10 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 	vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
 	
 	bool noTaskDisplay = false;
+
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
+
 		if (get<2>(*iter).date() == now.date())
 		{
 			//print out tasks for today
@@ -282,7 +301,7 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 	}
 	if (!noTaskDisplay)
 	{
-		setColour(12);
+		setColour(10);
 		cout << "There are no tasks for today." << endl;
 	}
 	setColour(3);
@@ -303,22 +322,21 @@ void UI::displayUI() {
 	iter2 = UImemory.begin();
 	ptime now = microsec_clock::local_time();
 	bool overdue = false;
-	
 	setColour(3);
 	std::cout << "=======================================================================================================" << endl;
 	setColour(15);
 	bool noTaskDisplay = false;
-
+	
 	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 	{
-
+		
 		if (to_simple_string(get<2>(*iter)).substr(0,11) != to_simple_string(get<2>(*iter2)).substr(0,11)) {
 			setColour(3);
 			std::cout << "=======================================================================================================" << endl; //different date
 			setColour(15);
 		}
 
-		if (get<2>(*iter) == nullDate  && get<4>(*iter) != "done") { //only print out header for first floating task
+		if (get<2>(*iter) == nullDate ) { //only print out header for first floating task
 			if (floating == 0) {
 				std::cout << setw(1) << " Do these tasks anytime!" << endl; 
 				setColour(3);
@@ -328,6 +346,7 @@ void UI::displayUI() {
 				setColour(9);
 				std::cout << "-------------------------------------------------------------------------------------------------------" << endl;
 				setColour(15);
+	
 				}
 				std::cout << lineNo << ".";
 				if (lineNo < 10){
@@ -337,9 +356,9 @@ void UI::displayUI() {
 				floating++;
 		}
 		else { //not floating task
-			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11) && get<4>(*iter) != "done") {
+			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
 				//check if task is overdue
-				if ((get<2>(*iter)).date() < now.date() && get<4>(*iter) != "done")
+				if ((get<2>(*iter)).date() < now.date())
 				{
 					overdue = true;
 					setColour(12);
@@ -402,7 +421,7 @@ void UI::displayUI() {
 	}
 	if (!noTaskDisplay)
 	{
-		setColour(12);
+		setColour(10);
 		cout << "There are no tasks to display" << endl;
 	}
 	setColour(3);
