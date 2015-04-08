@@ -180,7 +180,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	vector <string> originalTokens;
 	Task T1;
 	int i;
-	boost::split(tokensBeforeTrim,userInput,boost::is_any_of(" "));
+	boost::split(tokensBeforeTrim,userInput,boost::is_any_of(" "));                 //split by occurences of " "
 	for(i=0;i<tokensBeforeTrim.size();i++) {
 		if(tokensBeforeTrim[i].find_first_not_of(' ') != string::npos) {
 			originalTokens.push_back(tokensBeforeTrim[i]);
@@ -192,23 +192,23 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 
 	//Search for "on" keyword
 	for(i=0;i<tokens.size();i++) {
-		if(tokens[i]=="on") {
-			if((i+3)<=tokens.size()) {
+		if(tokens[i]=="on") {                              //checking deadline tasks
+			if((i+3)<=tokens.size()) {                         //only date task on 21 march
 				try {
 					gregDate = stoi(tokens[i+1]);
 				}
-				catch (const std::invalid_argument) {
+				catch (const std::invalid_argument) {                  //catches if not deadline task
 					deadline = false;
 					continue;
 				}
 	
-				gregMonth = getMonthNumber(tokens[i+2]);
+				gregMonth = getMonthNumber(tokens[i+2]);                            //2 tokens after on, is month
 				
-				try {
+				try {                                                            //check if date and numebrs are correct, gregorian converts into numbers
 					boost::gregorian::date d(gregYear, gregMonth, gregDate);
 					ptime now = microsec_clock::local_time();
 					boost::gregorian::date today = now.date();
-					if(d<today) {
+					if(d<today) {                                          //dont take in dates earlier than current date
 						T1.setErrorDate(true);
 						deadline=false;
 					}
@@ -226,27 +226,103 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	}
 
 	}
-	if(i==tokens.size()) //if on keyword doesnt exist, then not a deadline task
-		deadline=false;
+	if(i==tokens.size())                     //if on keyword doesnt exist, then not a deadline task
+		deadline=false;                      //end of scanning through tokens, if on keyword doesnt exist, then not a deadline task
 
 	if(deadline) {
 		for(int j=0;j<i;j++) {
-			desc = desc + originalTokens[j] + " ";
+			desc = desc + originalTokens[j] + " ";                   //description = add buy veggies on 21 march
 		}
 		T1.setDescription(desc);
 		T1.setDate(tokens[i+1]);
 		T1.setMonth(tokens[i+2]);
 		if((i+3)==tokens.size())
-			return T1;
-		else if((i+5)==tokens.size()) {//by timed task
+			return T1;                                             //no timed tasks, only date month year
+
+
+
+		//in pm/am add buy apples on 1 november by 10:45 pm, or 08:00 am.   1 pm(not yet)
+		else if((i+6) == tokens.size()) {                   //TASK : on 21[i+1] march[i+2] by[i+3] 1[i+4] pm[i+5]
+			if(tokens[i+3]=="by") {                        //TASK : on 21[i+1] march[i+2] by[i+3] 01:45[i+4] pm[i+5]
+				vector <string> byTime;
+		/*		size_t found = tokens[i+4].find_first_of(":");
+			
+				if (found = string::npos) {                   //1pm case
+					if (tokens[i+5] == "pm") {
+						
+						int hourinteger = stoi(byTime[0]);
+					hourinteger = hourinteger + 12;
+					cout << hourinteger << endl;       
+
+					ostringstream convert;   // stream used for the conversion
+					convert << hourinteger;      // insert the textual representation of 'Number' in the characters in the stream
+					byTime[0] = convert.str();
+					}
+
+				if (isHourValid(byTime[0])) {         //never do byTime.size() == 2 cause if 1 pm is not 2 already
+					T1.setHour(byTime[0]);
+				}
+				else {
+					bool value=true;
+					T1.setTimeError(value);
+				}
+
+				}
+			
+			else {
+				bool value=true;
+				T1.setCommandError(value);
+			}
+				}	
+
+					 //1 pm case ends
+*/
+				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));       // "1 45"
+				if (tokens[i+5] == "pm") {
+					int hourinteger = stoi(byTime[0]);
+					hourinteger = hourinteger + 12;
+					cout << hourinteger << endl;       
+
+					ostringstream convert;   // stream used for the conversion
+					convert << hourinteger;      // insert the textual representation of 'Number' in the characters in the stream
+					byTime[0] = convert.str();
+					
+				}
+				
+				if (isHourValid(byTime[0]) && isMinuteValid(byTime[1])) {         //never do byTime.size() == 2 cause if 1 pm is not 2 already
+					T1.setHour(byTime[0]);
+					T1.setMinute(byTime[1]);
+				}
+				else {
+					bool value=true;
+					T1.setTimeError(value);
+				}
+
+			}
+			else {
+				bool value=true;
+				T1.setCommandError(value);
+			}
+		
+			
+		}
+	
+		
+	
+		//MY TEST END HEHE
+
+
+
+
+		else if((i+5)==tokens.size()) {//by timed task                 //TASK : on 21[i+1] march[i+2] by[i+3] 13:00[i+4]
 			if(tokens[i+3]=="by") {
 				vector <string> byTime;
-				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));
+				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));            //"13 00" stored in byTime vector
 				if(isHourValid(byTime[0]) && isMinuteValid(byTime[1]) && byTime.size()==2) {
 					string userTime = byTime[0]+":"+byTime[1]+":00";
 					time_duration td(duration_from_string(userTime));
 					if(isTimeValid(td)) {
-						T1.setHour(byTime[0]);
+						T1.setHour(byTime[0]);                      //put into task, 13 is hour, time is byTime[1]
 						T1.setMinute(byTime[1]);
 					}
 					else 
@@ -265,8 +341,72 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 			}
 	
 		}
+
+
+
+
+		//test from from to time start (:
+
+		else if((i+9) == tokens.size()) {                   //add TASK on 21[i+1] march[i+2] from[i+3] 12:00[i+4] pm[i+5] to[i+6] 13:00[i+7] pm[i+8]
+
+			if(tokens[i+3]=="from" && tokens[i+6]=="to") {                        
+				vector <string> fromTime;
+					boost::split(fromTime,tokens[i+4],boost::is_any_of(":"));       // "1 45"
+				if (tokens[i+5] == "pm") {
+					int hourinteger = stoi(fromTime[0]);
+					hourinteger = hourinteger + 12;
+					cout << hourinteger << endl;       
+
+					ostringstream convert;   // stream used for the conversion
+					convert << hourinteger;      // insert the textual representation of 'Number' in the characters in the stream
+					fromTime[0] = convert.str();
+					
+				}
+                       
+				vector <string> toTime;
+					boost::split(toTime,tokens[i+7],boost::is_any_of(":"));       // "1 45"
+				if (tokens[i+8] == "pm") {
+					int hourinteger = stoi(toTime[0]);
+					hourinteger = hourinteger + 12;
+					cout << hourinteger << endl;       
+
+					ostringstream convert;   // stream used for the conversion
+					convert << hourinteger;      // insert the textual representation of 'Number' in the characters in the stream
+					toTime[0] = convert.str();
+					
+				}
+			
+				
+				if(isHourValid(toTime[0]) && isHourValid(fromTime[0]) && isMinuteValid(toTime[1]) && isMinuteValid(fromTime[1])) {
+					T1.setEndHour(toTime[0]);
+					T1.setEndMinute(toTime[1]);
+					T1.setStartHour(fromTime[0]);
+					T1.setStartMinute(fromTime[1]);
+				}
+				else {
+					bool value=true;
+					T1.setTimeError(value);
+				}
+
+			}
+			else {
+				bool value=true;
+				T1.setCommandError(value);
+			}
+		
+			
+		}
+	
+		//test for from to time end
+
+
+
+
+
+
+
 		else if((i+7)==tokens.size()) { // from to timed task
-			if(tokens[i+3]=="from" && tokens[i+5]=="to") {
+			if(tokens[i+3]=="from" && tokens[i+5]=="to") {                //on 21[i+1] march[i+2] from[i+3] 12:00[i+4] to[i+4] 13:00[i+5]
 				vector <string> fromTime;
 				boost::split(fromTime,tokens[i+4],boost::is_any_of(":"));
 				
@@ -301,7 +441,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				T1.setCommandError(value);
 			}
 
-
+			 //function ends
 		}
 		else {                          //error in format of input 
 			bool value=true;
@@ -312,11 +452,11 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	
 	
 	
-	}
+	}               //closing deadline tasks
 
 	else if(!deadline && !T1.getErrorDate()) {
 		int a;
-		for(a=0;a<tokens.size();a++) {  //recurring task
+		for(a=0;a<tokens.size();a++) {                        //recurring task add buy apples every friday by
 			 if(tokens[a]=="every") { 
 				 if((a+2)<=tokens.size() && isDayValid(tokens[a+1])) {
 					 if((a+5)==tokens.size() && tokens[a+2]=="until"){
