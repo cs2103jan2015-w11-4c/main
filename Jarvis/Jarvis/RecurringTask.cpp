@@ -6,7 +6,11 @@ RecurringTask::RecurringTask() {
 	taskDay="";
 	endDate="";
 	endMonth="";
+	startDate="";
+	startMonth="";
 	endYear="2015";
+	startYear="2015";
+	recurringWord="";
 
 }
 RecurringTask::~RecurringTask() {
@@ -70,4 +74,44 @@ void RecurringTask::setWord(string word) {
 
 string RecurringTask::getWord() {
 	return keyword;
+}
+
+void RecurringTask::setRecWord(string word) {
+	recurringWord=word;
+}
+
+string RecurringTask::getRecWord() {
+	return recurringWord;
+}
+
+void RecurringTask::setStartDate(string date) {
+	startDate = date;
+}
+
+string RecurringTask::getStartDate() {
+	return startDate;
+}
+
+void RecurringTask::setStartMonth(string month) {
+	startMonth = month;
+}
+
+string RecurringTask::getStartMonth() {
+	return startMonth;
+}
+
+string RecurringTask::getStartYear() {
+	return startYear;
+}
+
+void RecurringTask::setStartYear(string year) {
+	startYear = year;
+}
+
+void RecurringTask::setPeriod(string word) {
+	period=word;
+}
+
+string RecurringTask::getPeriod() {
+	return period;
 }

@@ -88,7 +88,7 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 	string line;
 	//string taskDes,taskDate,taskMonth,taskYear , nextSubstring;
 	if(readfile.peek()==std::ifstream::traits_type::eof()) {                //if file is empty
-		return "Error: Currently there are no tasks to be done. The file is empty.\n"; 
+		cout << "Currently there are no tasks to be done. The file is empty." << endl << endl;
 	}
 
 	else {
@@ -193,7 +193,6 @@ bool Storage::updateFileData(string originalData , string updatedData,string out
 			newData = newData + updatedData + "\n";
 		}
 	}
-	
 	clearFile(outputFile,filePath);
 	string line;
 	istringstream data(newData);
@@ -229,5 +228,4 @@ string Storage::lowerCase(string input) {
 
 	return input;
 }
-
 

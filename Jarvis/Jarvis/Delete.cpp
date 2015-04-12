@@ -8,6 +8,8 @@ using namespace std;
 
 const string INDENTIFIERS = ".,!? ";
 string Delete::deleteTask;
+const string DISPLAY_COMMAND = "display";
+const string ERROR_PREVIOUS_COMMAND = "Error: Please view your task list using the *DISPLAY* command before deleting a task";
 
 
 Delete::Delete(Task TaskAttributes) {
@@ -35,14 +37,29 @@ string Delete::extractLineNumber(string input) {
 	return input.substr(end+2); 
 }
 
+bool Delete::isValidCommand(string input) {
+	if(input==DISPLAY_COMMAND) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 string Delete::execute(string fileName,string filePath) {
 	CommandParser P1;
 	string s;
 	stack <string> commandStack = T1.getStack();
 	commandStack.pop();
+	if(commandStack.empty()) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
 	string lastInput = commandStack.top();
 	//Call parser to execute lastInput. It will return a command type object that I will execute to get a input string.
 	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string command = P1.getCommand();
+	if(!isValidCommand(command)) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
 	string input = C1.run(fileName,filePath);
 	istringstream file(input);
 	string lineFromFile;
@@ -62,11 +79,11 @@ string Delete::execute(string fileName,string filePath) {
 	if(deletedData!="") {
 		S1.replaceFileData(deletedData,fileName,filePath);
 		setDeleteTask(deletedData);
-		return "Deleted successfully\n";
+		return "Deleted task successfully\n";
 	}
 	
 	else {
-		return "Error: Could not delete task since task does not exist\n";
+		return "Error: Please enter *DELETE* followed by the correct number of the task to be deleted.\n";
 	}
 
 }

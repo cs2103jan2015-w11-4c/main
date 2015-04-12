@@ -21,6 +21,7 @@ Task::Task() {
 	isErrorDate=false;
 	isCommandError=false;
 	isTimeError=false;
+	isBlankString=false;
 }
 
 Task::~Task() {
@@ -192,3 +193,18 @@ void Task::setTimeError(bool value) {
 
 }
 
+vector <string> Task::getUpdateTokens() {
+	return updateTokens;
+}
+
+void Task::setUpdateTokens(vector <string> input) {
+	updateTokens=input;
+}
+
+bool Task::getBlankString() {
+	return isBlankString;
+}
+
+void Task::setBlankString(bool value) {
+	isBlankString=value;
+}

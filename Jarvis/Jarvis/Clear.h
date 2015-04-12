@@ -9,10 +9,11 @@ class Clear:public Command {
 
 private:
 	Storage S1;
+	Task T1;
 	static string originalData;
 
 public:
-	Clear();
+	Clear(Task);
 	~Clear();
 	string execute(string,string);
 	void setData(string);

@@ -45,7 +45,7 @@ public:
 	static string getDescription(string input);
 	static string getKeywords(string input);
 	static vector <string> getParsedUserInput(string uInput);
-	CommandType getParserInput(string,stack <string>);
+	CommandType getParserInput(string, stack <string>);
 	static string getStartDate(string input);
 	static string getStartTime(string input);
 	static string getEndDate(string input);
@@ -55,7 +55,7 @@ public:
 	string extractUserCommand(string);
 	int startIndex(string);
 	int endIndex(string);
-	Task parseString(string,RecurringTask&);
+	Task parseString(string, RecurringTask&);
 	Task parserUpdate(string);
 	string check(string);
 	string trim(string const&);
@@ -63,22 +63,33 @@ public:
 	string getUserInput();
 	Task getTaskObject();
 	string changeToLowerCase(string input);
-	bool isDeadlineTask(vector <string>,vector<string>&,Task&);
+	bool isDeadlineTask(vector <string>, vector<string>&, Task&);
 	int getMonthNumber(string);
 	bool isHourValid(string);
 	bool isMinuteValid(string);
 	bool isDayValid(string);
-	bool isTimeValid(boost::posix_time::time_duration);
+	bool isTimeValid(boost::posix_time::time_duration, boost::gregorian::date);
+	void findYear(vector <string>&, int, Task& T1);
+	int convertStringToInt(string);
+	bool isDateValid(int, int, int);
+	void findRecDate(vector <string>&, int, RecurringTask&);
+	bool isPeriodValid(string);
+	void setCommand(string);
+	string getCommand();
 private:
 	string userInput;
+	string command;
+	bool isWrongDate;
 	static string startDate;
 	static string endDate;
 	static string startTime;
 	static string location;
 	static string name;
+	bool dateValid;
 	bool timedTask;
 	bool floatingTask;
 	bool deadlineTask;
+	bool isYearValid;
 	const static string commandIndicator;
 	const static string startDateIndicator;
 	const static string startDayIndicator;
@@ -93,11 +104,11 @@ private:
 	const static int startingPosition;
 	const static int positionModerator1;
 	const static int positionModerator2;
-	const static string endTimeIndicator; 
+	const static string endTimeIndicator;
 
 	vector<string> parsedInput;
 	static CommandType  C1;
-	Task taskDetails; 
+	Task taskDetails;
 };
 
 #endif

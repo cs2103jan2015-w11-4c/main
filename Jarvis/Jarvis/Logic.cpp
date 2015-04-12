@@ -33,12 +33,25 @@ int Logic::endIndex(string input) {
 }
 
 string Logic::extractUserCommand(string input) {
-	int start;
-	start = startIndex(input);
-	int end;
-	end = endIndex(input);
-	userInput = input.substr(end+1); 
-	return input.substr(start,end-start);
+	vector <string> tokensBeforeTrim;
+	boost::split(tokensBeforeTrim,input,boost::is_any_of(" "));
+	vector <string> tokens;
+	for(int i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i]!=" ") {
+			tokens.push_back(tokensBeforeTrim[i]);
+		}
+	}
+	string taskString;
+	int i;
+	for(i=1;i<tokens.size()-1;i++) {
+		taskString = taskString + tokens[i] + " ";
+	}
+	if(i==tokens.size()-1) {
+		taskString = taskString + tokens[i];
+	}
+	userInput =taskString;
+
+	return tokens[0];
 }
 
 
@@ -48,79 +61,11 @@ string Logic::executeCommand(string input,stack <string> userStack, string fileN
 	CommandParser P1;
 	CommandType C1 = P1.getParserInput(input,getStack());
 	s = C1.run(fileName,filePath);
-	/*command = extractUserCommand(input);
-	
-	P1.getParsedUserInput(userInput); 
-	taskDetails.setDescription(userInput);
-	taskDetails.setDate("16");
-	taskDetails.setMonth("April");
-	taskDetails.setKeywords("May 18 2014");
-	taskDetails.setYear("2015");
-	
-	//try {	
-	if(command=="add") {
-		/*Add *A1;
-		A1=new Add(taskDetails);
-		CommandType C1(A1);
-		s = C1.run(fileName,filePath);*/
-		/*CommandType C1 = P1.getCommand(userInput);
-	}
-	else if(command=="display") {
-		Display *D1;
-		D1 = new Display();
-		CommandType C1(D1);
-		s=C1.run(fileName,filePath);
-	}
-	else if(command=="delete") {
-		taskDetails.setNumber(userInput);
-		Delete *Del;
-		Del = new Delete(taskDetails);
-		CommandType C1(Del);
-		s=C1.run(fileName,filePath);
-	
-	}	
-	else if(command=="update") {
-		int start = startIndex(userInput);
-		int end = endIndex(userInput);
-		taskDetails.setUpdated(userInput.substr(end+1)); 
-		taskDetails.setNumber(userInput.substr(start,end-start));
-		Update *U1;
-		U1 = new Update(taskDetails);
-		CommandType C1(U1);
-		s = C1.run(fileName,filePath);
-}
-	else if(command=="clear") {
-		Clear *C2;
-		C2 = new Clear();
-		CommandType C1(C2);
-		s=C1.run(fileName,filePath);
-	}
-
-	else if(command=="exit") {
-		
-	}
-
-	else if(command=="search") {
-		Search *S1;
-		S1 = new Search(taskDetails);
-		CommandType C1(S1);
-		s=C1.run(fileName,filePath);
-	}
-	else {
-		s=" Wrong format of command";
-		//throw s;
-	}*/
-	
-//}
-
-//catch(string e) {
-	//	cout << "An exception occurred. Exception : Wrong format of command  " << s;
-//}
-return s;
+	return s;
 }
 
 string Logic::correctNumber(string no) {
-	string number;
+	string number="";
 	for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
 		if (atoi(no.c_str()) == iter->first) {
 			number = to_string(iter->second);

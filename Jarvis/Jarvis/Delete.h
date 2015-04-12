@@ -27,6 +27,7 @@ public:
 	string extractLineNumber(string);
 	string getDeleteTask();
 	void setDeleteTask(string);
+	bool isValidCommand(string);
 };
 
 #endif

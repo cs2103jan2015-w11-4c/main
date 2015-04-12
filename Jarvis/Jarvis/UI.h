@@ -15,7 +15,9 @@
 #include <map>
 #include <Windows.h>
 #include <iomanip>
-#include <mmsystem.h>
+//#include <mmsystem.h>
+#include <stdlib.h>
+#include <fstream>
 #include "Logic.h"
 
 using namespace std;
@@ -37,6 +39,8 @@ private:
 	static const string MESSAGE_COMMANDS_AVAIL;
 	static const string MESSAGE_BYE;
 	static vector <tuple <int,string, ptime, ptime, string>> UImemory;
+	
+
 
 public:
 
@@ -46,7 +50,7 @@ public:
 	void getStatus(bool status);
 	static string lowerCase(string);
 	static string getMonthIndex(string);
-	static void displayUI();
+	static void displayUI(string);
 	static vector <pair <int, int>> indexPair;
 	static void setColour(int);
 	static string prepareTaskDay(vector<string>);
@@ -58,8 +62,11 @@ public:
 	static bool isTimeTask1(vector <string>); //only has end hour and min
 	static bool isTimeTask2(vector <string>); // start hour, start min, end hour, end min
 	static void prepareUImemory(string);
-	//static void displayTodaysTask(Logic, string, stack<string>, string, string);
-
+	static bool noTasksToday(date, string);
+	static void printJarvis();
+	static bool emptyFileFirstRun(string);
+	static bool noDateTasks(string);
+	static void displayDone();
 };
 
 #endif

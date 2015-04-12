@@ -4,6 +4,11 @@ using namespace std;
 using namespace boost::gregorian;
 using namespace boost::posix_time;
 
+const string ERROR_BLANK_STRING = "Error: Task to be added cannot be empty. Please enter *ADD* followed by a task\n";
+const string ERROR_END_LESSTHAN_START = "Error: Please enter a start date for the task that comes after today's date";
+const string ERROR_DAY_LESSTHAN_START1 = "Error: Recurring task could not be added since no ";
+const string ERROR_DAY_LESSTHAN_START2 = " comes before ";
+
 Add::Add(Task TaskAttributes,RecurringTask recurringObject) {
 	T1=TaskAttributes;
 	R1=recurringObject;
@@ -85,53 +90,65 @@ int Add::getDayNumber(string name) {
 
 
 string Add::execute(string fileName,string filePath) {
-	
+	int countOfDays=0;
+	if(T1.getBlankString()) {
+		return ERROR_BLANK_STRING;
+	}
 	string status;
 	bool statusOfAdd;
 	if(R1.getRecurring()) {
 		if(R1.getRecurringError())
 			return "Error: Invalid form of recurring task.";
-		else if(R1.getWord()=="until") {
-			if(R1.getTaskDay()=="day") {
-				ptime now = microsec_clock::local_time();
-				date today = now.date();
-				int gregYear = 2015;
-				int gregMonth = getMonthNumber(R1.getEndMonth());
-				int gregDate = stoi(R1.getEndDate());
-				date end(gregYear, gregMonth, gregDate);
-				date_duration dd(1);
-				while(today<=end) {
-					T1.setDate(to_string(today.day()));
-					T1.setMonth(getMonthFromNumber(today.month()));
-					T1.setYear(to_string(today.year()));
-					statusOfAdd = S1.writeFile(T1,fileName,filePath);
-					today = today + dd;
+		else if(R1.getRecWord()=="every") {
+			if(R1.getWord()=="until") {
+				if(R1.getTaskDay()=="day") {
+					ptime now = microsec_clock::local_time();
+					date today = now.date();
+					int gregYear = stoi(T1.getYear());
+					int gregMonth = getMonthNumber(R1.getEndMonth());
+					int gregDate = stoi(R1.getEndDate());
+					date end(gregYear, gregMonth, gregDate);
+					if(end<today) {
+						return ERROR_END_LESSTHAN_START;
+					}
+					date_duration dd(1);
+					while(today<=end) {
+						T1.setDate(to_string(today.day()));
+						T1.setMonth(getMonthFromNumber(today.month()));
+						T1.setYear(to_string(today.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						today = today + dd;
+					}
+
 				}
 
-			}
-
-			else {
-				ptime now = microsec_clock::local_time();
-				string dayName = T1.getKeywords();
-				date today = now.date();
-				greg_weekday gregDay = getDayNumber(R1.getTaskDay());
-				first_day_of_the_week_after fdaf(gregDay);
-				date day = fdaf.get_date(date(today));
-				int gregYear = 2015;
-				int gregMonth = getMonthNumber(R1.getEndMonth());
-				int gregDate = stoi(R1.getEndDate());
-				date end(gregYear, gregMonth, gregDate);
-				first_day_of_the_week_before fdbf(gregDay);
-				date lastDay = fdbf.get_date(date(end));
-				date_duration dd(7);
-				while(day<=lastDay) {
-					T1.setDate(to_string(day.day()));
-					T1.setMonth(getMonthFromNumber(day.month()));
-					T1.setYear(to_string(day.year()));
-					statusOfAdd = S1.writeFile(T1,fileName,filePath);
-					day = day + dd;
+				else {
+					cout << R1.getTaskDay() << endl;
+					ptime now = microsec_clock::local_time();
+					string dayName = T1.getKeywords();
+					date today = now.date();
+					greg_weekday gregDay = getDayNumber(R1.getTaskDay());
+					first_day_of_the_week_after fdaf(gregDay);
+					date day = fdaf.get_date(date(today));
+					int gregYear = stoi(T1.getYear());
+					int gregMonth = getMonthNumber(R1.getEndMonth());
+					int gregDate = stoi(R1.getEndDate());
+					date end(gregYear, gregMonth, gregDate);
+					first_day_of_the_week_before fdbf(gregDay);
+					date lastDay = fdbf.get_date(date(end));
+					date_duration dd(7);
+					if(lastDay<day) {
+						return ERROR_DAY_LESSTHAN_START1 + R1.getTaskDay() + ERROR_DAY_LESSTHAN_START2 + to_string(gregDay) + " " + getMonthFromNumber(gregMonth) + " " + to_string(gregYear) + "\n";
+					}
+					while(day<=lastDay) {
+						T1.setDate(to_string(day.day()));
+						T1.setMonth(getMonthFromNumber(day.month()));
+						T1.setYear(to_string(day.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						cout << "yes" << endl;
+						day = day + dd;
+					}
 				}
-			}
 			if(statusOfAdd) {
 				status = "Added recurring task successfully\n";
 			}
@@ -139,14 +156,17 @@ string Add::execute(string fileName,string filePath) {
 				status= "Error: Could not add recurring task\n";
 			}
 		}
+	
+		else { 
 
-		else {
 			char number =(R1.getWord()).at(1);
 			int recurringNumber =number - '0';
 			//cout << recurringNumber << endl;
 			//cout << R1.getTaskDay() << endl;
 			int countOfDays=0;
+			cout << "yep" << endl;
 			if(recurringNumber>0) {
+				
 				if(R1.getTaskDay()=="day") {
 				ptime now = microsec_clock::local_time();
 				date today = now.date();
@@ -156,9 +176,6 @@ string Add::execute(string fileName,string filePath) {
 					T1.setDate(to_string(today.day()));
 					T1.setMonth(getMonthFromNumber(today.month()));
 					T1.setYear(to_string(today.year()));
-					cout << T1.getDate() << endl;
-					cout << T1.getMonth() << endl;
-					cout << T1.getYear() << endl;
 					statusOfAdd = S1.writeFile(T1,fileName,filePath);
 					countOfDays++;
 					today = today + dd;
@@ -194,8 +211,209 @@ string Add::execute(string fileName,string filePath) {
 			else { 
 				status= "Error: Could not add recurring task\n";
 			}
+			return status;
 
 		}
+	}
+	else if(R1.getRecWord()=="from") {
+		cout << "YES" << endl;
+		int startDate = stoi(R1.getStartDate());
+		int startMonth = getMonthNumber(R1.getStartMonth());
+		int startYear = stoi(R1.getStartYear());
+		
+		string recPeriod = R1.getPeriod();
+		string word = R1.getWord();
+		date start(startYear, startMonth, startDate);
+		if(recPeriod=="daily") {
+			if(word=="until") {
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end)
+					return "Error: Recurring Task could not be added.\n Please make sure the start date of recurrence comes before the end date of recurrence.\n";
+				date_duration dd(1);
+				while(start<=end) {
+				T1.setDate(to_string(start.day()));
+				T1.setMonth(getMonthFromNumber(start.month()));
+				T1.setYear(to_string(start.year()));
+				statusOfAdd = S1.writeFile(T1,fileName,filePath);
+				start = start + dd;
+				}
+
+			}
+			else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				cout << "rec1" << endl;
+				date_duration dd(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+						cout << "rec2" << endl;
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + dd;
+				}
+				}
+				else {
+					return "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+				}
+			}
+
+		}
+		else if(recPeriod=="weekly") {
+			if(word=="until") {
+				date_duration dd(7);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end)
+					return "Error: Recurring Task could not be added.\n Please make sure the start date of recurrence comes before the end date of recurrence.\n";
+				while(start<=end) {
+				T1.setDate(to_string(start.day()));
+				T1.setMonth(getMonthFromNumber(start.month()));
+				T1.setYear(to_string(start.year()));
+				statusOfAdd = S1.writeFile(T1,fileName,filePath);
+				start = start + dd;
+				}
+
+		}
+			else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				date_duration dd(7);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+					
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + dd;
+					}
+				}
+				else {
+					return "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+				}
+			}
+
+
+		}
+		else if(recPeriod=="monthly") {
+			if(word=="until") {
+				months single(1);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end)
+					return "Error: Recurring Task could not be added.\n Please make sure the start date of recurrence comes before the end date of recurrence.\n";
+				while(start<=end) {
+				T1.setDate(to_string(start.day()));
+				T1.setMonth(getMonthFromNumber(start.month()));
+				T1.setYear(to_string(start.year()));
+				statusOfAdd = S1.writeFile(T1,fileName,filePath);
+				start = start + single;
+				}
+
+		}
+			else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				months single(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+					
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + single;
+					}
+				}
+				else {
+					return "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+				}
+			}
+
+
+		}
+		else { //yearly
+			if(word=="until") {
+				years single(1);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end)
+					return "Error: Recurring Task could not be added.\n Please make sure the start date of recurrence comes before the end date of recurrence.\n";
+				while(start<=end) {
+				T1.setDate(to_string(start.day()));
+				T1.setMonth(getMonthFromNumber(start.month()));
+				T1.setYear(to_string(start.year()));
+				statusOfAdd = S1.writeFile(T1,fileName,filePath);
+				start = start + single;
+				}
+
+		}
+			else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				int countOfDays;
+				years single(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+					
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + single;
+					}
+				}
+				else {
+					return "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+				}
+			}
+
+		}
+
+	if(statusOfAdd) {
+				status = "Added recurring task successfully\n";
+			}
+			else { 
+				status= "Error: Could not add recurring task\n";
+			}
+			/*cout << R1.getRecurring() << endl;
+			cout << R1.getRecurringError() << endl;
+			cout << R1.getTaskDay() << endl;
+			cout << R1.getEndDate() << endl;
+			cout << R1.getEndMonth() << endl;
+			cout << R1.getEndYear() << endl;
+			cout << T1.getYear() << endl;
+			cout << R1.getStartDate() << endl;
+			cout << R1.getStartMonth() << endl;
+			cout << R1.getStartYear() << endl;
+			cout << R1.getWord() << endl;
+			cout << T1.getDescription() << endl;
+			cout << R1.getRecWord() << endl;
+			cout << R1.getPeriod() << endl;
+			cout << T1.getStartHour() << endl;
+			cout << T1.getStartMinute() << endl;
+			cout << T1.getEndHour() << endl;
+			cout << T1.getEndMinute() << endl;
+			cout << T1.getHour() << endl;
+			cout << T1.getMinute() << endl;*/
+	return status;
+
+	}
 	}
 
 	else if(!R1.getRecurring()) {

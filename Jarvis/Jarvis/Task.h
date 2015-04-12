@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stack>
+#include <vector>
 using namespace std;
 
 class Task {
@@ -24,10 +25,11 @@ private:
 	bool isErrorDate;
 	bool isCommandError;
 	bool isTimeError;
-
+	vector <string> updateTokens;
 	string taskKeywords;
 	stack <string> inputStack;
 	string undoString;
+	bool isBlankString;
 
 public:
 	Task();
@@ -70,6 +72,9 @@ public:
 	void setStack(stack <string>);
 	string getUndoString();
 	void setUndoString(string);
-
+	vector <string> getUpdateTokens();
+	void setUpdateTokens(vector <string>);
+	void setBlankString(bool);
+	bool getBlankString();
 };
 #endif

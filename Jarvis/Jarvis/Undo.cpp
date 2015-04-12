@@ -52,7 +52,7 @@ string Undo::execute(string fileName, string filePath) {
 			return "The update to the task has been reverted";
 		}
 		else if(lastCommand==CLEAR_COMMAND) {
-			Clear C1;
+			Clear C1(T1);
 			bool status = S1.writeBackToFile(C1.getData(),fileName,filePath);
 			return "The contents of the file have been restored";
 		}

@@ -10,10 +10,15 @@ private:
 	bool isRecurring;
 	bool isRecurringError;
 	string taskDay;
+	string startDate;
+	string startMonth;
+	string startYear;
+	string period;
 	string endDate;
 	string endMonth;
 	string endYear;
 	string keyword;
+	string recurringWord;
 
 
 public:
@@ -33,8 +38,16 @@ public:
 	void setRecurringError(bool);
 	void setWord(string);
 	string getWord();
-
-
+	void setRecWord(string);
+	string getRecWord();
+	string getStartDate();
+	void setStartDate(string);
+	string getStartMonth();
+	void setStartMonth(string);
+	string getStartYear();
+	void setStartYear(string);
+	string getPeriod();
+	void setPeriod(string);
 
 
 };

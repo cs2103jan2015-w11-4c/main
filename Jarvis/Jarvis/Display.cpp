@@ -181,7 +181,7 @@ string Display::execute(string fileName,string filePath) {
 	else {
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
-			return "Error: There are no tasks scheduled in the time - "+T1.getKeywords()+". Please enter a valid date. \n";
+			return "Error: There are no tasks scheduled with the keywords - "+T1.getKeywords()+" in the deadline. Please enter a valid date. \n";
 		}
 		else {
 			return S2.executeSearch(fileName,filePath);
