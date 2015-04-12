@@ -37,7 +37,7 @@ void UI::main(){
 	cout << "Hey there! Your schedule is saved in a text file. What do you want your file to be named as? (*.txt): ";
 	string fileName="";
 	int iterations = 0;
-	while (fileName.empty() || fileName.size() <= 4) {
+	while (fileName.empty() || fileName.size() <= 4) { //since textfile will always have .txt in the fileName, if it is less than size 4, there will need to be a reinput of the fileName by the user
 		if (iterations != 0) {
 			setColour(12);
 			cout << "\nPlease specify a text file: ";
@@ -99,14 +99,14 @@ void UI::main(){
 			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 			{
 				if (get<4>(*iter) != "done"){
-					indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
+					indexPair.push_back(make_pair(displayedIndex, get<0>(*iter))); //every iteration, grab the real index from the tuple and pair it with the displayed index on the screen.
 					displayedIndex++;
 				}
 
 			}
 
 			std::cout << endl;
-			defaultView("display all", inputStack, fileName, filePath);
+			defaultView("display all", inputStack, fileName, filePath); //print out today's tasks 
 	
 		}
 
@@ -119,7 +119,7 @@ void UI::main(){
 			if (iterations != 0) {
 				setColour(12);
 				system("cls");
-				cout << "\nPlease specify a valid command, Type in help to view all commands supported." << endl;
+				cout << "\nPlease specify a valid command, Type in help to view all commands supported." << endl; //to catch invalid commands
 				setColour(15);
 			}
 			std::cout << endl << MESSAGE_COMMAND; 
@@ -131,7 +131,7 @@ void UI::main(){
 
 		firstRun = false;
 
-		//trim
+		//trim off blank spaces in front of userInput
 		size_t start = userInput.find_first_not_of(" ");
 		if (start != string::npos)
 		{
@@ -154,14 +154,14 @@ void UI::main(){
 			if (displaytemp.substr(0, 7) == "Error: ")
 			{
 				setColour(12);
-				displayLine(displaytemp.substr(7));
+				displayLine(displaytemp.substr(7)); //prints out error message
 				setColour(15);
 				continue;
 			}
 
 			printCurrentDayDateTime();
 
-			prepareUImemory(displaytemp);
+			prepareUImemory(displaytemp); //save the tokens give by storage into the tuple UI memory for conditional printing.
 			
 			//determine if it is a display done
 			string userInputDisplayDone = userInput.substr(7);
@@ -178,13 +178,13 @@ void UI::main(){
 			}
 
 			
-		} else if (userCommand == "exit"){
+		} else if (userCommand == "exit"){ //exits the program
 			
 			isRunning = false;
 			displayLine(MESSAGE_BYE);
 			system("pause");
 		}
-		else if (userCommand == "help") {
+		else if (userCommand == "help") { //returns a list of help functions
 			system("cls");
 			setColour(13);
 			printJarvis();
@@ -294,7 +294,7 @@ void UI::prepareUImemory(string displaytemp){
 	return;
 }
 
-void UI::defaultView(string userInput, stack <string> inputStack, string fileName, string filePath){
+void UI::defaultView(string userInput, stack <string> inputStack, string fileName, string filePath){ //default view will be to print the tasks for today, if there are any
 	ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
 
 	UImemory.clear();
@@ -333,12 +333,12 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 				
 				std::cout << setw(8) << "  " << setw(8) << left << "     --    ";//deadline tasks don't have time duration, end at 23:59
 			}
-			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01" && get<4>(*iter) != "done"){ // TimeTask1
+			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01" && get<4>(*iter) != "done"){ // TimeTask1; i.e. by a certain time
 				std::cout << "   ";
 				
 				std::cout << setw(8) << "  " << setw(8) << left << "00:00-" + to_simple_string(get<2>(*iter)).substr(12, 5);
 			}
-			else { //TimeTask2
+			else { //TimeTask2, i.e. from a certain time to a certain time
 				if (get<4>(*iter) != "done") {
 					std::cout << "   ";
 					
@@ -466,14 +466,14 @@ void UI::displayUI(string status) { //status can be "done" or "low" by default
 					}
 					std::cout << setw(8) << "  " << setw(8) << left << "     --    ";//deadline tasks don't have time duration, end at 23:59
 				}
-			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"  && get<4>(*iter) == status){ // TimeTask1
+			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"  && get<4>(*iter) == status){ // TimeTask1, by a certain time
 					std::cout << lineNo << ".";
 					if (lineNo < 10){
 						std::cout << " "; //for alignment
 					}
 					std::cout << setw(8) << "  " << setw(8) << left << "00:00-" + to_simple_string(get<2>(*iter)).substr(12, 5);
 				}
-				else { //TimeTask2
+				else { //TimeTask2, from a certain time to a certain time
 					if (get<4>(*iter) == status){
 						std::cout << lineNo << ".";
 						if (lineNo < 10){
@@ -490,7 +490,7 @@ void UI::displayUI(string status) { //status can be "done" or "low" by default
 		}
 		
 		if (iter != UImemory.begin()) {
-			iter2++;
+			iter2++; //iter2 points at the previous iteration, iter 1 points at the current one
 		}
 		overdue = false;
 		if (get<4>(*iter) == status) {
@@ -553,7 +553,7 @@ bool UI::noTasksToday(date today, string status) { //check if all the tasks for 
 	return noTasks;
 }
 
-string UI::getMonthIndex(string name) {
+string UI::getMonthIndex(string name) { //stores the months with their respective index in a map.
 
 	map<string, string> months;
 	map<string,string>::iterator iter;
@@ -579,7 +579,7 @@ string UI::getMonthIndex(string name) {
 }
 
 
-string UI::lowerCase(string input) {
+string UI::lowerCase(string input) { //turns the entire string to lower case.
 
 	transform(input.begin(), input.end(), input.begin(), ::tolower);
 
@@ -612,7 +612,7 @@ void UI::setColour(int value) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
 }
 
-bool UI::isFloating(vector <string> tokens) {
+bool UI::isFloating(vector <string> tokens) { 
 	
 	bool floating = false;
 	vector <string>::iterator iter = tokens.begin();
@@ -634,7 +634,7 @@ bool UI::isDeadline(vector <string> tokens) {
 	return deadline;
 }
 
-bool UI::isTimeTask1(vector <string> tokens) {
+bool UI::isTimeTask1(vector <string> tokens) { //time task 1 determined as task by a certain time
 	bool timeTask1 = false;
 	vector <string>::iterator iter = tokens.begin();
 	iter = iter + 4;
@@ -644,7 +644,7 @@ bool UI::isTimeTask1(vector <string> tokens) {
 	return timeTask1;
 }
 
-bool UI::isTimeTask2(vector <string> tokens) {
+bool UI::isTimeTask2(vector <string> tokens) { //time task 2 determined as task from certain time to a certain time
 	bool timeTask2 = false;
 	vector <string>::iterator iter = tokens.begin();
 	iter = iter + 6;
@@ -655,7 +655,7 @@ bool UI::isTimeTask2(vector <string> tokens) {
 	return timeTask2;
 }
 
-string UI::prepareTaskDay(vector<string> tokens) {
+string UI::prepareTaskDay(vector<string> tokens) { //prepares the Day to be put into the UImemory tuple
 	string taskDate, taskMonth, taskYear, taskDay;
 	vector<string>::iterator it = tokens.begin();
 	it++;
@@ -676,7 +676,7 @@ string UI::prepareTaskDay(vector<string> tokens) {
 	return taskDay;
 }
 
-string UI::prepareByEndHourEndMin(vector<string> tokens) {
+string UI::prepareByEndHourEndMin(vector<string> tokens) { //prepares the end hour and end min for timetask1 to be in UImemory tuple
 	string byEndHour, byEndMin, byEndTime;
 	vector<string>::iterator it = tokens.begin();
 	it = it + 4;
@@ -688,7 +688,7 @@ string UI::prepareByEndHourEndMin(vector<string> tokens) {
 	return byEndTime;
 }
 
-string UI::prepareStartHourStartMin(vector<string> tokens) {
+string UI::prepareStartHourStartMin(vector<string> tokens) { //prepares start hour and min for time task 2, from some time to some time.
 	string startHour, startMin, startTime;
 	vector<string>::iterator it = tokens.begin();
 	it = it + 6;
@@ -700,7 +700,7 @@ string UI::prepareStartHourStartMin(vector<string> tokens) {
 	return startTime;
 }
 
-string UI::prepareEndHourEndMin(vector<string> tokens) {
+string UI::prepareEndHourEndMin(vector<string> tokens) { //prepare end hour end min for time task 2, from some time to some time
 	string endHour, endMin, endTime;
 	vector<string>::iterator it = tokens.begin();
 	it = it + 8;
@@ -712,12 +712,12 @@ string UI::prepareEndHourEndMin(vector<string> tokens) {
 	return endTime;
 }
 
-bool UI::emptyFileFirstRun(string fullFilePath) {
+bool UI::emptyFileFirstRun(string fullFilePath) { //returns true if the file does not exist, and it is the first run
 	ifstream readfile(fullFilePath.c_str());
 	return readfile.good();
 }
 
-void UI::printJarvis() {
+void UI::printJarvis() { //prints the JARVIS for the homepage and help page.
 	string getJarvis[16] ;
 	
 		getJarvis[0] = "          JJJJJJJJJJJ          AAA               RRRRRRRRRRRRRRRRR   VVVVVVVV           VVVVVVVVIIIIIIIIII   SSSSSSSSSSSSSSS ";
