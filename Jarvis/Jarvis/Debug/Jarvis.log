@@ -1,13 +1,12 @@
-﻿Build started 12/4/2015 6:26:45 PM.
-     1>Project "C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : Access to the path 'c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\debug\jarvis.exe' is denied.
+﻿Build started 12/4/2015 7:20:04 PM.
+     1>Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Done.cpp Logic.cpp parser.cpp RecurringTask.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
          WrongFormatCommand.cpp
          Update.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\update.cpp(91): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\update.cpp(210): warning C4101: 'i' : unreferenced local variable
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\update.cpp(350): warning C4101: 'i' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(91): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(210): warning C4101: 'i' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(350): warning C4101: 'i' : unreferenced local variable
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -26,7 +25,7 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\update.cpp(112) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(112) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
@@ -34,7 +33,7 @@
          Undo.cpp
          Storage.cpp
          UI.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\ui.cpp(96): warning C4101: 'defaultViewPrinted' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(87): warning C4101: 'defaultViewPrinted' : unreferenced local variable
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -53,14 +52,14 @@
                  [
                      RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\ui.cpp(273) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(252) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
                  with
                  [
                      RangeT=std::string
                  ]
          Task.cpp
          Search.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\search.cpp(111): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\search.cpp(111): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -79,29 +78,29 @@
                  [
                      RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\search.cpp(64) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\search.cpp(64) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
                  with
                  [
                      RangeT=std::string
                  ]
          RecurringTask.cpp
          parser.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(37): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(53): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(60): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(198): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(235): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(311): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(324): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(331): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(539): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(542): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(845): warning C4018: '<=' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(954): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'timedBy' : unreferenced local variable
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'floating' : unreferenced local variable
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'timedFrom' : unreferenced local variable
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(973): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(37): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(53): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(60): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(198): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(235): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(311): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(324): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(331): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(539): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(542): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(845): warning C4018: '<=' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(954): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'timedBy' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'floating' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(303): warning C4101: 'timedFrom' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(973): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -120,14 +119,14 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\parser.cpp(51) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\parser.cpp(51) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
                  ]
          Logic.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\logic.cpp(39): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\logic.cpp(46): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\logic.cpp(39): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\logic.cpp(46): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -146,13 +145,13 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\logic.cpp(37) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\logic.cpp(37) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
                  ]
          Done.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\done.cpp(68): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\done.cpp(68): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -171,15 +170,15 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\done.cpp(59) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\done.cpp(59) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
                  ]
          Display.cpp
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\display.cpp(98): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\display.cpp(104): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\display.cpp(201): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\display.cpp(98): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\display.cpp(104): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\display.cpp(201): warning C4018: '<' : signed/unsigned mismatch
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<const char*,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -198,7 +197,7 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\display.cpp(97) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\display.cpp(97) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
@@ -222,7 +221,7 @@
                  [
                      RangeT=boost::iterator_range<const char *>
                  ]
-                 c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\delete.cpp(94) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\delete.cpp(94) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<const char[2]>(RangeT (&))' being compiled
                  with
                  [
                      RangeT=const char [2]
@@ -231,11 +230,11 @@
          Clear.cpp
          Add.cpp
          Generating Code...
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\add.cpp(371): warning C4700: uninitialized local variable 'countOfDays' used
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\undo.cpp(66): warning C4715: 'Undo::execute' : not all control paths return a value
-     1>c:\users\gabriel\desktop\jarvis 11apr 2339 push this\main\jarvis\jarvis\update.cpp(309): warning C4715: 'Update::checkByTime' : not all control paths return a value
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\add.cpp(371): warning C4700: uninitialized local variable 'countOfDays' used
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\undo.cpp(66): warning C4715: 'Undo::execute' : not all control paths return a value
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(309): warning C4715: 'Update::checkByTime' : not all control paths return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Debug\Jarvis.exe" /INCREMENTAL /NOLOGO winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Debug\Jarvis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Debug\Jarvis.lib" /MACHINE:X86 Debug\Add.obj
          Debug\Clear.obj
          Debug\CommandType.obj
          Debug\Delete.obj
@@ -251,9 +250,9 @@
          Debug\Undo.obj
          Debug\Update.obj
          Debug\WrongFormatCommand.obj
-         Jarvis.vcxproj -> C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Debug\Jarvis.exe
-     1>Done Building Project "C:\Users\Gabriel\Desktop\Jarvis 11apr 2339 PUSH THIS\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)).
+         Jarvis.vcxproj -> C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Debug\Jarvis.exe
+     1>Done Building Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:01:17.53
+Time Elapsed 00:01:07.05

@@ -47,7 +47,6 @@ public:
 	static void main();
 	static void defaultView(string, stack <string>, string, string);
 	static void displayLine( string);
-	void getStatus(bool status);
 	static string lowerCase(string);
 	static string getMonthIndex(string);
 	static void displayUI(string);
@@ -67,6 +66,7 @@ public:
 	static bool emptyFileFirstRun(string);
 	static bool noDateTasks(string);
 	static void displayDone();
+	static void printCurrentDayDateTime();
 };
 
 #endif

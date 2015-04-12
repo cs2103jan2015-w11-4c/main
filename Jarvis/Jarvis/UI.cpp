@@ -1,18 +1,10 @@
 #include "UI.h"
 
-
 using namespace std;
 using namespace boost::gregorian;
 using namespace boost::posix_time;
 
 const string UI::MESSAGE_COMMAND = "command: ";
-/*
-const string UI::MESSAGE_WELCOME1 = "\n*******************************************************************************************************";
-const string UI::MESSAGE_WELCOME2 = "*****************************************";
-const string UI::MESSAGE_WELCOME3 = " Welcome to Jarvis. ";
-const string UI::MESSAGE_WELCOME4 = "******************************************";
-const string UI::MESSAGE_WELCOME5 = "*******************************************************************************************************\n\n";
-*/
 const string UI::MESSAGE_COMMANDS_AVAIL = "\t\t\tCommands available : \n\t\t\t(add, delete, display, update, clear, search, undo, done, exit)\n\t\t\t===============================================================\n\t\t\tType in help to view all commands supported.\n\n";
 const string UI::MESSAGE_WELCOME6 = "Data will be written into ";
 const string UI::MESSAGE_BYE = "Goodbye!";
@@ -33,7 +25,6 @@ struct TupleCompare
 };
 
 int main(void){
-	//PlaySound("C:\\Users\\Gabriel\\Documents\\GitHub\\main\\Jarvis\\Jarvis\\audioFile.wav", NULL, SND_ASYNC);
 	UI::main();
 	return 0;
 }
@@ -146,6 +137,7 @@ void UI::main(){
 		{
 			userInput = userInput.substr(start);
 		}
+
 		userInput = lowerCase(userInput);
 		inputStack.push(userInput);
 		Logic temp;
@@ -167,20 +159,7 @@ void UI::main(){
 				continue;
 			}
 
-			ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
-			setColour(13);
-			std::cout << "Current  Day &  Date";
-			setColour(3);
-			std::cout <<": ";
-			setColour(15);
-			std::cout << now.date().day_of_week().as_long_string() << " " << now.date().year_month_day().month.as_long_string() << " " << now.date().year_month_day().day << ", " << now.date().year_month_day().year << endl;
-
-			setColour(13);
-			std::cout << "Current Time (HH:MM)";
-			setColour(3);
-			std::cout << ": ";
-			setColour(15);
-			std::cout << to_simple_string(now).substr(12, 5) << endl << endl;
+			printCurrentDayDateTime();
 
 			prepareUImemory(displaytemp);
 			
@@ -316,6 +295,8 @@ void UI::prepareUImemory(string displaytemp){
 }
 
 void UI::defaultView(string userInput, stack <string> inputStack, string fileName, string filePath){
+	ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
+
 	UImemory.clear();
 	string displaytemp;
 	Logic temp;
@@ -323,21 +304,7 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 
 	prepareUImemory(displaytemp);
 	
-	//current date & time
-	ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
-	setColour(13);
-	std::cout << "Current  Day &  Date";
-	setColour(3);
-	std::cout << ": ";
-	setColour(15);
-	std::cout << now.date().day_of_week().as_long_string() << " " << now.date().year_month_day().month.as_long_string() << " " << now.date().year_month_day().day << ", " << now.date().year_month_day().year << endl;
-
-	setColour(13);
-	std::cout << "Current Time (HH:MM)";
-	setColour(3);
-	std::cout << ": ";
-	setColour(15);
-	std::cout << to_simple_string(now).substr(12, 5) << endl << endl;
+	printCurrentDayDateTime();
 
 	setColour(3);
 	std::cout << "=====================================================================================================================================" << endl;
@@ -660,10 +627,7 @@ bool UI::isDeadline(vector <string> tokens) {
 
 	bool deadline = false;
 	vector <string>::iterator iter = tokens.begin();
-	iter++;
-	iter++;
-	iter++;
-	iter++;
+	iter = iter + 4;
 	if (*iter == "" && *(iter + 5) == "") {
 		deadline = true;
 	}
@@ -673,10 +637,7 @@ bool UI::isDeadline(vector <string> tokens) {
 bool UI::isTimeTask1(vector <string> tokens) {
 	bool timeTask1 = false;
 	vector <string>::iterator iter = tokens.begin();
-	iter++;
-	iter++;
-	iter++;
-	iter++;
+	iter = iter + 4;
 	if (*iter != "" && *(++iter) != "") {
 		timeTask1 = true;
 	}
@@ -686,12 +647,8 @@ bool UI::isTimeTask1(vector <string> tokens) {
 bool UI::isTimeTask2(vector <string> tokens) {
 	bool timeTask2 = false;
 	vector <string>::iterator iter = tokens.begin();
-	iter++;
-	iter++;
-	iter++;
-	iter++;
-	iter++;
-	iter++;
+	iter = iter + 6;
+	
 	if (*iter != "" && *(++iter) != "") {
 		timeTask2 = true;
 	}
@@ -722,10 +679,7 @@ string UI::prepareTaskDay(vector<string> tokens) {
 string UI::prepareByEndHourEndMin(vector<string> tokens) {
 	string byEndHour, byEndMin, byEndTime;
 	vector<string>::iterator it = tokens.begin();
-	it++;
-	it++;
-	it++;
-	it++;
+	it = it + 4;
 	byEndHour = *it;
 	it++;
 	byEndMin = *it;
@@ -788,131 +742,21 @@ void UI::printJarvis() {
 	}
 
 }
-/*
-void UI::displayDone() {
-	vector <tuple <int, string, ptime, ptime, string>>::iterator iter, iter2;
-	int lineNo = 1;
-	int floating = 0;
-	ptime nullDate(not_a_date_time);
-	iter2 = UImemory.begin();
 
-	bool overdue = false;
-
+void UI::printCurrentDayDateTime() {
+	//current date & time
+	ptime now = microsec_clock::local_time(); // current *LOCAL TIMEZONE* time/date 
+	setColour(13);
+	std::cout << "Current  Day &  Date";
 	setColour(3);
-	std::cout << "=====================================================================================================================================" << endl;
-	setColour(14);
-	std::cout << "\t These are the tasks that have been completed"<< endl;
-	setColour(3);
-	std::cout << "=====================================================================================================================================" << endl;
+	std::cout << ": ";
 	setColour(15);
-	
-	
-	bool noTaskDisplay = false;
+	std::cout << now.date().day_of_week().as_long_string() << " " << now.date().year_month_day().month.as_long_string() << " " << now.date().year_month_day().day << ", " << now.date().year_month_day().year << endl;
 
-	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
-	{
-
-		if (to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11) && get<2>(*iter2) != nullDate && get<2>(*iter) != nullDate) {
-			setColour(3);
-			std::cout << "=====================================================================================================================================" << endl; //different date
-			setColour(15);
-		}
-
-
-		if (get<2>(*iter) == nullDate) { //only print out header for first floating task
-			if (floating == 0) {
-
-				setColour(3);
-				if (!noDateTasks()) {
-					std::cout << "=====================================================================================================================================\n\n\n" << endl;
-				}
-				std::cout << "=====================================================================================================================================" << endl;
-				setColour(8);
-				std::cout << setw(1) << "\t The tasks below had no deadline but are completed" << endl;
-				setColour(3);
-				std::cout << "=====================================================================================================================================" << endl; //different date
-				setColour(13);
-				std:: cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << "Task" << endl;
-				setColour(9);
-				std::cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
-				setColour(15);
-
-			}
-			if (get<4>(*iter) == "done")
-			{
-				std::cout << lineNo << ".";
-				if (lineNo < 10) {
-					std::cout << " "; //for alignment
-				}
-				std::cout << setw(8) << "  " << setw(8) << "     --    ";
-				floating++;
-			}
-
-		}
-		else { //not floating task
-			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
-				
-					date::ymd_type ymd2 = (get<2>(*iter).date()).year_month_day();
-					greg_weekday wd2 = (get<2>(*iter).date()).day_of_week();
-
-					std::cout << setw(1) << " Deadline: [" << wd2.as_long_string() << " " << ymd2.month.as_long_string() << " " << ymd2.day << ", " << ymd2.year << "]" << endl; //print deadline if different date	
-					setColour(3);
-					std::cout << "=====================================================================================================================================" << endl; //different date
-					setColour(13);
-					std::cout << "No." << setw(8) << " " << setw(8) << "Time duration" << setw(8) << " " << setw(8) << left << "Task" << endl;
-					setColour(9);
-					std::cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
-					setColour(15);
-				
-			}
-
-
-			if (to_simple_string(get<2>(*iter)).substr(12, 8) == "23:59:59"  && get<4>(*iter) == "done") { //this is a deadline task
-				std::cout << lineNo << ".";
-				if (lineNo < 10){
-					std::cout << " "; //for alignment
-				}
-				std::cout << setw(8) << "  " << setw(8) << left << "     --    ";//deadline tasks don't have time duration, end at 23:59
-			}
-			else if (to_simple_string(get<2>(*iter)).substr(18, 2) == "01"  && get<4>(*iter) == "done"){ // TimeTask1
-				std::cout << lineNo << ".";
-				if (lineNo < 10){
-					std::cout << " "; //for alignment
-				}
-				std::cout << setw(8) << "  " << setw(8) << left << "00:00-" + to_simple_string(get<2>(*iter)).substr(12, 5);
-			}
-			else { //TimeTask2
-				if (get<4>(*iter) == "done"){
-					std::cout << lineNo << ".";
-					if (lineNo < 10){
-						std::cout << " "; //for alignment
-					}
-					std::cout << setw(8) << " " << setw(8) << left << to_simple_string(get<2>(*iter)).substr(12, 5) + "-" + to_simple_string(get<3>(*iter)).substr(12, 5);
-				}
-			}
-
-		}
-
-		if (get<4>(*iter) == "done") {
-			std::cout << setw(10) << " " << setw(10) << left << get<1>(*iter) << endl; //print out Task
-		}
-
-		if (iter != UImemory.begin()) {
-			iter2++;
-		}
-		overdue = false;
-		if (get<4>(*iter) == "done") {
-			lineNo++;
-			noTaskDisplay = true;
-		}
-	}
-	if (!noTaskDisplay)
-	{
-		setColour(10);
-		std::cout << "There are no tasks to display" << endl;
-	}
+	setColour(13);
+	std::cout << "Current Time (HH:MM)";
 	setColour(3);
-	std::cout << "=====================================================================================================================================" << endl << endl;
+	std::cout << ": ";
 	setColour(15);
+	std::cout << to_simple_string(now).substr(12, 5) << endl << endl;
 }
-*/
