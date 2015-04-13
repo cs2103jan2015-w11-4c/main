@@ -1,7 +1,7 @@
-﻿Build started 13/4/2015 11:35:37 AM.
+﻿Build started 13/4/2015 11:44:02 AM.
      1>Project "C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Jarvis.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Done.cpp Logic.cpp parser.cpp RecurringTask.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp CommandType.cpp Delete.cpp Display.cpp Done.cpp Logic.cpp Main.cpp parser.cpp RecurringTask.cpp Search.cpp Task.cpp UI.cpp Storage.cpp Undo.cpp Update.cpp WrongFormatCommand.cpp
          WrongFormatCommand.cpp
          Update.cpp
      1>c:\users\gabriel\documents\github\main\jarvis\jarvis\update.cpp(91): warning C4018: '<' : signed/unsigned mismatch
@@ -33,7 +33,7 @@
          Undo.cpp
          Storage.cpp
          UI.cpp
-     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(99): warning C4101: 'defaultViewPrinted' : unreferenced local variable
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(100): warning C4101: 'defaultViewPrinted' : unreferenced local variable
      1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : see declaration of 'std::_Copy_impl'
                  c:\boost\1.57.0\vc\11.0\boost\algorithm\string\detail\classification.hpp(102) : see reference to function template instantiation '_OutIt std::copy<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,char*>(_InIt,_InIt,_OutIt)' being compiled
@@ -52,7 +52,7 @@
                  [
                      RangeT=boost::iterator_range<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>
                  ]
-                 c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(263) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
+                 c:\users\gabriel\documents\github\main\jarvis\jarvis\ui.cpp(264) : see reference to function template instantiation 'boost::algorithm::detail::is_any_ofF<char> boost::algorithm::is_any_of<std::string>(const RangeT &)' being compiled
                  with
                  [
                      RangeT=std::string
@@ -124,6 +124,8 @@
                  [
                      RangeT=const char [2]
                  ]
+         Main.cpp
+     1>c:\users\gabriel\documents\github\main\jarvis\jarvis\main.cpp(6): warning C4101: 'ui' : unreferenced local variable
          Logic.cpp
      1>c:\users\gabriel\documents\github\main\jarvis\jarvis\logic.cpp(39): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\gabriel\documents\github\main\jarvis\jarvis\logic.cpp(46): warning C4018: '<' : signed/unsigned mismatch
@@ -241,6 +243,7 @@
          Debug\Display.obj
          Debug\Done.obj
          Debug\Logic.obj
+         Debug\Main.obj
          Debug\parser.obj
          Debug\RecurringTask.obj
          Debug\Search.obj
@@ -255,4 +258,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:31.36
+Time Elapsed 00:00:34.80

@@ -35,11 +35,12 @@ struct TupleCompare
 		return F<typename tuple_element<M, T>::type>()(std::get<M>(t1), std::get<M>(t2));
 	}
 };
-
+/*
 int main(void){
 	UI::main();
 	return 0;
 }
+*/
 
 void UI::main(){
 	setColour(13);
