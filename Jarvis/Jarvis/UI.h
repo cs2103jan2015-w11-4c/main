@@ -38,6 +38,17 @@ private:
 	static const string MESSAGE_WELCOME6;
 	static const string MESSAGE_COMMANDS_AVAIL;
 	static const string MESSAGE_BYE;
+	static const string MESSAGE_HELP_ADD;
+	static const string MESSAGE_HELP_DELETE;
+	static const string MESSAGE_HELP_CLEAR;
+	static const string MESSAGE_HELP_DISPLAY;
+	static const string MESSAGE_HELP_UPDATE;
+	static const string MESSAGE_HELP_DONE;
+	static const string MESSAGE_HELP_UNDO;
+	static const string MESSAGE_HELP_SEARCH;
+	static const string MESSAGE_HELP_EXIT;
+	static const string MESSAGE_HELP_ERROR;
+	static const string MESSAGE_FORMAT;
 	static vector <tuple <int,string, ptime, ptime, string>> UImemory;
 	
 
@@ -67,6 +78,7 @@ public:
 	static bool noDateTasks(string);
 	static void displayDone();
 	static void printCurrentDayDateTime();
+	static void printHelp(string);
 };
 
 #endif

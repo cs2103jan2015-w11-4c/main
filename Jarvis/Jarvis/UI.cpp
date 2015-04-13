@@ -5,7 +5,19 @@ using namespace boost::gregorian;
 using namespace boost::posix_time;
 
 const string UI::MESSAGE_COMMAND = "command: ";
-const string UI::MESSAGE_COMMANDS_AVAIL = "\t\t\tCommands available : \n\t\t\t(add, delete, display, update, clear, search, undo, done, exit)\n\t\t\t===============================================================\n\t\t\tType in help to view all commands supported.\n\n";
+const string UI::MESSAGE_COMMANDS_AVAIL = "\t\t\tCommands available : \n\t\t\t(add, delete, display, update, clear, search, undo, done, exit)\n\t\t\t===============================================================\n\t\t\tType in help to view all commands supported and input format.\n\t\t\te.g. Type help add to learn more about the add function\n\n";
+const string UI::MESSAGE_FORMAT = "\t\t\tDate format:\n\t\t\t==================\n\t\t\te.g. 13 April 2015\n\n\n\t\t\tTime format:\n\t\t\t==============\n\t\t\t24-hour format\n\t\t\te.g. 15:00\n\n";
+///const string UI::MESSAGE_HELP_ADD = "\t\t\tAdding tasks with No Deadline:\n\t\t\t==============================\n\t\t\tAdd <task name>\n\t\t\te.g. Add buy milk\n\n\t\t\tAdding of Deadline Tasks\n\t\t\t========================\n\t\t\tAdd <task name>  on <date>\n\t\t\te.g. add buy milk on 21 september 2016\n\n\t\t\tAdding of Timed Tasks:\n\t\t\t======================\n\t\t\tAdd <task name> on <date> by <time>\n\t\t\te.g. add buy milk on 21 september 2016 by 16:30\n\n\t\t\tAdd <task name> on <date> from <start time> to <end time>\n\t\t\te.g. add buy milk on 21 september 2016 from 10:00 to 12:00\n\t\t\tAdding of Reccuring Tasks:\n\t\t\t==========================\n\t\t\tAdd <task name> on <date> every <day or date> until <date>\n\n";
+const string UI::MESSAGE_HELP_ADD = "\t\t\t-----\n\t\t\t|ADD|\n\t\t\t-----\n\n\t\t\tAdding tasks with No Deadline:\n\t\t\t==============================\n\t\t\tAdd <task name>\n\n\t\t\tAdding of Deadline Tasks\n\t\t\t========================\n\t\t\tAdd <task name>  on <date>\n\n\t\t\tAdding of Timed Tasks:\n\t\t\t======================\n\t\t\tAdd <task name> on <date> by <time>\n\t\t\tAdd <task name> on <date> from <start time> to <end time>\n\n\t\t\tAdding of Reccuring Tasks:\n\t\t\t==========================\n\t\t\tAdd <task name> on <date> every <day or date> until <date>\n\t\t\tAdd <task name> on <date> every <day or date> x<no. of occurences>\n";
+const string UI::MESSAGE_HELP_DELETE = "\t\t\t--------\n\t\t\t|DELETE|\n\t\t\t--------\n\n\t\t\tDeleting tasks:\n\t\t\t===============\n\t\t\tdelete <index>\n\t\t\te.g. delete 2\n\t\t\t*delete should only be used after a display command is entered (shows index)\n\n";
+const string UI::MESSAGE_HELP_CLEAR = "\t\t\t-------\n\t\t\t|CLEAR|\n\t\t\t-------\n\n\t\t\tClear deletes all tasks\n\n";
+const string UI::MESSAGE_HELP_DISPLAY = "\t\t\t---------\n\t\t\t|DISPLAY|\n\t\t\t---------\n\n\t\t\tdisplay all\n\t\t\t===========\n\t\t\t*displays all uncompleted tasks on the list\n\n\t\t\tdisplay <month>\n\t\t\t===============\n\t\t\te.g. display november\n\t\t\t*displays all uncompleted tasks in november\n\n\t\t\tdisplay today/tomorrow\n\t\t\t======================\n\t\t\t*displays all uncompleted tasks for today/tomorrow\n\n\t\t\tdisplay done\n\t\t\t============\n\t\t\t*displays all completed tasks\n\n";
+const string UI::MESSAGE_HELP_UPDATE = "\t\t\t--------\n\t\t\t|UPDATE|\n\t\t\t--------\n\n\t\t\tupdate <index> <category> <new string>\n\t\t\t======================================\n\t\t\te.g. update 1 task go to the beach\n\n\t\t\tList of categories to be updated:\n\t\t\t 1. task\n\t\t\t 2. date\n\t\t\t 3. time\n\n\t\t\t*update should only be used after a display command is entered (shows index)\n\n";
+const string UI::MESSAGE_HELP_DONE = "\t\t\t------\n\t\t\t|DONE|\n\t\t\t------\n\n\t\t\tdone <index>\n\t\t\t============\n\t\t\tMarks the specified task as done\n\n\t\t\t*done should only be used after a display command is entered (shows index)\n\n";
+const string UI::MESSAGE_HELP_UNDO = "\t\t\t------\n\t\t\t|UNDO|\n\t\t\t------\n\n\t\t\t*undo the last action\n\n";
+const string UI::MESSAGE_HELP_SEARCH = "\t\t\t--------\n\t\t\t|SEARCH|\n\t\t\t--------\n\n\t\t\tsearch <keyword>\n\t\t\t================\n\t\t\t*prints out the tasks containing the <keyword>\n\n";
+const string UI::MESSAGE_HELP_EXIT = "\t\t\t------\n\t\t\t|EXIT|\n\t\t\t------\n\n\t\t\tType exit to close the program safetly.\n\n";
+const string UI::MESSAGE_HELP_ERROR = "\t\t\tHelp is not available for this command as it is invalid\n\n";
 const string UI::MESSAGE_WELCOME6 = "Data will be written into ";
 const string UI::MESSAGE_BYE = "Goodbye!";
 char UI::buffer[MAX_BUFFER_SIZE];
@@ -113,6 +125,7 @@ void UI::main(){
 		if (!emptyFileFirstRun(filePath + fileName) && firstRun) {
 			cout << "\n\n";
 			displayLine(MESSAGE_COMMANDS_AVAIL); //print commands available if new file is created, and no tasks to display for today
+			displayLine(MESSAGE_FORMAT);
 		}
 		
 		while (userInput.empty()) {
@@ -190,17 +203,15 @@ void UI::main(){
 			printJarvis();
 			setColour(15);
 			cout << "\n\n\n";
-			/*
-			cout << "test:" << userInput.substr(4) << endl; //see where to cut 
-			string helpType = userInput.substr(7);
-			size_t foundHelpType = helpType.find_first_not_of(" ");
-			size_t foundHelpTypeEnd = 
-			if (foundHelpType != string::npos) {
-				helpType = helpType.substr(foundHelpType, 4);
-			}
-			*/
+			istringstream iss(userInput);
+			string helpCommand; //store "help"
+			string helpType; //store the help type, e.g. "add", "delete", etc.
 
-			displayLine(MESSAGE_COMMANDS_AVAIL);
+			iss >> helpCommand >> helpType;
+			lowerCase(helpCommand);
+			lowerCase(helpType);
+			
+			printHelp(helpType);
 		}
 		else { //add, update, delete, clear
 			system("cls");
@@ -759,4 +770,36 @@ void UI::printCurrentDayDateTime() {
 	std::cout << ": ";
 	setColour(15);
 	std::cout << to_simple_string(now).substr(12, 5) << endl << endl;
+}
+
+void UI::printHelp(string helpType) {
+	if (helpType == "") {
+		displayLine(MESSAGE_COMMANDS_AVAIL);
+		displayLine(MESSAGE_FORMAT);
+	} else if (helpType == "add") {
+		displayLine(MESSAGE_HELP_ADD);
+	} else if (helpType == "delete") {
+		displayLine(MESSAGE_HELP_DELETE);
+	} else if (helpType == "clear") {
+		displayLine(MESSAGE_HELP_CLEAR);
+	} else if (helpType == "display") {
+		displayLine(MESSAGE_HELP_DISPLAY);
+	} else if (helpType == "update") {
+		displayLine(MESSAGE_HELP_UPDATE);
+	} else if (helpType == "done") {
+		displayLine(MESSAGE_HELP_DONE);
+	} else if (helpType == "undo") {
+		displayLine(MESSAGE_HELP_UNDO);
+	} else if (helpType == "search") {
+		displayLine(MESSAGE_HELP_SEARCH);
+	} else if (helpType == "exit") {
+		displayLine(MESSAGE_HELP_EXIT);
+	} else {
+		setColour(12);
+		displayLine(MESSAGE_HELP_ERROR);
+		setColour(15);
+		displayLine(MESSAGE_COMMANDS_AVAIL);
+		displayLine(MESSAGE_FORMAT);
+	}
+	return;
 }
