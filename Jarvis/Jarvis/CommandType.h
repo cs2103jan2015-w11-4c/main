@@ -13,6 +13,7 @@ private:
 public:
 
 	CommandType(Command*);
+	CommandType();
 	~CommandType();
 	string run(string,string);
 };

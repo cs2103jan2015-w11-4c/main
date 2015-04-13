@@ -22,9 +22,6 @@ public:
 	~Delete();
 	string execute(string,string);
 	string executeUndo(string,string);
-	int startIndex(string);
-	int endIndex(string);
-	string extractLineNumber(string);
 	string getDeleteTask();
 	void setDeleteTask(string);
 	bool isValidCommand(string);

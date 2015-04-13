@@ -86,11 +86,22 @@ int Display::getDayNumber(string name) {
 	return 7;
 } 
 
+void Display::searchForMonth(vector <string>& input) {
+	int i;
+	for(i=0;i<input.size();i++) {
+		if(getMonthNumber(input[i])!=0) {
+			input[i]=(input[i]).substr(0,3);
+		}
+	}
+}
+
+
+
 string Display::execute(string fileName,string filePath) {
 	vector <string> dateVector;
 	vector <string> keywordVector;
 	string word;
-	if(T1.getKeywords()!="") {
+	if(!T1.getBlankString()) {
 	boost::trim(T1.getKeywords());
 	vector <string> tokensBeforeTrim;
 	int i;
@@ -179,6 +190,13 @@ string Display::execute(string fileName,string filePath) {
 		}
 	}
 	else {
+		searchForMonth(keywordVector);
+		word="";
+		for(i=0;i<keywordVector.size()-1;i++) 
+			word = word + keywordVector[i] + " ";
+		if(i==keywordVector.size()-1)
+			word = word + keywordVector[i];
+		T1.setKeywords(word);
 		Search S2(T1);
 		if(S2.executeSearch(fileName,filePath)=="") {
 			return "Error: There are no tasks scheduled with the keywords - "+T1.getKeywords()+" in the deadline. Please enter a valid date. \n";

@@ -23,6 +23,19 @@ void Logic::setStack(stack <string> input) {
 	inputStack=input;
 }
 
+bool Logic::isLastCommandDone(stack <string> input) {
+	string userCommand;
+	if(!input.empty()) {
+		userCommand = input.top();
+		command = extractUserCommand(userCommand);
+		if(command=="display" && userInput=="done") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 int Logic::startIndex(string input) {
 	
 	return input.find_first_not_of(INDENTIFIERS);
@@ -49,7 +62,7 @@ string Logic::extractUserCommand(string input) {
 	if(i==tokens.size()-1) {
 		taskString = taskString + tokens[i];
 	}
-	userInput =taskString;
+	userInput=taskString;
 
 	return tokens[0];
 }

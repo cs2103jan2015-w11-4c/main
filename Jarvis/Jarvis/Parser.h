@@ -19,6 +19,7 @@
 #include "WrongFormatCommand.h"
 #include "Task.h"
 #include "Done.h"
+//#include "redo.h"
 #include <algorithm>
 #include <iterator>
 
@@ -27,35 +28,14 @@ using namespace std;
 
 
 class CommandParser {
-public:
-	static const string NOT_EXIST;
 
-	static string getCommand(string input);
-	static string getStartYear();
-	static string getStartMonth();
-	static string getStartDay();
-	static string getStartHour();
-	static string getStartMinute();
-	static string getEndYear(string input);
-	static string getEndMonth(string input);
-	static string getEndDay(string input);
-	static string getEndHour(string input);
-	static string getEndMinute(string input);
-	static string getName(string input);
-	static string getDescription(string input);
-	static string getKeywords(string input);
-	static vector <string> getParsedUserInput(string uInput);
-	CommandType getParserInput(string, stack <string>);
-	static string getStartDate(string input);
-	static string getStartTime(string input);
-	static string getEndDate(string input);
-	void setUserInput(string ui);
-	void setDate(string d);
-	void setParserInput(vector <string> pi);
+public:
+	
+	CommandParser();
+	~CommandParser();
+	CommandType getParserInput(string,stack <string>);
 	string extractUserCommand(string);
-	int startIndex(string);
-	int endIndex(string);
-	Task parseString(string, RecurringTask&);
+	Task parseString(string,RecurringTask&);
 	Task parserUpdate(string);
 	string check(string);
 	string trim(string const&);
@@ -63,52 +43,34 @@ public:
 	string getUserInput();
 	Task getTaskObject();
 	string changeToLowerCase(string input);
-	bool isDeadlineTask(vector <string>, vector<string>&, Task&);
+	bool isDeadlineTask(vector <string>,vector<string>&,Task&);
 	int getMonthNumber(string);
 	bool isHourValid(string);
 	bool isMinuteValid(string);
 	bool isDayValid(string);
-	bool isTimeValid(boost::posix_time::time_duration, boost::gregorian::date);
-	void findYear(vector <string>&, int, Task& T1);
+	bool isTimeValid(boost::posix_time::time_duration,boost::gregorian::date);
+	void findYear(vector <string>&, int, Task& T1 );
 	int convertStringToInt(string);
 	bool isDateValid(int, int, int);
-	void findRecDate(vector <string>&, int, RecurringTask&);
+	void findRecDate(vector <string>& , int, RecurringTask&);
 	bool isPeriodValid(string);
 	void setCommand(string);
 	string getCommand();
+	vector <string> trimUserInputTokens(string);
+	bool isDateAfterToday (boost::gregorian::date);
+	vector <string> convertTokensToLowerCase(vector <string>);
+
 private:
 	string userInput;
 	string command;
 	bool isWrongDate;
-	static string startDate;
-	static string endDate;
-	static string startTime;
-	static string location;
-	static string name;
 	bool dateValid;
 	bool timedTask;
 	bool floatingTask;
 	bool deadlineTask;
 	bool isYearValid;
-	const static string commandIndicator;
-	const static string startDateIndicator;
-	const static string startDayIndicator;
-	const static string startTimeIndicator;
-	const static string spaceIndicator;
-	const static string hourIndicator;
-	const static string endDateIndicator;
-	const static string endDayIndicator;
-	const static string deadlineTimeIndicator;
-
-
-	const static int startingPosition;
-	const static int positionModerator1;
-	const static int positionModerator2;
-	const static string endTimeIndicator;
-
-	vector<string> parsedInput;
-	static CommandType  C1;
-	Task taskDetails;
+	CommandType  C1;
+	Task taskDetails; 
 };
 
 #endif

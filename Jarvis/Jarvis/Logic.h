@@ -13,16 +13,15 @@
 #include "Search.h"
 #include "UI.h"
 #include <stack>
-//#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
-//using namespace boost::algorithm;
+
 
 class Logic {
 
 private:
 	Task taskDetails;
-	//CommandParser P1;
 	string command;
 	string userInput;
 	stack <string> inputStack;
@@ -40,6 +39,7 @@ public:
 	string correctNumber(string);
 	void setDisplayDone(bool);
 	bool getDisplayDone();
+	bool isLastCommandDone(stack <string>);
 };
 
 #endif

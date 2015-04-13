@@ -31,6 +31,7 @@ public:
 	string getOriginalDoneTask();
 	void setUpdatedDoneTask(string);
 	string getUpdatedDoneTask();
+	bool isValidCommand(string);
 };
 
 #endif

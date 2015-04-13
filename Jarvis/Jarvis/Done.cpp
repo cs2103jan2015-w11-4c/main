@@ -9,7 +9,8 @@ using namespace std;
 const string INDENTIFIERS = ".,!? ";
 string Done::originalDoneTask;
 string Done::updatedDoneTask;
-
+const string ERROR_PREVIOUS_COMMAND = "Error: Please view your task list using the *DISPLAY* command before marking a task as done";
+const string DISPLAY_COMMAND = "display";
 
 Done::Done(Task TaskAttributes) {
 	T1=TaskAttributes;
@@ -36,14 +37,30 @@ string Done::extractLineNumber(string input) {
 	return input.substr(end+2); 
 }
 
+bool Done::isValidCommand(string input) {
+	if(input==DISPLAY_COMMAND) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
 string Done::execute(string fileName,string filePath) {
 	CommandParser P1;
 	string s;
 	stack <string> commandStack = T1.getStack();
 	commandStack.pop();
+	if(commandStack.empty()) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
 	string lastInput = commandStack.top();
 	//Call parser to execute lastInput. It will return a command type object that I will execute to get a input string.
 	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string command = P1.getCommand();
+	if(!isValidCommand(command)) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
 	string input = C1.run(fileName,filePath);
 	istringstream file(input);
 	string lineFromFile;
@@ -52,6 +69,9 @@ string Done::execute(string fileName,string filePath) {
 	vector <string> doneTokens;
 	string newStatus;
 	string userLine = T1.getNumber();
+	if(userLine=="") {
+		return "Error: Please enter *DONE* followed by the correct number of the task to be marked as done.\n";
+	}
 	while(getline(file,lineFromFile)) {
 		if(!lineFromFile.empty()) {
 			if(atoi(userLine.c_str())==lineNumber) {
@@ -73,24 +93,14 @@ string Done::execute(string fileName,string filePath) {
 		S1.updateFileData(doneData,newStatus,fileName,filePath);
 		setOriginalDoneTask(doneData);
 		setUpdatedDoneTask(newStatus);
-		return "Done";
+		return "The task is marked as done";
 	}
 	
 	else {
-		return "Error: Please put a correct number. The task could not be marked as done.\n";
+		return "Error: Please enter *DONE* followed by the correct number of the task to be marked as done";
 	}
 
 }
-
-/*string Done::executeUndo(string fileName,string filePath) {
-	string fileData = S1.readFile(fileName,filePath);
-	vector <string> data;
-	boost::split(data,fileData,boost::is_any_of("\n"));
-	data.pop_back();
-	S1.replaceFileData(data.back(),fileName,filePath);
-	return "The task *" + T1.getUndoString() + "* has been deleted";
-
-}*/
 
 string Done::getOriginalDoneTask() {
 	return originalDoneTask;

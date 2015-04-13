@@ -8,6 +8,10 @@ CommandType::CommandType(Command* commandObject) {
 
 }
 
+CommandType::CommandType() {
+
+}
+
 CommandType::~CommandType() {
 
 }

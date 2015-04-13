@@ -67,7 +67,7 @@ string Storage::readFile(string outputfile,string filePath) {				//display all i
 	string fileContent="";
 	string line;
 	if(readfile.peek()==std::ifstream::traits_type::eof()) {                //if file is empty
-		cout << "Currently there are no tasks to be done. The file is empty." << endl << endl;
+		return "Error: Currently there are no tasks to be done. The file is empty.\n" ;
 	}  else {
 
 		int lineNumber=1;

@@ -17,7 +17,7 @@ Task::Task() {
 	taskStartMinute="";
 	taskEndHour="";
 	taskEndMinute="";
-	taskStatus = "low"; //default low priorty, change be changed to High or Done (check off the list)
+	taskStatus = "incomplete"; //default incomplete priorty, change be changed to High or Done (check off the list)
 	isErrorDate=false;
 	isCommandError=false;
 	isTimeError=false;

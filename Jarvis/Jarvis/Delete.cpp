@@ -20,23 +20,6 @@ Delete::~Delete() {
 
 }
 
-int Delete::startIndex(string input) {
-	
-	return input.find_first_not_of(INDENTIFIERS);
-}
-
-int Delete::endIndex(string input) {
-	return input.find_first_of(INDENTIFIERS);
-}
-
-string Delete::extractLineNumber(string input) {
-	int start;
-	start = startIndex(input);
-	int end;
-	end = endIndex(input);
-	return input.substr(end+2); 
-}
-
 bool Delete::isValidCommand(string input) {
 	if(input==DISPLAY_COMMAND) {
 		return true;
@@ -80,9 +63,7 @@ string Delete::execute(string fileName,string filePath) {
 		S1.replaceFileData(deletedData,fileName,filePath);
 		setDeleteTask(deletedData);
 		return "Deleted task successfully\n";
-	}
-	
-	else {
+	} else {
 		return "Error: Please enter *DELETE* followed by the correct number of the task to be deleted.\n";
 	}
 

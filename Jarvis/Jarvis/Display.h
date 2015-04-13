@@ -26,6 +26,8 @@ public:
 	string execute(string,string);
 	int getMonthNumber(string);
 	string changeToLowerCase(string);
+	void searchForMonth(vector <string>&);
+	bool isValidMonth(string);
 };
 
 #endif
