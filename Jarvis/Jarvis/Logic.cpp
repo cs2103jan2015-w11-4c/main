@@ -1,21 +1,20 @@
+//@author A0118904E
 #pragma once
 #include "Logic.h"
 #include <vector>
-#include <fstream>
 #include <assert.h>
 
-const string INDENTIFIERS = ".,!? ";
 vector <pair <int, int>>::iterator iter;
 
 Logic::Logic() {
-	isDone=false;
+	isDone=false;  
 }
-
 
 Logic::~Logic() {
 }
 
-stack <string> Logic::getStack() {
+//This is a universal stack that stores all the inputs by the user since the application had opened
+stack <string> Logic::getStack() { 
 	return inputStack;
 }
 
@@ -23,6 +22,7 @@ void Logic::setStack(stack <string> input) {
 	inputStack=input;
 }
 
+//This tells us whether the recent task executed was "display done" to enable deleting a done task.
 bool Logic::isLastCommandDone(stack <string> input) {
 	string userCommand;
 	if(!input.empty()) {
@@ -34,17 +34,11 @@ bool Logic::isLastCommandDone(stack <string> input) {
 			return false;
 		}
 	}
+
 }
 
-int Logic::startIndex(string input) {
-	
-	return input.find_first_not_of(INDENTIFIERS);
-}
-
-int Logic::endIndex(string input) {
-	return input.find_first_of(INDENTIFIERS);
-}
-
+//This extracts the command type from the task input
+//Simultaneously it trims the spaces in the input
 string Logic::extractUserCommand(string input) {
 	vector <string> tokensBeforeTrim;
 	boost::split(tokensBeforeTrim,input,boost::is_any_of(" "));
@@ -67,16 +61,19 @@ string Logic::extractUserCommand(string input) {
 	return tokens[0];
 }
 
-
+//This is the main function that executes the command and returns a status message to the user
 string Logic::executeCommand(string input,stack <string> userStack, string fileName, string filePath) {
 	inputStack=userStack;
-	string s;
+	string status;
 	CommandParser P1;
 	CommandType C1 = P1.getParserInput(input,getStack());
-	s = C1.run(fileName,filePath);
-	return s;
+	status = C1.run(fileName,filePath);
+	return status;
 }
 
+//This is to facilitate the different numbering the user observes on the screen and the numbering in the storage file.
+//Example, the line 1 on the screen (command window) may not be task 1 in the file, depending on the category of display( by month)
+//If the number input is invalid, it returns a blank string
 string Logic::correctNumber(string no) {
 	string number="";
 	for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
@@ -91,6 +88,7 @@ void Logic::setDisplayDone(bool value) {
 	isDone = value;
 }
 
+//Tells us if a done task has been executed
 bool Logic::getDisplayDone() {
 	return isDone;
 }

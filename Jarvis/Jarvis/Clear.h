@@ -1,3 +1,4 @@
+//@author A0118904E
 #ifndef CLEAR_H
 #define CLEAR_H
 

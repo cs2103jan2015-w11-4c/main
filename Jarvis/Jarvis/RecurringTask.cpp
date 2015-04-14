@@ -1,3 +1,4 @@
+//@author A0118904E
 #include "RecurringTask.h"
 
 RecurringTask::RecurringTask() {
@@ -13,8 +14,8 @@ RecurringTask::RecurringTask() {
 	recurringWord="";
 
 }
-RecurringTask::~RecurringTask() {
 
+RecurringTask::~RecurringTask() {
 
 }
 

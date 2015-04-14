@@ -2,12 +2,13 @@
 #include "RecurringTask.h"
 #include <stdlib.h>
 #include <boost/algorithm/string.hpp>
+#include "Assert.h"
 
 using namespace std;
 using namespace boost::gregorian;
 using namespace boost::posix_time;
 
-
+//@author A0118904E
 const string INDENTIFIERS = "./?! ";
 const string startDateIndicator = " on ";
 const string endTimeIndicator = " by ";
@@ -16,7 +17,7 @@ const string startTimeIndicator = "from";
 const string deadlineTimeIndicator = "to";
 
 CommandParser::CommandParser() {
-
+	isYearValid=false;
 }
 
 CommandParser::~CommandParser() {
@@ -127,6 +128,7 @@ bool CommandParser::isMinuteValid(string minute) {
 }
 
 bool CommandParser::isDayValid(string taskDay) {
+	assert(taskDay == "day" || taskDay == "monday" || taskDay == "tuesday" || taskDay == "wednesday" || taskDay == "thursday" || taskDay == "friday" || taskDay == "saturday" || taskDay == "sunday");
 	if(taskDay=="day" || taskDay=="monday" || taskDay=="tuesday" || taskDay=="wednesday" || taskDay=="thursday" || taskDay=="friday" || taskDay=="saturday" || taskDay=="sunday") {
 		return true;
 	} else { 
@@ -185,7 +187,6 @@ bool CommandParser::isDateValid(int date, int month, int year) {
 	}
 	catch (std::out_of_range) {
 		isWrongDate=true;               //added now
-		cout << "Catch " << endl;
 		return false;
 	}
 }
@@ -198,30 +199,24 @@ void CommandParser::findYear(vector <string>& tokens , int pos , Task& T1) {
 		int gregYear = convertStringToInt(tokens[pos+3]);
 		bool isValid = isDateValid(gregDate,gregMonth,gregYear);
 		if(isValid) {
-			cout << "error3" << endl;
 			T1.setYear(tokens[pos+3]);
 			isYearValid=true;
 			tokens.erase (tokens.begin()+pos+3);
 
-		}
-		else {
+		} else {
 			isYearValid=false;
 			if(gregYear==0) {
-				cout << "me" << endl;
 				return;
 			}
 			else if(gregDate==0 && gregMonth==0) {
-				cout << "error4" << endl;
 				return;
 			}
 			else if(gregDate!=0 && gregMonth!=0 && gregYear!=0) {
 				tokens.erase (tokens.begin()+pos+3);
-				cout << "error5" << endl;
 				T1.setErrorDate(true);
 				return;
 			}
 			else {
-				cout << "e" << endl;
 				tokens.erase (tokens.begin()+pos+3);
 				return;
 			}
@@ -251,12 +246,9 @@ void CommandParser::findRecDate(vector <string>& tokens , int pos , RecurringTas
 					R1.setStartMonth(tokens[pos+2]);
 				}
 				else if(gregDate==0 && gregMonth==0) {
-					cout << gregDate << endl;
-					cout << gregMonth << endl;
 					R1.setRecurring(false);
 				}
 				else {
-					cout << "4" << endl;
 					R1.setRecurring(false);
 					R1.setErrorDate(true);
 				}
@@ -267,13 +259,11 @@ void CommandParser::findRecDate(vector <string>& tokens , int pos , RecurringTas
 				return;
 			}
 			else if(gregDate!=0 && gregMonth!=0 && gregYear!=0) {
-				cout << "4" << endl;
 				R1.setRecurring(false);
 				R1.setErrorDate(true);
 				return;
 			}
 			else {
-				cout << "e1" << endl;
 				R1.setRecurring(false);
 				return;
 			}
@@ -285,7 +275,7 @@ void CommandParser::findRecDate(vector <string>& tokens , int pos , RecurringTas
 }
 
 
-
+//@author A0090968M
 Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	
 	string desc;
@@ -297,6 +287,12 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	string StartMinute;
 	string EndHour;
 	string EndMinute;
+	int intHour;
+	int intMin;
+	int intSHour;
+	int intEHour;
+	int intSMin;
+	int intEMin;
 	string str = "on";
 	ptime now = microsec_clock::local_time();
 	time_duration tod = now.time_of_day();
@@ -308,6 +304,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	vector <string> originalTokens;
 	Task T1;
 	int i;
+
 	boost::split(tokensBeforeTrim,userInput,boost::is_any_of(" "));                 //split by occurences of " "
 	for(i=0;i<tokensBeforeTrim.size();i++) {
 		if(tokensBeforeTrim[i].find_first_not_of(' ') != string::npos) {
@@ -328,12 +325,8 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 			findYear(tokens,i,T1);
 			if(T1.getErrorDate())
 				return T1;
-			cout << i+3 << endl;
-			cout << tokens.size() << endl;
 			if((i+2)<=tokens.size()) {
-				cout << "deadline" << endl;
 				if(isYearValid){
-					cout << "year" << endl;
 					deadline=true;
 					break;
 				}                        //only date task on 21 march
@@ -353,18 +346,15 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 					boost::gregorian::date today = now.date();
 
 					if(d<today) {
-						cout << "error6" << endl;
 						T1.setErrorDate(true);
 						deadline=false;
 					}
 					else {
-						cout << "year" << endl;
 						deadline=true;
 						break;
 					}
 					}
 				catch (std::out_of_range) {
-					cout << "error7" << endl;
 					bool value=true;
 					T1.setErrorDate(value);
 					deadline=false;
@@ -373,11 +363,10 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	}
 
 	}
-	if(i==tokens.size())                     //if on keyword doesnt exist, then not a deadline task
+	if(i==tokens.size()) {                    //if on keyword doesnt exist, then not a deadline task
 		deadline=false;                      //end of scanning through tokens, if on keyword doesnt exist, then not a deadline task
-
+	}
 	if(deadline) {
-		cout << "yes" << endl;
 		for(int j=0;j<i;j++) {
 			desc = desc + originalTokens[j] + " ";                   //description = add buy veggies on 21 march
 		}
@@ -391,34 +380,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 		if((i+3)==tokens.size())
 			return T1;                                             //no timed tasks, only date month year
 
-
-
-		//in pm/am add buy apples on 1 november by 10:45 pm, or 08:00 am.   1 pm(not yet)
-		else if((i+6) == tokens.size()) {                   //TASK : on 21[i+1] march[i+2] by[i+3] 1[i+4] pm[i+5]
-			if(tokens[i+3]=="by") {                        //TASK : on 21[i+1] march[i+2] by[i+3] 01:45[i+4] pm[i+5]
-				vector <string> byTime;
-				boost::split(byTime,tokens[i+4],boost::is_any_of(":"));       // "1 45"
-				if (isHourValid(byTime[0]) && isMinuteValid(byTime[1])) {         //never do byTime.size() == 2 cause if 1 pm is not 2 already
-					T1.setHour(byTime[0]);
-					T1.setMinute(byTime[1]);
-				}
-				else {
-					bool value=true;
-					T1.setTimeError(value);
-				}
-
-			}
-			else {
-				bool value=true;
-				T1.setCommandError(value);
-			}
-		
-			
-		}
-	
-
-
-
 		else if((i+5)==tokens.size()) {//by timed task                 //TASK : on 21[i+1] march[i+2] by[i+3] 13:00[i+4]
 			if(tokens[i+3]=="by") {
 				vector <string> byTime;
@@ -426,13 +387,23 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				if(isHourValid(byTime[0]) && isMinuteValid(byTime[1]) && byTime.size()==2) {
 					string userTime = byTime[0]+":"+byTime[1]+":00";
 					time_duration td(duration_from_string(userTime));
-
+					intHour = stoi(byTime[0]);
+					intMin = stoi(byTime[1]);
 					if(isTimeValid(td,d)) {
-						T1.setHour(byTime[0]);
-						T1.setMinute(byTime[1]);
+					if(intHour<9){
+						T1.setHour('0'+to_string(intHour));
+					} else {
+						T1.setHour(to_string(intHour));
 					}
-					else 
+					if(intMin<9){
+						T1.setMinute('0'+to_string(intMin));
+					} else {
+						T1.setMinute(to_string(intMin));
+					}
+				}
+					else  {
 						T1.setTimeError(true);
+					}
 				}
 				else {
 					bool value=true;
@@ -447,46 +418,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 			}
 	
 		}
-
-
-
-
-		//test from from to time start (:
-
-		else if((i+9) == tokens.size()) {                   //add TASK on 21[i+1] march[i+2] from[i+3] 12:00[i+4] pm[i+5] to[i+6] 13:00[i+7] pm[i+8]
-
-			if(tokens[i+3]=="from" && tokens[i+6]=="to") {                        
-				vector <string> fromTime;
-				boost::split(fromTime,tokens[i+4],boost::is_any_of(":"));       // "1 45"
-				vector <string> toTime;
-				boost::split(toTime,tokens[i+7],boost::is_any_of(":"));       // "1 45"
-				if(isHourValid(toTime[0]) && isHourValid(fromTime[0]) && isMinuteValid(toTime[1]) && isMinuteValid(fromTime[1])) {
-					T1.setEndHour(toTime[0]);
-					T1.setEndMinute(toTime[1]);
-					T1.setStartHour(fromTime[0]);
-					T1.setStartMinute(fromTime[1]);
-				}
-				else {
-					bool value=true;
-					T1.setTimeError(value);
-				}
-
-			}
-			else {
-				bool value=true;
-				T1.setCommandError(value);
-			}
-		
-			
-		}
-	
-		//test for from to time end
-
-
-
-
-
-
 
 		else if((i+7)==tokens.size()) { // from to timed task
 			if(tokens[i+3]=="from" && tokens[i+5]=="to") {                //on 21[i+1] march[i+2] from[i+3] 12:00[i+4] to[i+4] 13:00[i+5]
@@ -500,12 +431,41 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 					time_duration tdStart(duration_from_string(userStartTime));
 					string userEndTime = toTime[0]+":"+toTime[1]+":00";
 					time_duration tdEnd(duration_from_string(userEndTime));
-					if(isTimeValid(tdStart,d)&&isTimeValid(tdEnd,d)) {
-					T1.setEndHour(toTime[0]);
-					T1.setEndMinute(toTime[1]);
-					T1.setStartHour(fromTime[0]);
-					T1.setStartMinute(fromTime[1]);
+					intSHour = stoi(fromTime[0]);
+					intSMin = stoi(fromTime[1]);
+					intEHour = stoi(toTime[0]);
+					intEMin = stoi(toTime[1]);
+					if(toTime[0]<fromTime[0]) {
+						T1.setTimeError(true);
+						return T1;
 					}
+					if((toTime[0]==fromTime[0])&&(toTime[1]<=fromTime[1])){
+						T1.setTimeError(true);
+						return T1;
+					}
+					if(isTimeValid(tdStart,d)&&isTimeValid(tdEnd,d)) {
+					if(intSHour<9){
+						T1.setStartHour('0'+to_string(intSHour));
+					} else {
+						T1.setStartHour(to_string(intSHour));
+					}
+					if(intSMin<9){
+						T1.setStartMinute('0'+to_string(intSMin));
+					} else {
+						T1.setStartMinute(to_string(intSMin));
+					}
+					if(intEHour<9){
+						T1.setEndHour('0'+to_string(intEHour));
+					} else {
+						T1.setEndHour(to_string(intEHour));
+					}
+					if(intEMin<9){
+						T1.setEndMinute('0'+to_string(intEMin));
+					} else {
+						T1.setEndMinute(to_string(intEMin));
+					}
+				}
+
 					else
 						T1.setTimeError(true);
 
@@ -542,12 +502,12 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 		for(a=0;a<tokens.size();a++) {                        //recurring task add buy apples every friday by
 			 if(tokens[a]=="every") { 
 				 R1.setRecWord(tokens[a]);
-				 if((a+2)<=tokens.size() && isDayValid(tokens[a+1])) {	 
-				 
-					 if(tokens[a+2]=="until"){
+				 if((a+3)<=tokens.size() && isDayValid(tokens[a+1])) {	 //CHANGED
+					if(tokens[a+2]=="until"){
 						 findYear(tokens,(a+2),T1);
-						 if(T1.getErrorDate())
+						 if(T1.getErrorDate()) {
 							 return T1;
+						 }
 						if((a+5)==tokens.size()) {	
 							R1.setWord(tokens[a+2]);
 							if(isYearValid) {
@@ -596,7 +556,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 						catch (std::out_of_range) {
 							bool value=true;
-							cout << "error8" << endl;
 							T1.setErrorDate(value);
 							recurring=false;
 						}
@@ -615,17 +574,32 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							 break;
 						}
 						
-					 else if(tokens[a+4]=="until" && tokens[a+2]=="by") {
+					 else if((a+7)==tokens.size() && tokens[a+4]=="until" && tokens[a+2]=="by" ) {
 						 findYear(tokens,(a+4),T1);
-						 if(T1.getErrorDate())
+						 if(T1.getErrorDate()) {
 							 return T1;	
+						 }
 						 vector <string> byRecTime;
 							boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
 							if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
-								T1.setHour(byRecTime[0]);
-								T1.setMinute(byRecTime[1]);
+								intHour = stoi(byRecTime[0]);
+								intMin = stoi(byRecTime[1]);
+									if(intHour<9){
+										T1.setHour('0'+to_string(intHour));
+									} else {
+										T1.setHour(to_string(intHour));
+									}
+									if(intMin<9){
+										T1.setMinute('0'+to_string(intMin));
+									} else {
+										T1.setMinute(to_string(intMin));
+								}
+							
 							
 						}
+							else 
+								T1.setTimeError(true);
+
 						 if((a+7)==tokens.size()) {
 							R1.setWord(tokens[a+4]); 
 							if(isYearValid) {
@@ -677,7 +651,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 						catch (std::out_of_range) {
 							bool value=true;
-							cout << "error9" << endl;
 							T1.setErrorDate(value);
 							recurring=false;
 						}
@@ -689,7 +662,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 
 						else {
 							bool value=true;
-							T1.setTimeError(value);
+							T1.setErrorDate(value);
 							return T1;
 						} 
 						
@@ -699,8 +672,18 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							vector <string> byRecTime;
 						boost::split(byRecTime,tokens[a+3],boost::is_any_of(":"));
 						if(byRecTime.size()==2 && isHourValid(byRecTime[0]) && isMinuteValid(byRecTime[1])) {
-								T1.setHour(byRecTime[0]);
-								T1.setMinute(byRecTime[1]);
+								intHour = stoi(byRecTime[0]);
+								intMin = stoi(byRecTime[1]);
+									if(intHour<9){
+										T1.setHour('0'+to_string(intHour));
+									} else {
+										T1.setHour(to_string(intHour));
+									}
+									if(intMin<9){
+										T1.setMinute('0'+to_string(intMin));
+									} else {
+										T1.setMinute(to_string(intMin));
+								}
 						}
 
 						else {
@@ -717,14 +700,10 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							R1.setRecurring(true);
 							 break;
 						}
-					 else if(tokens[a+6]=="until" && tokens[a+2]=="from" && tokens[a+4]=="to") {
+					 else if((a+7)<=tokens.size() && tokens[a+6]=="until" && tokens[a+2]=="from" && tokens[a+4]=="to") {
 						 findYear(tokens,(a+6),T1);
 						 if(T1.getErrorDate())
 							 return T1;
-
-
-
-						
 						 vector <string> fromRecTime;
 				
 						boost::split(fromRecTime,tokens[a+3],boost::is_any_of(":"));
@@ -732,10 +711,39 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> toRecTime;
 				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
 				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
-					T1.setEndHour(toRecTime[0]);
-					T1.setEndMinute(toRecTime[1]);
-					T1.setStartHour(fromRecTime[0]);
-					T1.setStartMinute(fromRecTime[1]);
+					if(toRecTime[0]<fromRecTime[0]) {
+						T1.setTimeError(true);
+						return T1;
+					}
+					if((toRecTime[0]==fromRecTime[0])&&(toRecTime[1]<=fromRecTime[1])){
+						T1.setTimeError(true);
+						return T1;
+					}
+					intSHour = stoi(fromRecTime[0]);
+					intSMin = stoi(fromRecTime[1]);
+					intEHour = stoi(toRecTime[0]);
+					intEMin = stoi(toRecTime[1]);
+					if(intSHour<9){
+						T1.setStartHour('0'+to_string(intSHour));
+					} else {
+						T1.setStartHour(to_string(intSHour));
+					}
+					if(intSMin<9){
+						T1.setStartMinute('0'+to_string(intSMin));
+					} else {
+						T1.setStartMinute(to_string(intSMin));
+					}
+					if(intEHour<9){
+						T1.setEndHour('0'+to_string(intEHour));
+					} else {
+						T1.setEndHour(to_string(intEHour));
+					}
+					if(intEMin<9){
+						T1.setEndMinute('0'+to_string(intEMin));
+					} else {
+						T1.setEndMinute(to_string(intEMin));
+					}
+					
 				}
 						else {
 							bool value=true;
@@ -789,7 +797,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 						catch (std::out_of_range) {
 							bool value=true;
-							cout << "error10" << endl;
 							T1.setErrorDate(value);
 							recurring=false;
 						}
@@ -806,10 +813,39 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 				vector <string> toRecTime;
 				boost::split(toRecTime,tokens[a+5],boost::is_any_of(":"));
 				if(fromRecTime.size()==2 && toRecTime.size()==2 && isHourValid(toRecTime[0]) && isHourValid(fromRecTime[0]) && isMinuteValid(toRecTime[1]) && isMinuteValid(fromRecTime[1])) {
-					T1.setEndHour(toRecTime[0]);
-					T1.setEndMinute(toRecTime[1]);
-					T1.setStartHour(fromRecTime[0]);
-					T1.setStartMinute(fromRecTime[1]);
+					
+					if(toRecTime[0]<fromRecTime[0]) {
+						T1.setTimeError(true);
+						return T1;
+					}
+					if((toRecTime[0]==fromRecTime[0])&&(toRecTime[1]<=fromRecTime[1])){
+						T1.setTimeError(true);
+						return T1;
+					}
+					intSHour = stoi(fromRecTime[0]);
+					intSMin = stoi(fromRecTime[1]);
+					intEHour = stoi(toRecTime[0]);
+					intEMin = stoi(toRecTime[1]);
+					if(intSHour<9){
+						T1.setStartHour('0'+to_string(intSHour));
+					} else {
+						T1.setStartHour(to_string(intSHour));
+					}
+					if(intSMin<9){
+						T1.setStartMinute('0'+to_string(intSMin));
+					} else {
+						T1.setStartMinute(to_string(intSMin));
+					}
+					if(intEHour<9){
+						T1.setEndHour('0'+to_string(intEHour));
+					} else {
+						T1.setEndHour(to_string(intEHour));
+					}
+					if(intEMin<9){
+						T1.setStartMinute('0'+to_string(intEMin));
+					} else {
+						T1.setStartMinute(to_string(intEMin));
+					}
 				}
 						else {
 							bool value=true;
@@ -840,7 +876,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 					T1.setErrorDate(true);
 				}
 				if(!R1.getRecurring() && T1.getErrorDate()) {
-					cout << "yeah " << endl;
 					return T1;
 
 				}
@@ -850,14 +885,11 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						if(tokens[a+4]=="until"){
 
 							findYear(tokens,(a+4),T1);
-							cout << R1.getRecurring() << endl;
-							cout << T1.getErrorDate() << endl;
 							if(isWrongDate){
 								R1.setRecurring(false);
 								T1.setErrorDate(true);
 							}
 							if(T1.getErrorDate()) {
-								cout << "eeee" << endl;
 								return T1;
 							}
 							if((a+7)==tokens.size()) {	
@@ -866,7 +898,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 									for(int b=0;b<a;b++) {
 										desc = desc + originalTokens[b] + " ";
 									}
-								cout << "year" << endl;
 								T1.setDescription(desc);
 								R1.setEndDate(tokens[a+5]);
 								R1.setEndMonth(tokens[a+6]);
@@ -876,7 +907,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 
 						 
 						try {
-							cout << "BLACK" << endl;
 							gregDate = stoi(tokens[a+5]);
 						}
 						catch (const std::invalid_argument) {
@@ -885,8 +915,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 	
 						gregMonth = getMonthNumber(tokens[a+6]);
-					cout << gregDate << endl;
-					cout << gregMonth << endl;
+
 						try {
 							boost::gregorian::date d(gregYear, gregMonth, gregDate);
 							ptime now = microsec_clock::local_time();
@@ -902,7 +931,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 							for(int b=0;b<a;b++) {
 								desc = desc + originalTokens[b] + " ";
 							}
-							cout << "BRO" << endl;
+
 							T1.setDescription(desc);
 							R1.setEndDate(tokens[a+5]);
 							R1.setEndMonth(tokens[a+6]);
@@ -910,7 +939,7 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 						}
 						catch (std::out_of_range) {
 							bool value=true;
-							cout << "error10" << endl;
+							
 							T1.setErrorDate(value);
 							R1.setRecurring(false);
 						}
@@ -921,16 +950,14 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 								R1.setRecurring(false);
 							}
 							}
-						 
+		
 					 else if((a+5)==tokens.size() &&((tokens[a+4]).at(0)=='x' || (tokens[a+4]).at(0)=='X') && isdigit(tokens[a+4].at(1))) {
-							cout << "yes" << endl;
 							R1.setWord(tokens[a+4]);
 							 for(int b=0;b<a;b++) {
 								 desc = desc + originalTokens[b] + " ";
 							}
 							T1.setDescription(desc);
 							R1.setRecurring(true);
-							cout << "return" << endl;
 							return T1;
 						}
 						
@@ -961,7 +988,6 @@ Task CommandParser::parseString(string userInput, RecurringTask &R1) {
 	}
 
 	if(T1.getErrorDate()) {
-		cout << "errordate" << endl;
 		return T1;
 	}
 
@@ -983,6 +1009,7 @@ Task CommandParser::parserUpdate(string userInput){
 	return T1;
 }
 
+//@author A0118904E
 CommandType CommandParser::getParserInput(string input,stack <string> inputStack){
 	RecurringTask R1;
 	boost::trim(input);
@@ -1000,21 +1027,19 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		A1=new Add(taskDetails,R1);
 		CommandType C1(A1);
 		return C1;
-	}
-	else if(command=="display") {
+	} else if(command=="display") {
 		Display *D1;
 		Logic L1;
 		if(changeToLowerCase(userInput)=="done") {
 			L1.setDisplayDone(true);
 			taskDetails.setKeywords(userInput);
-		}
-		else 
+		} else {
 			taskDetails.setKeywords(userInput);
+		}
 			D1 = new Display(taskDetails);
 			CommandType C1(D1);
 			return C1;
-	}
-	else if(command=="delete") {
+	} else if(command=="delete") {
 		Logic L1;
 		taskDetails.setNumber(L1.correctNumber(userInput));
 		Delete *Del;
@@ -1022,52 +1047,38 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		CommandType C1(Del);
 		return C1;
 	
-	}	
-	else if(command=="update") {
+	}else if(command=="update") {
 		taskDetails = parserUpdate(userInput);
 		taskDetails.setStack(inputStack);
 		Update *U1;
 		U1 = new Update(taskDetails);
 		CommandType C1(U1);
 		return C1;
-}
-	else if(command=="clear") {
+	}else if(command=="clear") {
 		Task T1;
 		T1.setKeywords(userInput);
 		Clear *C2;
 		C2 = new Clear(T1);
 		CommandType C1(C2);
 		return C1;
-	}
-	else if(command=="exit") {
+	}else if(command=="exit") {
 		WrongFormat *W1;
 		W1 = new WrongFormat();
 		CommandType C1(W1);
 		return C1;
-	}
-	else if(command=="search") {
+	}else if(command=="search") {
 		taskDetails.setKeywords(userInput);
 		Search *S1;
 		S1 = new Search(taskDetails);
 		CommandType C1(S1);
 		return C1;
-	}
-	else if(command=="undo") {
+	}else if(command=="undo") {
 		taskDetails.setKeywords(userInput);
 		Undo *U1;
 		U1 = new Undo(taskDetails);
 		CommandType C1(U1);
 		return C1;
-	}
-	/*else if(command=="redo") {
-		taskDetails.setKeywords(userInput);
-		Redo *R1;
-		Undo U1;
-		R1 = new Redo(taskDetails,U1);
-		CommandType C1(R1);
-		return C1;
-	}*/
-	else if(command=="done") {
+	}else if(command=="done") {
 		Logic L1;
 		taskDetails.setNumber(L1.correctNumber(userInput));
 		Done *DoneTask;
@@ -1075,8 +1086,7 @@ CommandType CommandParser::getParserInput(string input,stack <string> inputStack
 		CommandType C1(DoneTask);
 		return C1;
 
-	}
-	else {
+	}else {
 		WrongFormat *W1;
 		W1 = new WrongFormat();
 		CommandType C1(W1);

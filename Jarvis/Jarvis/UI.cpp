@@ -1,3 +1,4 @@
+//@author A0111136Y
 #include "UI.h"
 
 using namespace std;
@@ -7,7 +8,6 @@ using namespace boost::posix_time;
 const string UI::MESSAGE_COMMAND = "command: ";
 const string UI::MESSAGE_COMMANDS_AVAIL = "\t\t\tCommands available : \n\t\t\t(add, delete, display, update, clear, search, undo, done, exit)\n\t\t\t===============================================================\n\t\t\tType in help to view all commands supported and input format.\n\t\t\te.g. Type help add to learn more about the add function\n\n";
 const string UI::MESSAGE_FORMAT = "\t\t\tDate format:\n\t\t\t==================\n\t\t\te.g. 13 April 2015\n\n\n\t\t\tTime format:\n\t\t\t==============\n\t\t\t24-hour format\n\t\t\te.g. 15:00\n\n";
-///const string UI::MESSAGE_HELP_ADD = "\t\t\tAdding tasks with No Deadline:\n\t\t\t==============================\n\t\t\tAdd <task name>\n\t\t\te.g. Add buy milk\n\n\t\t\tAdding of Deadline Tasks\n\t\t\t========================\n\t\t\tAdd <task name>  on <date>\n\t\t\te.g. add buy milk on 21 september 2016\n\n\t\t\tAdding of Timed Tasks:\n\t\t\t======================\n\t\t\tAdd <task name> on <date> by <time>\n\t\t\te.g. add buy milk on 21 september 2016 by 16:30\n\n\t\t\tAdd <task name> on <date> from <start time> to <end time>\n\t\t\te.g. add buy milk on 21 september 2016 from 10:00 to 12:00\n\t\t\tAdding of Reccuring Tasks:\n\t\t\t==========================\n\t\t\tAdd <task name> on <date> every <day or date> until <date>\n\n";
 const string UI::MESSAGE_HELP_ADD = "\t\t\t-----\n\t\t\t|ADD|\n\t\t\t-----\n\n\t\t\tAdding tasks with No Deadline:\n\t\t\t==============================\n\t\t\tAdd <task name>\n\n\t\t\tAdding of Deadline Tasks\n\t\t\t========================\n\t\t\tAdd <task name>  on <date>\n\n\t\t\tAdding of Timed Tasks:\n\t\t\t======================\n\t\t\tAdd <task name> on <date> by <time>\n\t\t\tAdd <task name> on <date> from <start time> to <end time>\n\n\t\t\tAdding of Reccuring Tasks:\n\t\t\t==========================\n\t\t\tAdd <task name> on <date> every <day or date> until <date>\n\t\t\tAdd <task name> on <date> every <day or date> x<no. of occurences>\n";
 const string UI::MESSAGE_HELP_DELETE = "\t\t\t--------\n\t\t\t|DELETE|\n\t\t\t--------\n\n\t\t\tDeleting tasks:\n\t\t\t===============\n\t\t\tdelete <index>\n\t\t\te.g. delete 2\n\t\t\t*delete should only be used after a display command is entered (shows index)\n\n";
 const string UI::MESSAGE_HELP_CLEAR = "\t\t\t-------\n\t\t\t|CLEAR|\n\t\t\t-------\n\n\t\t\tClear deletes all tasks\n\n";
@@ -102,13 +102,13 @@ void UI::main(){
 	while (isRunning){
 		
 		string userInput="";
-		
+		Logic temp;
 		iterations = 0;
 		
 		if (firstRun && emptyFileFirstRun(filePath + fileName)) { //default view printed on the first run -->check if file is empty
-			int displayedIndex = 1;
-			vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
-
+			//int displayedIndex = 1;
+			//vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
+			/*
 			for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
 			{
 				if (get<4>(*iter) != "done"){
@@ -117,6 +117,8 @@ void UI::main(){
 				}
 
 			}
+			*/
+			makeCorrectIndexPair(temp.isLastCommandDone(inputStack));
 
 			std::cout << endl;
 			defaultView("display all", inputStack, fileName, filePath); //print out today's tasks 
@@ -154,7 +156,7 @@ void UI::main(){
 
 		userInput = lowerCase(userInput);
 		inputStack.push(userInput);
-		Logic temp;
+		
 		string userCommand;
 		userCommand = temp.extractUserCommand(userInput);
 	
@@ -188,7 +190,7 @@ void UI::main(){
 			{
 				displayUI("done"); //status is done if want to print tasks that are done
 			} else {
-				displayUI("low"); //status is low if want to print tasks that are not done
+				displayUI("incomplete"); //status is incomplete if want to print tasks that are not done
 			}
 
 			
@@ -217,6 +219,7 @@ void UI::main(){
 		else { //add, update, delete, clear
 			system("cls");
 			//setindex
+			/*
 			int displayedIndex = 1;
 			vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
 			
@@ -228,6 +231,9 @@ void UI::main(){
 				}
 
 			}
+			*/
+			makeCorrectIndexPair(temp.isLastCommandDone(inputStack));
+
 			
 			string statusMessage = temp.executeCommand(userInput, inputStack, fileName, filePath);
 			defaultView("display all", inputStack, fileName, filePath);
@@ -379,7 +385,7 @@ void UI::defaultView(string userInput, stack <string> inputStack, string fileNam
 	return;
 }
 
-void UI::displayUI(string status) { //status can be "done" or "low" by default
+void UI::displayUI(string status) { //status can be "done" or "incomplete" by default
 	vector <tuple <int, string, ptime, ptime, string>>::iterator iter, iter2;
 	int lineNo = 1;
 	int floating = 0;
@@ -444,7 +450,7 @@ void UI::displayUI(string status) { //status can be "done" or "low" by default
 		else { //not floating task
 			if (iter == UImemory.begin() || to_simple_string(get<2>(*iter)).substr(0, 11) != to_simple_string(get<2>(*iter2)).substr(0, 11)) {
 				//check if task is overdue
-				if ((get<2>(*iter)).date() < now.date() && !noTasksToday((get<2>(*iter)).date(), status) && status == "low")  //only print overdue status for all display other than display done
+				if ((get<2>(*iter)).date() < now.date() && !noTasksToday((get<2>(*iter)).date(), status) && status == "incomplete")  //only print overdue status for all display other than display done
 
 				{
 					date::ymd_type ymd1 = (get<2>(*iter).date()).year_month_day();
@@ -520,8 +526,8 @@ void UI::displayUI(string status) { //status can be "done" or "low" by default
 	setColour(15);
 }
 	
-bool UI::noDateTasks(string status) { //returns true if there are no Date Tasks in UImemory, done date tasks considered as "off" the list [status = done]	display done
-	bool noDateTasks = true;		//returns true if there are no Date Tasks in UI mememory, done date tasks considered as "on" the list [status = low]	display --
+bool UI::noDateTasks(string status) { //returns true if there are no Date Tasks in UImemory, done date tasks considered as "on" the list [status = done]	display done
+	bool noDateTasks = true;		//returns true if there are no Date Tasks in UI mememory, done date tasks considered as "off" the list [status = incomplete]	display --
 	vector <tuple <int, string, ptime, ptime, string>>::iterator itr;
 	ptime nullDate(not_a_date_time);
 		for (itr = UImemory.begin(); itr != UImemory.end(); itr++) {
@@ -533,7 +539,7 @@ bool UI::noDateTasks(string status) { //returns true if there are no Date Tasks 
 	return noDateTasks;
 }
 
-bool UI::noTasksToday(date today, string status) { //check if all the tasks for today are done , prints the opposite if status is done
+bool UI::noTasksToday(date today, string status) { //check if all the tasks for the given day "today" are done , prints the opposite if status is done
 	bool noTasks;
 	int countTasks = 0;
 	int countDone = 0;
@@ -548,13 +554,13 @@ bool UI::noTasksToday(date today, string status) { //check if all the tasks for 
 	}
 
 	if (countDone == countTasks) {
-		if (status == "low"){
+		if (status == "incomplete"){
 			noTasks = true;
 		} else {
 			noTasks = false;
 		}
 	} else {
-		if (status == "low"){
+		if (status == "incomplete"){
 			noTasks = false;
 		} else {
 			noTasks = true;
@@ -803,4 +809,26 @@ void UI::printHelp(string helpType) {
 		displayLine(MESSAGE_FORMAT);
 	}
 	return;
+}
+
+void UI::makeCorrectIndexPair(bool isLastCommandDisplayDone) { //pairs the displayed index with the proper index, if the display done command is called before, then the pair will be done for the done tasks
+	vector <tuple<int, string, ptime, ptime, string>>::iterator iter;
+	int displayedIndex = 1;
+
+	for (iter = UImemory.begin(); iter != UImemory.end(); iter++)
+	{
+		if (!isLastCommandDisplayDone){ //only incompeleted tasks displayed
+			if (get<4>(*iter) != "done"){
+				indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
+				displayedIndex++;
+			}
+		}
+		else { //done tasks displayed
+			if (get<4>(*iter) == "done"){
+				indexPair.push_back(make_pair(displayedIndex, get<0>(*iter)));
+				displayedIndex++;
+			}
+		}
+
+	}
 }

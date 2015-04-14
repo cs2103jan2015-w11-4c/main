@@ -1,3 +1,4 @@
+//@author A0118904E
 #include "Task.h"
 
 using namespace std;
@@ -8,7 +9,7 @@ Task::Task() {
 	updatedDescription = "";
 	taskDate = "";
 	taskMonth = "";
-	taskYear = "2015";
+	taskYear ="2015";
 	taskKeywords = "";
 	undoString = "";
 	taskHour="";
@@ -17,7 +18,7 @@ Task::Task() {
 	taskStartMinute="";
 	taskEndHour="";
 	taskEndMinute="";
-	taskStatus = "incomplete"; //default incomplete priorty, change be changed to High or Done (check off the list)
+	taskStatus = "incomplete"; //default incomplete priorty, change be changed to Done (check off the list)
 	isErrorDate=false;
 	isCommandError=false;
 	isTimeError=false;

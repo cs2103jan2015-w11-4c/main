@@ -1,3 +1,4 @@
+//@author A0118904E
 #ifndef CommandType_H
 #define CommandType_H
 

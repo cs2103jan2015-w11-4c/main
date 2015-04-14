@@ -1,3 +1,4 @@
+//@author A0118904E
 #include "Update.h"
 #include <sstream>
 #include <iostream>
@@ -49,6 +50,9 @@ string Update::extractLineNumber(string input) {
 	return input.substr(end+2); 
 }
 
+//The user has to enter a display command before update
+//This allows updating a particular category of tasks and the user doesnt see all his tasks at once
+//He can display by category then update a task
 bool Update::isValidCommand(string input) {
 	if(input==DISPLAY_COMMAND) {
 		return true;
@@ -57,12 +61,14 @@ bool Update::isValidCommand(string input) {
 	}
 }
 
+//Gets the line number of the task
 int Update::getLineNumber(vector <string> tokens) {
 	Logic L1;
 	string number = L1.correctNumber(tokens[0]);
 	return convertStringToInt(number);
 }
 
+//Converts the task number to an integer for comparison in the file
 int Update::convertStringToInt(string s) {
 	try {
 		int value = stoi(s);
@@ -73,7 +79,7 @@ int Update::convertStringToInt(string s) {
 	}
 }
 
-
+//The only allowed categories to update are TASK(name), DATE and TIME
 string Update::getCategory(vector<string> tokens) {
 	string category;
 	if(tokens[1]==TASK_UPDATE || tokens[1]==DATE_UPDATE || tokens[1]==TIME_UPDATE)
@@ -86,6 +92,8 @@ string Update::getCategory(vector<string> tokens) {
 bool Update::updateTask(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
 	string taskDesc="";
 	int i;
+	//The user has to enter update <line number> <category> <new date or time or description>
+	//Tokens stores all this words, anything less than these raises an error
 		if(tokens.size()>2){
 			isWrongTaskFormat=false;
 			for(i=2;i<tokens.size()-1;i++) {
@@ -97,17 +105,17 @@ bool Update::updateTask(string fileData, int userLine, string category, vector <
 		}
 		else {
 			isWrongTaskFormat=true;
-
 		}
+
 	vector <string> originalTokens;
-	
 	bool statusOfUpdate=false;
 	istringstream file(fileData);
 	string lineFromFile;
 	int lineNumber=1;
+	//If the input format is correct
 	if(!isWrongTaskFormat) {
 		while(getline(file,lineFromFile)) {
-			if(!lineFromFile.empty()) {
+			if(!lineFromFile.empty()) {             //Only updates either the task description, date or time
 				if(userLine==lineNumber) {
 					boost::split(originalTokens, lineFromFile,boost::is_any_of("/"));
 					T1.setDescription(taskDesc);
@@ -121,8 +129,7 @@ bool Update::updateTask(string fileData, int userLine, string category, vector <
 			lineNumber++;
 		}
 	return statusOfUpdate;
-	}
-	else {
+	} else {
 		return false;
 	}
 	
@@ -155,7 +162,8 @@ int Update::getMonthNumber(string monthName) {
 	return 0;
 }
 
-
+//This checks whether if in updating by deadline, the user hasnt entered a year
+//By default the year is the current year
 bool Update::checkDateMonth(string date, string month) {
 	int taskDate = convertStringToInt(date);
 	int taskMonth = getMonthNumber(month);
@@ -168,8 +176,7 @@ bool Update::checkDateMonth(string date, string month) {
 			isDatePassed=true;
 			return false;
 
-		}
-		else {  //Date is valid
+		} else {  //Date is valid
 			isDatePassed=false;
 			isWrongDateFormat=false;
 			return true;
@@ -182,6 +189,8 @@ bool Update::checkDateMonth(string date, string month) {
 
 }
 
+//This checks whether if in updating by deadline, the user has entered a year
+//Deadline entered should be valid and not in the past
 bool Update::checkDateMonthYear(string date, string month, string year) {
 	int taskDate = convertStringToInt(date);
 	int taskMonth = getMonthNumber(month);
@@ -205,30 +214,28 @@ bool Update::checkDateMonthYear(string date, string month, string year) {
 	}
 }
 
+//Updates the date of a task 
 bool Update::updateDate(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
 	string taskDesc="";
 	int i;
+	//If the user has specified a year
 		if(tokens.size()==5){
 			if(checkDateMonthYear(tokens[2],tokens[3],tokens[4])){
 				T1.setYear(tokens[4]);
 				isWrongDateFormat=false;
-			}
-			else {
+			} else {
 				isWrongDateFormat=true;
 			}
-		}
-		else if(tokens.size()==4) {
+
+		} else if(tokens.size()==4) {     //If the user has not specified a year, it takes in the default year
 			if(checkDateMonth(tokens[2],tokens[3])){
 				T1.setYear("2015");
 				isWrongDateFormat=false;
-			}
-			else {
+			} else {
 				isWrongDateFormat=true;
 			}
 
-		}
-		else {
-
+		} else {
 			isWrongDateFormat=true;
 		}
 			vector <string> originalTokens;
@@ -242,7 +249,7 @@ bool Update::updateDate(string fileData, int userLine, string category, vector <
 					if(userLine==lineNumber) {
 						boost::split(originalTokens, lineFromFile,boost::is_any_of("/"));
 						T1.setDate(tokens[2]);
-						T1.setMonth(tokens[3]);
+						T1.setMonth(tokens[3]);     //updates the date tokens
 						newFileData = originalTokens[0] + "/" + T1.getDate() + "/" +  lowerCase((T1.getMonth()).substr(0,3)) + "/" + T1.getYear() +  "/" + originalTokens[4] + "/" + originalTokens[5] + "/" + originalTokens[6] + "/" + originalTokens[7] + "/" + originalTokens[8] + "/" + originalTokens[9] + "/" + originalTokens[10] +"\n";
 						cout << newFileData << endl;
 						originalData = lineFromFile;
@@ -253,13 +260,14 @@ bool Update::updateDate(string fileData, int userLine, string category, vector <
 				lineNumber++;
 			}
 	return statusOfUpdate;
-	}
-	else {
+	} else {
 		return false;
 	}
 	
 }
 
+
+//The hour entered for time should be valid
 bool Update::isHourValid(string hour) {
 	try{
 		int number = stoi(hour);
@@ -276,6 +284,7 @@ bool Update::isHourValid(string hour) {
 	}
 }
 
+//The minute entered for time should be valid
 bool Update::isMinuteValid(string minute) {
 	try{
 		int number = stoi(minute);
@@ -292,18 +301,20 @@ bool Update::isMinuteValid(string minute) {
 	}
 }
 
+//Time can be updated in two ways:
+//<time> : adds as a deadline task with a end time 
+//<start time> to <end time> : adds as a timed task
 bool Update::checkByTime(string deadlineTime, string& hour, string& minute) {
 	vector<string> timeTokens;
 	isInvalidTimePeriod=false;
 	boost::split(timeTokens,deadlineTime, boost::is_any_of(":"));
-	if(timeTokens.size()==2) {
+	if(timeTokens.size()==2) {   //only hour and minute shoud be entered
 		if(isHourValid(timeTokens[0]) && isMinuteValid(timeTokens[1])) {
 			hour=timeTokens[0];
 			minute=timeTokens[1];
 			return true;
 		}
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -319,58 +330,53 @@ bool Update::checkTime(string startTime, string keyword, string endTime,string& 
 			startMin=startTimeTokens[1];
 			endHour=endTimeTokens[0];
 			endMin=endTimeTokens[1];
-			if(stoi(endHour)>stoi(startHour))
+			if(stoi(endHour)>stoi(startHour)) { //start time should be less than end time 
 				return true;
-			else if(stoi(endHour)==stoi(startHour)) {
+			} else if(stoi(endHour)==stoi(startHour)) {
+				
 				if(stoi(endMin)>stoi(startMin)){
 					return true;
-				}
-				else {
+				} else {
 					isInvalidTimePeriod=true;
 					return false;
 				}
-			}
-			else {
+
+			} else {
 				isInvalidTimePeriod=true;
 				return false;
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
-
-	}
-	else {
+	}else {
 		return false;
 	}
 }
 
+//updates the time of the task
 bool Update::updateTime(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
 	string hour="",min="",startHour="",startMin="",endHour="",endMin="";
 	int i;
+	///by time
 	if(tokens.size()==3){
 		if(checkByTime(tokens[2],hour,min)) {
 			T1.setHour(hour);
 			T1.setMinute(min);
 			isWrongTimeFormat=false;
-		}
-		else {
+		} else {
 			isWrongTimeFormat=true;
 		}
-	}
-	else if(tokens.size()==5) {
+	} else if(tokens.size()==5) {            //timed task with start and end hour
 		if(checkTime(tokens[2],tokens[3],tokens[4],startHour,startMin,endHour,endMin)){
 			T1.setStartHour(startHour);
 			T1.setStartMinute(startMin);
 			T1.setEndHour(endHour);
 			T1.setEndMinute(endMin);
 			isWrongTimeFormat=false;
-		}
-		else {
+		} else {
 			isWrongTimeFormat=true;
 		}
-	}
-	else {
+	} else {
 		isWrongTimeFormat=true;
 	}
 	vector <string> originalTokens;
@@ -392,10 +398,8 @@ bool Update::updateTime(string fileData, int userLine, string category, vector <
 		}
 		lineNumber++;
 	}
-	cout << userLine << endl;
 	return statusOfUpdate;
-	}
-	else {
+	} else {
 		return false;
 	}
 	
@@ -406,17 +410,20 @@ string Update::execute(string fileName,string filePath) {
 	CommandParser P1;
 	stack <string> commandStack = T1.getStack();
 	commandStack.pop();
+	//No command before undo
 	if(commandStack.empty()) {
 		return ERROR_PREVIOUS_COMMAND;
 	}
 	string lastInput = commandStack.top();
 	CommandType C1 = P1.getParserInput(lastInput,commandStack);
 	string command = P1.getCommand();
+	//No display command before undo
 	if(!isValidCommand(command)) {
 		return ERROR_PREVIOUS_COMMAND;
 	}
 	string fileData = C1.run(fileName,filePath);
 	vector <string> tokensToUpdate = T1.getUpdateTokens();
+	//Command format is wrong
 	if(tokensToUpdate.size()<3) {
 		return ERROR_UPDATE_FORMAT;
 	}
@@ -424,71 +431,57 @@ string Update::execute(string fileName,string filePath) {
 	string category = getCategory(tokensToUpdate);
 	string newFileData;
 	string originalData;
-	if(userLine==0) {
+	if(userLine==0) {                //The line number is invalid 
 		return ERROR_UPDATE_LINE;
 	}
-	if(category=="") {
+	if(category=="") {              //Wrong category
 		return ERROR_UPDATE_CATEGORY;
 	}
-	if(category==TASK_UPDATE) {
+	if(category==TASK_UPDATE) {         //update task
 		bool isTaskUpdate = updateTask(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
 		if(isWrongTaskFormat) {
 			return ERROR_UPDATE_FORMAT;
-		}
-		else {
+		} else {
 			if(isTaskUpdate) {
 				performUpdate(originalData,newFileData,fileName,filePath);
 				return "Description of task " + to_string(userLine) + " updated to *" + T1.getDescription() + "*\n";
-			}
-			else {
+			} else {
 				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
 			}
 		}
-	}
-	else if(category==DATE_UPDATE) {
+	} else if(category==DATE_UPDATE) {           //update date
 		bool isDateUpdate =	updateDate(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
 		if(isDatePassed) {
 			return ERROR_PASSED_DATE;
-		}
-		else if(isWrongDateFormat) {
+		} else if(isWrongDateFormat) {
 			return ERROR_UPDATE_DATE;
-		}
-		else {
+		} else {
 			if(isDateUpdate) {
 				performUpdate(originalData,newFileData,fileName,filePath);
 				return "Date of task " + to_string(userLine) + " updated to *" + T1.getDate() + " " + T1.getMonth() + " " + T1.getYear() +" *\n";
-			}
-			else {
+			} else {
 				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
 			}
 		}
-	
-	
-	}
-	else {
+	} else {             //update time
 		bool isTimeUpdate = updateTime(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
-		//if(isInvalidTimePeriod) {
-			//return ERROR_TIME_PERIOD;
-		//}
 		if(isWrongTimeFormat) {
 			return ERROR_UPDATE_TIME;
-		}
-		else {
+		} else {
 			if(isTimeUpdate) {
 				performUpdate(originalData,newFileData,fileName,filePath);
 				return "Time of task " + to_string(userLine) + " updated\n";
-			}
-			else {
+			} else {
 				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
 			}
 		}
-	
 	
 	}
 	
 }
 	
 
+//Replces the old data with the updated data
 void Update::performUpdate(string originalData, string newFileData, string fileName, string filePath) {
 	Storage S1;
 	bool update = S1.updateFileData(originalData,newFileData,fileName,filePath);
@@ -501,6 +494,7 @@ void Update::setOriginalTask(string task) {
 	originalTask = task;
 }
 
+//Used in undo to get not updated data
 string Update::getOriginalTask() {
 	return originalTask;
 }
@@ -509,14 +503,13 @@ void Update::setUpdatedTask(string task) {
 	updatedTask = task;
 }
 
+//Used in undo to get updated data
 string Update::getUpdatedTask() {
 	return updatedTask;
 }
 
 string Update::lowerCase(string input) {
-
 	transform(input.begin(), input.end(), input.begin(), ::tolower);
-
 	return input;
 }
 

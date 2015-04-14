@@ -1,10 +1,11 @@
+//@author A0118904E
 #ifndef RECURRING_TASK
 #define RECURRING_TASK
 
 #include "Task.h"
 using namespace std;
 
-class RecurringTask:public Task {
+class RecurringTask: public Task {
 
 private:
 	bool isRecurring;
@@ -19,9 +20,10 @@ private:
 	string endYear;
 	string keyword;
 	string recurringWord;
-
+	
 
 public:
+	
 	RecurringTask();
 	~RecurringTask();
 	string getTaskDay();

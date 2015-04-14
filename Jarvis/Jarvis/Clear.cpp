@@ -1,3 +1,4 @@
+//@author A0118904E
 #include "Clear.h"
 #include <boost/algorithm/string.hpp>
 
@@ -5,6 +6,7 @@ using namespace std;
 
 string Clear::originalData;
 const string ERROR_CLEAR_KEYWORDS = "Error: Please enter *CLEAR* to clear your task list";
+const string SUCCESS_CLEAR = "The file has been cleared\n";
 
 Clear::Clear(Task taskObject) {
 	T1 = taskObject;
@@ -21,8 +23,7 @@ string Clear::execute(string fileName,string filePath) {
 	string blankFile="";
 	setData(S1.readFile(fileName,filePath));
 	S1.clearFile(fileName,filePath);
-	return "The file has been cleared\n";
-
+	return SUCCESS_CLEAR;
 }
 
 void Clear::setData(string data) {

@@ -1,3 +1,4 @@
+//@author A0116114X
 #include "Storage.h"
 #include "Assert.h"
 #include <vector>
@@ -190,6 +191,7 @@ bool Storage::checkAdd(Task task, string outputfile,string filePath) {
 
 bool Storage::checkClear(string outputFile,string filePath) {
 	ifstream readfile(outputFile);
+	assert(readfile.peek() == std::ifstream::traits_type::eof());
 	if(readfile.peek() == std::ifstream::traits_type::eof()) {              	//if file is empty
 		readfile.close();
 		return true;

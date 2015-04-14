@@ -1,3 +1,4 @@
+//@author A0111136Y
 #ifndef UI_H
 #define UI_H
 
@@ -49,12 +50,11 @@ private:
 	static const string MESSAGE_HELP_EXIT;
 	static const string MESSAGE_HELP_ERROR;
 	static const string MESSAGE_FORMAT;
-	static vector <tuple <int,string, ptime, ptime, string>> UImemory;
 	
 
 
 public:
-
+	static vector <tuple <int, string, ptime, ptime, string>> UImemory; //<index as in storage, task decription, start-time & date, end time & date if applicable, done status>
 	static void main();
 	static void defaultView(string, stack <string>, string, string);
 	static void displayLine( string);
@@ -79,6 +79,7 @@ public:
 	static void displayDone();
 	static void printCurrentDayDateTime();
 	static void printHelp(string);
+	static void makeCorrectIndexPair(bool);
 };
 
 #endif
