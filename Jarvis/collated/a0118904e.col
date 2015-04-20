@@ -1,0 +1,3382 @@
+//@author: a0118904e
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Add.cpp
+	 */
+
+#include "Add.h"
+#include "Assert.h"
+
+using namespace std;
+using namespace boost::gregorian;
+using namespace boost::posix_time;
+
+const string ERROR_BLANK_STRING = "Error: Task to be added cannot be empty. Please enter *ADD* followed by a task\n";
+const string ERROR_END_LESSTHAN_START = "Error: Please enter a start date for the task that comes after today's date\n";
+const string ERROR_DAY_LESSTHAN_START1 = "Error: Recurring task could not be added since no ";
+const string ERROR_DAY_LESSTHAN_START2 = " comes before ";
+const string MONTH_1 = "january";
+const string MONTH_2 = "february";
+const string MONTH_3 = "march";
+const string MONTH_4 = "april";
+const string MONTH_5 = "may";
+const string MONTH_6 = "june";
+const string MONTH_7 = "july";
+const string MONTH_8 = "august";
+const string MONTH_9 = "september";
+const string MONTH_10 = "october";
+const string MONTH_11 = "november";
+const string MONTH_12 = "december";
+const string DAY_1 = "monday";
+const string DAY_2 = "tuesday";
+const string DAY_3 = "wednesday";
+const string DAY_4 = "thursday";
+const string DAY_5 = "friday";
+const string DAY_6 = "saturday";
+const string DAY_0 = "sunday";
+const string SUCCESS_RECURRING = "Added recurring task successfully\n";
+const string ERROR_RECURRING = "Error: Could not add recurring task\n";
+const string ERROR_INVALID_OCCURENCES = "Error: Recurring Task could not be added.\nPlease specify a valid number of occurences\n";
+const string ERROR_PAST_DATE = "Error: Recurring Task could not be added.\n Please make sure the start date of recurrence comes before the end date of recurrence.\n";
+const string ERROR_INVALID_DATE ="Error: Invalid date entered for task. Please enter a valid date\n"; 
+const string ERROR_INVALID_RECURRING = "Error: Invalid form of recurring task\n";
+const string ERROR_COMMAND = "Error: Invalid format of task. Please enter a valid format\n";
+const string ERROR_TIME = "Error: Invalid time entered for task. Please enter a valid time in the 24 hour clock\n";
+const string ERROR_ADD = "Error: Could not add the task.\n";
+const string SUCCESS_ADD = "Added task successfully to the tasklist!\n";
+const string UNDO_ERROR = "Error: Error occured when doing undo. Please try again";
+
+Add::Add(Task TaskAttributes,RecurringTask recurringObject) {
+	T1=TaskAttributes;
+	R1=recurringObject;
+}
+
+Add::~Add() {
+
+}
+
+//Returns the integer conversion of the month
+//Used to check if the date entered is valid
+int Add::getMonthNumber(string name) {
+
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months[MONTH_1]=1;
+		months[MONTH_2]=2;
+		months[MONTH_3]=3;
+		months[MONTH_4]=4;
+		months[MONTH_5]=5;
+		months[MONTH_6]=6;
+		months[MONTH_7]=7;
+		months[MONTH_8]=8;
+		months[MONTH_9]=9;
+		months[MONTH_10]=10;
+		months[MONTH_11]=11;
+		months[MONTH_12]=12;
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
+//Returns the month name corresponding to the number of the month
+//Used to store the data into the file
+string Add::getMonthFromNumber(int no) {
+
+	map<int, string> months;
+	map<int,string>::iterator iter;
+
+		months[1]=MONTH_1;
+		months[2]=MONTH_2;
+		months[3]=MONTH_3;
+		months[4]=MONTH_4;
+		months[5]=MONTH_5;
+		months[6]=MONTH_6;
+		months[7]=MONTH_7;
+		months[8]=MONTH_8;
+		months[9]=MONTH_9;
+		months[10]=MONTH_10;
+		months[11]=MONTH_11;
+		months[12]=MONTH_12;
+
+	 iter = months.find(no);
+
+	if (iter != months.end())
+		return iter->second;
+	return "";
+}
+
+//Returns the integer conversion of the day of the week eg. monday is day1, sunday is day0
+//Used to check if the date entered is valid
+int Add::getDayNumber(string name) {
+
+	map<string,int>dayName;
+	map<string,int>::iterator iter;
+
+		dayName[DAY_1]=1;
+		dayName[DAY_2]=2;
+		dayName[DAY_3]=3;
+		dayName[DAY_4]=4;
+		dayName[DAY_5]=5;
+		dayName[DAY_6]=6;
+		dayName[DAY_0]=0;
+
+	 iter = dayName.find(name);
+
+	if (iter != dayName.end())
+		return iter->second;
+	return 7;
+} 
+
+
+string Add::execute(string fileName,string filePath) {
+	int countOfDays=0;
+	if(T1.getBlankString()) {                  //The user cannot enter a blank string after "add" command
+		return ERROR_BLANK_STRING;
+	}
+	string status;
+	bool statusOfAdd;
+	
+	//If the task added is a recurring task, it first checks if there is an error in the format of the recurring task added
+	//If the task format is valid it checks for the two keywords: every or from
+	if(R1.getRecurring()) {
+		if(R1.getRecurringError()) {
+			return ERROR_INVALID_RECURRING;
+		} else if(R1.getRecWord()=="every") {   // The format for this task is add <task> every <day/dayName> (until <deadline>)
+			if(R1.getWord()=="until") {                                                                       //no of occurences
+				if(R1.getTaskDay()=="day") {
+					ptime now = microsec_clock::local_time();
+					date today = now.date();
+					int gregYear = stoi(T1.getYear());
+					int gregMonth = getMonthNumber(R1.getEndMonth());
+					int gregDate = stoi(R1.getEndDate());
+					date end(gregYear, gregMonth, gregDate);
+					assert(end > today);
+					if(end<today) {                       //If the date entered is in the past, it is invalid.
+						return ERROR_END_LESSTHAN_START;
+					}
+					date_duration dd(1);
+					while(today<=end) {                    //Depending on the end date added, the task is added daily to the tasklist.
+						T1.setDate(to_string(today.day()));
+						T1.setMonth(getMonthFromNumber(today.month()));
+						T1.setYear(to_string(today.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						today = today + dd;
+					}
+
+				} else {
+					ptime now = microsec_clock::local_time();
+					string dayName = T1.getKeywords();
+					date today = now.date();
+				
+					//Gets the date corresponding to the first occurence of the day name. 
+					//Example it gets the nearest friday, if the keyword is friday
+					greg_weekday gregDay = getDayNumber(R1.getTaskDay());
+					first_day_of_the_week_after fdaf(gregDay);
+					date day = fdaf.get_date(date(today));
+				
+					//Gets the end date specified by the user. It checks for the last occurence of the day name before the end date.
+					int gregYear = stoi(T1.getYear());
+					int gregMonth = getMonthNumber(R1.getEndMonth());
+					int gregDate = stoi(R1.getEndDate());
+					date end(gregYear, gregMonth, gregDate);
+					first_day_of_the_week_before fdbf(gregDay);
+					date lastDay = fdbf.get_date(date(end));
+					date_duration dd(7);
+					if(lastDay<day) {              //If the end date added is in the past, its invalid.
+						return ERROR_DAY_LESSTHAN_START1 + R1.getTaskDay() + ERROR_DAY_LESSTHAN_START2 + to_string(gregDay) + " " + getMonthFromNumber(gregMonth) + " " + to_string(gregYear) + "\n";
+					}
+					while(day<=lastDay) {          //Adds the task every 7 days
+						T1.setDate(to_string(day.day()));
+						T1.setMonth(getMonthFromNumber(day.month()));
+						T1.setYear(to_string(day.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						day = day + dd;
+					}
+				}
+			if(statusOfAdd) {
+				status = SUCCESS_RECURRING;
+			} else { 
+				status= ERROR_RECURRING;
+			}
+
+		} else {                                  //If the number of occurences are specified eg. "x2"
+			char number =(R1.getWord()).at(1);
+			int recurringNumber =number - '0';
+			int countOfDays=0;
+			if(recurringNumber>0) {              //Negative number of recurrences are invalid
+				if(R1.getTaskDay()=="day") {
+					ptime now = microsec_clock::local_time();
+					date today = now.date();
+					date_duration dd(1);
+					while(countOfDays<=recurringNumber) {    //Depending on the number of occurences, the task is added daily to the tasklist.
+						T1.setDate(to_string(today.day()));
+						T1.setMonth(getMonthFromNumber(today.month()));
+						T1.setYear(to_string(today.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						today = today + dd;
+					}
+				} else {
+					ptime now = microsec_clock::local_time();
+					string dayName = T1.getKeywords();
+					date today = now.date();
+					greg_weekday gregDay = getDayNumber(R1.getTaskDay());
+					first_day_of_the_week_after fdaf(gregDay);
+					date day = fdaf.get_date(date(today));
+					date_duration dd(7);
+					while(countOfDays<recurringNumber) {
+						T1.setDate(to_string(day.day()));
+						T1.setMonth(getMonthFromNumber(day.month()));
+						T1.setYear(to_string(day.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						day = day + dd;
+					}
+				}
+
+			} else {
+				return ERROR_INVALID_OCCURENCES;
+			}
+			if(statusOfAdd) {
+				status = SUCCESS_RECURRING;
+			} else { 
+				status= ERROR_RECURRING;
+			}
+			return status;
+		}
+	} else if(R1.getRecWord()=="from") {              // The format for this task is add <task> from <deadline> (until <deadline>) OR (no of occurences)
+		
+		string recPeriod = R1.getPeriod();
+		string word = R1.getWord();
+		int startDate = stoi(R1.getStartDate());
+		int startMonth = getMonthNumber(R1.getStartMonth());
+		int startYear = stoi(R1.getStartYear());
+		date start(startYear, startMonth, startDate);  //This is the date from which task should start recurring
+		if(recPeriod=="daily") {
+			if(word=="until") {
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end) {
+					return ERROR_PAST_DATE;
+				}
+				date_duration dd(1);
+				while(start<=end) {            //Adds the task daily until end date is reached 
+				T1.setDate(to_string(start.day()));
+				T1.setMonth(getMonthFromNumber(start.month()));
+				T1.setYear(to_string(start.year()));
+				statusOfAdd = S1.writeFile(T1,fileName,filePath);
+				start = start + dd;
+				}
+
+			} else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				date_duration dd(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + dd;
+					}
+				} else {
+					return ERROR_INVALID_OCCURENCES;
+				}
+			}
+
+		} else if(recPeriod=="weekly") {                    //Task is added weekly until end date is reached
+			if(word=="until") {
+				date_duration dd(7);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end) {
+					return ERROR_PAST_DATE;
+				}
+				while(start<=end) {
+					T1.setDate(to_string(start.day()));
+					T1.setMonth(getMonthFromNumber(start.month()));
+					T1.setYear(to_string(start.year()));
+					statusOfAdd = S1.writeFile(T1,fileName,filePath);
+					start = start + dd;
+				}
+
+			} else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				date_duration dd(7);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {	
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + dd;
+					}
+				}
+				else {
+					return ERROR_INVALID_OCCURENCES;
+				}
+			}
+		} else if(recPeriod=="monthly") {     //Task is added monthly until end date is reached
+			if(word=="until") {
+				months single(1);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end) {
+					return ERROR_PAST_DATE;
+				}
+				while(start<=end) {
+					T1.setDate(to_string(start.day()));
+					T1.setMonth(getMonthFromNumber(start.month()));
+					T1.setYear(to_string(start.year()));
+					statusOfAdd = S1.writeFile(T1,fileName,filePath);
+					start = start + single;
+				}
+
+			} else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				months single(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {	
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + single;
+					}
+				} else {
+					return ERROR_INVALID_OCCURENCES;
+				}
+			}
+		} else {                                            //Task is added yearly until end date is reached
+			if(word=="until") {
+				years single(1);
+				int endDate = stoi(R1.getEndDate());
+				int endMonth = getMonthNumber(R1.getEndMonth());
+				int endYear = stoi(T1.getYear());
+				date end(endYear, endMonth, endDate);
+				if(start>end) {
+					return ERROR_PAST_DATE;
+				}
+				while(start<=end) {
+					T1.setDate(to_string(start.day()));
+					T1.setMonth(getMonthFromNumber(start.month()));
+					T1.setYear(to_string(start.year()));
+					statusOfAdd = S1.writeFile(T1,fileName,filePath);
+					start = start + single;
+				}
+
+			} else {
+				char number =(R1.getWord()).at(1);
+				int recurringNumber =number - '0';
+				years single(1);
+				if(recurringNumber>0) {
+					while(countOfDays<=recurringNumber) {
+						T1.setDate(to_string(start.day()));
+						T1.setMonth(getMonthFromNumber(start.month()));
+						T1.setYear(to_string(start.year()));
+						statusOfAdd = S1.writeFile(T1,fileName,filePath);
+						countOfDays++;
+						start = start + single;
+					}
+				} else {
+					return ERROR_INVALID_OCCURENCES;
+				}
+			}
+		}
+
+		if(statusOfAdd) {
+			status = SUCCESS_RECURRING;
+		} else { 
+			status= ERROR_RECURRING;
+		}
+		return status;
+		}
+	} else if(!R1.getRecurring()) { //If the task is not recurring, it checks for all possible errors before adding to storage
+		if(R1.getRecurringError()) {
+			return ERROR_INVALID_RECURRING;
+		} else if(T1.getErrorDate()) {
+			return ERROR_INVALID_DATE;
+		} else if(T1.getCommandError()) {
+			return ERROR_COMMAND;
+		} else if(T1.getTimeError()) {
+			return ERROR_TIME;
+		}
+ 		bool statusOfAdd = S1.writeFile(T1,fileName,filePath);
+		if(statusOfAdd) {
+			status = SUCCESS_ADD;
+		} else { 
+			status= ERROR_ADD;
+		}
+	}
+	return status;
+}
+
+//This is used to add the last deleted task. Function is called in undo
+
+string Add::executeUndo(string fileName,string filePath) {
+	Delete D1(T1);
+	string data = D1.getDeleteTask();    //the last task deleted is retrieved
+	bool status = S1.writeBackToFile(data,fileName,filePath);
+	if(status) {
+		return "The task *" + D1.getDeleteTask() + "* has been added back";
+	} else {
+		return UNDO_ERROR;
+	}
+}
+
+
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Add.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Add.h
+	 */
+
+
+#ifndef ADD_H
+#define ADD_H
+
+#include "Task.h"
+#include "Command.h"
+#include "Storage.h"
+#include "Delete.h"
+#include "RecurringTask.h"
+#include <iostream>
+#include <stdlib.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+using namespace std;
+
+class Add: public Command {
+
+private:
+	Task T1;
+	Storage S1;
+	RecurringTask R1;
+
+public:
+	Add(Task,RecurringTask);
+	~Add();
+	int getMonthNumber(string);
+	string getMonthFromNumber(int);
+	int getDayNumber(string);
+	string execute(string,string); 
+	string executeUndo(string,string);
+	
+};
+
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Add.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Clear.cpp
+	 */
+
+#include "Clear.h"
+#include <boost/algorithm/string.hpp>
+
+using namespace std;
+
+string Clear::originalData;
+const string ERROR_CLEAR_KEYWORDS = "Error: Please enter *CLEAR* to clear your task list";
+const string SUCCESS_CLEAR = "The file has been cleared\n";
+
+Clear::Clear(Task taskObject) {
+	T1 = taskObject;
+}
+
+Clear::~Clear() {
+
+}
+
+string Clear::execute(string fileName,string filePath) {
+	if(T1.getKeywords()!="") {
+		return ERROR_CLEAR_KEYWORDS;
+	}
+	string blankFile="";
+	setData(S1.readFile(fileName,filePath));
+	S1.clearFile(fileName,filePath);
+	return SUCCESS_CLEAR;
+}
+
+void Clear::setData(string data) {
+	originalData = data;
+}
+
+string Clear::getData() {
+	return originalData;
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Clear.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Clear.h
+	 */
+
+#ifndef CLEAR_H
+#define CLEAR_H
+
+#include "Command.h"
+#include "Storage.h"
+using namespace std;
+
+class Clear:public Command {
+
+private:
+	Storage S1;
+	Task T1;
+	static string originalData;
+
+public:
+	Clear(Task);
+	~Clear();
+	string execute(string,string);
+	void setData(string);
+	string getData();
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Clear.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Command.h
+	 */
+
+#ifndef COMMAND_H
+#define COMMAND_H
+
+#include <iostream>
+
+using namespace std;
+
+class Command {
+
+
+	public:
+		virtual string execute(string,string) = 0;
+
+};
+
+
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Command.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\CommandType.cpp
+	 */
+
+#include "CommandType.h"
+
+using namespace std;
+
+CommandType::CommandType(Command* commandObject) {
+	C1 = commandObject;
+}
+
+CommandType::CommandType() {
+
+}
+
+CommandType::~CommandType() {
+
+}
+
+string CommandType::run(string fileName,string filePath) {
+	return C1->execute(fileName,filePath);
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\CommandType.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\CommandType.h
+	 */
+
+#ifndef CommandType_H
+#define CommandType_H
+
+#include "Command.h"
+using namespace std;
+
+class CommandType {
+
+private:
+
+	Command* C1;
+
+public:
+
+	CommandType(Command*);
+	CommandType();
+	~CommandType();
+	string run(string,string);
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\CommandType.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Delete.cpp
+	 */
+
+#include "Delete.h"
+#include <sstream>
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+#include <stack>
+using namespace std;
+
+string Delete::deleteTask;
+const string DISPLAY_COMMAND = "display";
+const string ERROR_PREVIOUS_COMMAND = "Error: Please view your task list using the *DISPLAY* command before deleting a task";
+const string ERROR_DELETE = "Error: Please enter *DELETE* followed by the correct number of the task to be deleted.\n";
+const string SUCCESS_DELETE = "Deleted task successfully\n";
+
+Delete::Delete(Task TaskAttributes) {
+	T1=TaskAttributes;
+}
+
+Delete::~Delete() {
+
+}
+
+//A user can only delete a task after a display command has been entered
+//This allows deleting by category. 
+bool Delete::isValidCommand(string input) {   
+	if(input==DISPLAY_COMMAND) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+string Delete::execute(string fileName,string filePath) {
+	CommandParser P1;
+	string s;
+	stack <string> commandStack = T1.getStack();
+	commandStack.pop();
+	//The command stack stores all the inputs entered by the user since the program has started
+	//If the stack is empty after removing this "delete" command, the user is not allowed to delete.
+	if(commandStack.empty()) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	string lastInput = commandStack.top();
+	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string command = P1.getCommand();
+	//The user can only delete after a display command
+	if(!isValidCommand(command)) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	//retrieves the input specified by the last display command
+	//If the user has entered display march, all the tasks in march are called so that he can delete from this list
+	string input = C1.run(fileName,filePath);
+	istringstream file(input);
+	string lineFromFile;
+	int lineNumber=1;
+	string deletedData="";
+	string userLine = T1.getNumber();
+	//If the line is not empty, each line is checked to find the line number entered by user. This is then deleted.
+	while(getline(file,lineFromFile)) {
+		if(!lineFromFile.empty()) {
+			if(atoi(userLine.c_str())==lineNumber) {
+				deletedData = deletedData + lineFromFile + "\n";
+			}
+			
+	}
+		lineNumber++;
+	}
+	if(deletedData!="") {            //If the line has been found, it is removed from the file
+		S1.replaceFileData(deletedData,fileName,filePath);
+		setDeleteTask(deletedData);
+		return SUCCESS_DELETE;
+	} else {
+		return ERROR_DELETE;
+	}
+}
+
+//Used to delete the last command added incase user wants to undo an add
+string Delete::executeUndo(string fileName,string filePath) {
+	string fileData = S1.readFile(fileName,filePath);
+	vector <string> data;
+	boost::split(data,fileData,boost::is_any_of("\n"));
+	data.pop_back();
+	S1.replaceFileData(data.back(),fileName,filePath);
+	return "The task *" + T1.getUndoString() + "* has been deleted";
+}
+
+string Delete::getDeleteTask() {
+	return deleteTask;
+}
+void Delete::setDeleteTask(string task) {
+	deleteTask=task;
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Delete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Delete.h
+	 */
+
+#ifndef DELETE_H
+#define DELETE_H
+
+#include "Command.h"
+#include "Storage.h"
+#include "Task.h"
+#include "Logic.h"
+#include "CommandType.h"
+#include "Search.h"
+#include <vector>
+using namespace std;
+
+class Delete:public Command {
+
+private:
+	Storage S1;
+	Task T1;
+	static string deleteTask;
+
+public:
+	Delete(Task);
+	~Delete();
+	string execute(string,string);
+	string executeUndo(string,string);
+	string getDeleteTask();
+	void setDeleteTask(string);
+	bool isValidCommand(string);
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Delete.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Display.cpp
+	 */
+
+#include "Display.h"
+
+using namespace std;
+using namespace boost::gregorian;
+using namespace boost::posix_time;
+
+Display::Display() {
+
+}
+
+Display::Display(Task taskObject) {
+	T1 = taskObject;
+}
+
+Display::~Display() {
+
+}
+
+string Display::getFullMonth(string name) {
+
+	map<string, string> months;
+	map<string,string>::iterator iter;
+
+		months["Jan"]="january";
+		months["Feb"]="february";
+		months["Mar"]="march";
+		months["Apr"]="april";
+		months["May"]="may";
+		months["Jun"]="june";
+		months["Jul"]="july";
+		months["Aug"]="august";
+		months["Sep"]="september";
+		months["Oct"]="october";
+		months["Nov"]="november";
+		months["Dec"]="december";
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return "";
+}
+
+int Display::getMonthNumber(string name) {
+
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months["january"]=1;
+		months["february"]=2;
+		months["march"]=3;
+		months["april"]=4;
+		months["may"]=5;
+		months["june"]=6;
+		months["july"]=7;
+		months["august"]=8;
+		months["september"]=9;
+		months["october"]=10;
+		months["november"]=11;
+		months["december"]=12;
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
+int Display::getDayNumber(string name) {
+
+	map<string,int>dayName;
+	map<string,int>::iterator iter;
+
+		dayName["monday"]=1;
+		dayName["tuesday"]=2;
+		dayName["wednesday"]=3;
+		dayName["thursday"]=4;
+		dayName["friday"]=5;
+		dayName["saturday"]=6;
+		dayName["sunday"]=0;
+
+	 iter = dayName.find(name);
+
+	if (iter != dayName.end())
+		return iter->second;
+	return 7;
+} 
+
+void Display::searchForMonth(vector <string>& input) {
+	int i;
+	for(i=0;i<input.size();i++) {
+		if(getMonthNumber(input[i])!=0) {
+			input[i]=(input[i]).substr(0,3);
+		}
+	}
+}
+
+
+
+string Display::execute(string fileName,string filePath) {
+	vector <string> dateVector;
+	vector <string> keywordVector;
+	string word;
+	if(!T1.getBlankString()) {
+	boost::trim(T1.getKeywords());
+	vector <string> tokensBeforeTrim;
+	int i;
+	boost::split(tokensBeforeTrim,T1.getKeywords(),boost::is_any_of(" "));
+	for(i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i].find_first_not_of(' ') != string::npos) {
+			keywordVector.push_back(changeToLowerCase(tokensBeforeTrim[i]));
+		}
+	}
+	T1.setKeywords("");
+	for(i=0;i<keywordVector.size()-1;i++) 
+		word = word + keywordVector[i] + " ";
+	if(i==keywordVector.size()-1)
+		word = word + keywordVector[i];
+	T1.setKeywords(word);
+	//remove spaces and put to lower case
+
+	if(T1.getKeywords()=="all") {
+		return S1.readFile(fileName,filePath);
+	}
+
+	else if(T1.getKeywords()=="today") {
+		ptime now = microsec_clock::local_time();
+		date today = now.date();
+		boost::split(dateVector,to_simple_string(today),boost::is_any_of("-"));
+		if(dateVector[2].at(0)=='0')
+			dateVector[2] = dateVector[2].at(1);
+		string keywords = dateVector[2] +" " + dateVector[1] + " " + dateVector[0];
+		T1.setKeywords(keywords);
+		Search S2(T1);
+		if(S2.executeSearch(fileName,filePath)=="") {
+			return "Error: There are no tasks scheduled for today - " + keywords +"\n";
+		}
+		else {
+			return S2.executeSearch(fileName,filePath);
+		}
+	}
+
+	else if(T1.getKeywords()=="tomorrow") {
+		ptime now = microsec_clock::local_time();
+		date_duration dd(1);
+		date tomorrow = now.date() + dd;
+		boost::split(dateVector,to_simple_string(tomorrow),boost::is_any_of("-"));
+		if(dateVector[2].at(0)=='0')
+			dateVector[2] = dateVector[2].at(1);
+		string keywords = dateVector[2] +" " + dateVector[1] + " " + dateVector[0];
+		T1.setKeywords(keywords);
+		Search S2(T1);
+		if(S2.executeSearch(fileName,filePath)=="") {
+			return "Error: There are no tasks scheduled for tomorrow - " + keywords +"\n";
+		}
+		else {
+			return S2.executeSearch(fileName,filePath);
+		}
+
+	}
+	else if(T1.getKeywords()=="monday" || T1.getKeywords()=="tuesday" || T1.getKeywords()=="wednesday" || T1.getKeywords()=="thursday" || T1.getKeywords()=="friday" || T1.getKeywords()=="saturday" || T1.getKeywords()=="sunday") {
+		ptime now = microsec_clock::local_time();
+		string dayName = T1.getKeywords();
+		date today = now.date();
+		greg_weekday gregDay = getDayNumber(T1.getKeywords());
+		first_day_of_the_week_after fdaf(gregDay);
+		date day = fdaf.get_date(date(today));
+		boost::split(dateVector,to_simple_string(day),boost::is_any_of("-"));
+		string dateNumber = dateVector[2];
+		if(dateVector[2].at(0)=='0')
+			dateVector[2] = dateVector[2].at(1);
+		string keywords = dateVector[2] +" " +dateVector[1] + " " + dateVector[0];
+		T1.setKeywords(keywords);
+		Search S2(T1);
+		if(S2.executeSearch(fileName,filePath)=="") {
+			return "Error: There are no tasks scheduled for "+ dayName + " - " + keywords +"\n";
+		}
+		else {
+			return S2.executeSearch(fileName,filePath);
+		}
+
+	}
+	else if(T1.getKeywords()=="done") {
+		Search S2(T1);
+		if(S2.execute(fileName,filePath)=="") {
+			return "Error: No tasks have been completed yet!\n";
+		}
+		else {
+			return S2.execute(fileName,filePath);
+		}
+	}
+	else {
+		searchForMonth(keywordVector);
+		word="";
+		for(i=0;i<keywordVector.size()-1;i++) 
+			word = word + keywordVector[i] + " ";
+		if(i==keywordVector.size()-1)
+			word = word + keywordVector[i];
+		T1.setKeywords(word);
+		Search S2(T1);
+		if(S2.executeSearch(fileName,filePath)=="") {
+			return "Error: There are no tasks scheduled with the keywords - "+T1.getKeywords()+" in the deadline. Please enter a valid date. \n";
+		}
+		else {
+			return S2.executeSearch(fileName,filePath);
+		}
+
+	}
+}
+
+	else {
+
+		return "Error: Please enter a valid keyword after   *DISPLAY*   to view your tasks";
+	}
+}
+
+string Display::changeToLowerCase(string input) {
+	string lowerCase="";
+	for(int i=0;i<input.size();i++) {
+		if(input[i]>='A' && input[i]<='Z') {
+			input[i] = tolower(input[i]);
+			lowerCase = lowerCase + input[i];
+		}
+		else {
+			lowerCase = lowerCase + input[i];
+		}
+	}
+	return lowerCase;
+}
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Display.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Display.h
+	 */
+
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
+#include "Command.h"
+#include "Storage.h"
+#include "Task.h"
+#include "Search.h"
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/algorithm/string.hpp>
+#include <map>
+using namespace std;
+
+class Display:public Command {
+
+private:
+	Storage S1;
+	Task T1;
+
+public:
+	Display();
+	Display(Task);
+	~Display();
+	string getFullMonth(string);
+	int getDayNumber(string);
+	string execute(string,string);
+	int getMonthNumber(string);
+	string changeToLowerCase(string);
+	void searchForMonth(vector <string>&);
+	bool isValidMonth(string);
+};
+
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Display.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Done.cpp
+	 */
+
+#include "Done.h"
+#include <sstream>
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+#include <stack>
+using namespace std;
+
+string Done::originalDoneTask;
+string Done::updatedDoneTask;
+const string ERROR_PREVIOUS_COMMAND = "Error: Please view your task list using the *DISPLAY* command before marking a task as done\n";
+const string DISPLAY_COMMAND = "display";
+const string ERROR_DONE = "Error: Please enter *DONE* followed by the correct number of the task to be marked as done.\n";
+const string SUCCESS_DONE = "The task is marked as done\n";
+
+Done::Done(Task TaskAttributes) {
+	T1=TaskAttributes;
+}
+
+Done::~Done() {
+
+}
+
+//A user can only mark a task as done after a display command has been entered
+bool Done::isValidCommand(string input) {
+	if(input==DISPLAY_COMMAND) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+string Done::execute(string fileName,string filePath) {
+	int i;
+	CommandParser P1;
+	string s;
+	stack <string> commandStack = T1.getStack();
+	commandStack.pop();
+	//The command stack stores all the inputs entered by the user since the program has started
+	//If the stack is empty after removing this "done" command, the user is not allowed to delete.
+	if(commandStack.empty()) {                        
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	string lastInput = commandStack.top();
+	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string command = P1.getCommand();
+	//The user can only mark a task as done after a display command
+	if(!isValidCommand(command)) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	//retrieves the input specified by the last display command
+	//If the user has entered display march, all the tasks in march are called so that he can mark done from this list
+	string input = C1.run(fileName,filePath);
+	istringstream file(input);
+	string lineFromFile;
+	int lineNumber=1;
+	string doneData="";
+	vector <string> doneTokens;
+	string newStatus;
+	string userLine = T1.getNumber();
+	if(userLine=="") {
+		return ERROR_DONE;
+	}
+	//If the line is not empty, each line is checked to find the line number entered by user
+	while(getline(file,lineFromFile)) {
+		if(!lineFromFile.empty()) {
+			if(atoi(userLine.c_str())==lineNumber) {
+				doneData = doneData + lineFromFile + "\n";            //doneData stores the original string with status as undone.
+				boost::split(doneTokens,lineFromFile,boost::is_any_of("/"));
+				doneTokens[10]="done";
+			}
+		}
+		lineNumber++;
+	}
+	
+	//This is used to store the new string with the status as done. It can be accessed by undo if the user wants to unmark this task as done
+	//The unmarked done string is stored in original string variable.
+	for(i=0;i<doneTokens.size()-1;i++)
+		newStatus = newStatus + doneTokens[i] + "/"; 
+	if(i==doneTokens.size()-1)
+		newStatus = newStatus + doneTokens[i] + "\n";
+	//If the line has been found, it is marked as done in the file
+	if(doneData!="") {                                 
+		S1.updateFileData(doneData,newStatus,fileName,filePath);
+		setOriginalDoneTask(doneData);
+		setUpdatedDoneTask(newStatus);
+		return SUCCESS_DONE;
+	} else {
+		return ERROR_DONE;
+	}
+
+}
+
+string Done::getOriginalDoneTask() {
+	return originalDoneTask;
+}
+void Done::setOriginalDoneTask(string task) {
+	originalDoneTask=task;
+}
+
+string Done::getUpdatedDoneTask() {
+	return updatedDoneTask;
+}
+
+void Done::setUpdatedDoneTask(string task) {
+	updatedDoneTask=task;
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Done.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Done.h
+	 */
+
+#ifndef DONE_H
+#define DONE_H
+
+#include "Command.h"
+#include "Storage.h"
+#include "Task.h"
+#include "Logic.h"
+#include "CommandType.h"
+#include "Search.h"
+#include <vector>
+using namespace std;
+
+class Done:public Command {
+
+private:
+	Storage S1;
+	Task T1;
+	static string updatedDoneTask;
+	static string originalDoneTask;
+
+public:
+	Done(Task);
+	~Done();
+	string execute(string,string);
+	string executeUndo(string,string);
+	int startIndex(string);
+	int endIndex(string);
+	string extractLineNumber(string);
+	string getDoneTask();
+	void setOriginalDoneTask(string);
+	string getOriginalDoneTask();
+	void setUpdatedDoneTask(string);
+	string getUpdatedDoneTask();
+	bool isValidCommand(string);
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Done.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Logic.cpp
+	 */
+
+#pragma once
+#include "Logic.h"
+#include <vector>
+#include <assert.h>
+
+vector <pair <int, int>>::iterator iter;
+
+Logic::Logic() {
+	isDone=false;  
+}
+
+Logic::~Logic() {
+}
+
+//This is a universal stack that stores all the inputs by the user since the application had opened
+stack <string> Logic::getStack() { 
+	return inputStack;
+}
+
+void Logic::setStack(stack <string> input) {
+	inputStack=input;
+}
+
+//This tells us whether the recent task executed was "display done" to enable deleting a done task.
+bool Logic::isLastCommandDone(stack <string> input) {
+	string userCommand;
+	if(!input.empty()) {
+		userCommand = input.top();
+		command = extractUserCommand(userCommand);
+		if(command=="display" && userInput=="done") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+}
+
+//This extracts the command type from the task input
+//Simultaneously it trims the spaces in the input
+string Logic::extractUserCommand(string input) {
+	vector <string> tokensBeforeTrim;
+	boost::split(tokensBeforeTrim,input,boost::is_any_of(" "));
+	vector <string> tokens;
+	for(int i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i]!=" ") {
+			tokens.push_back(tokensBeforeTrim[i]);
+		}
+	}
+	string taskString;
+	int i;
+	for(i=1;i<tokens.size()-1;i++) {
+		taskString = taskString + tokens[i] + " ";
+	}
+	if(i==tokens.size()-1) {
+		taskString = taskString + tokens[i];
+	}
+	userInput=taskString;
+
+	return tokens[0];
+}
+
+//This is the main function that executes the command and returns a status message to the user
+string Logic::executeCommand(string input,stack <string> userStack, string fileName, string filePath) {
+	inputStack=userStack;
+	string status;
+	CommandParser P1;
+	CommandType C1 = P1.getParserInput(input,getStack());
+	status = C1.run(fileName,filePath);
+	return status;
+}
+
+//This is to facilitate the different numbering the user observes on the screen and the numbering in the storage file.
+//Example, the line 1 on the screen (command window) may not be task 1 in the file, depending on the category of display( by month)
+//If the number input is invalid, it returns a blank string
+string Logic::correctNumber(string no) {
+	string number="";
+	for (iter = UI::indexPair.begin(); iter != UI::indexPair.end(); iter++){
+		if (atoi(no.c_str()) == iter->first) {
+			number = to_string(iter->second);
+		}
+	}
+return number;
+}
+
+void Logic::setDisplayDone(bool value) {
+	isDone = value;
+}
+
+//Tells us if a done task has been executed
+bool Logic::getDisplayDone() {
+	return isDone;
+}
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Logic.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Logic.h
+	 */
+
+#ifndef LOGIC_H
+#define LOGIC_H
+
+#include "Task.h"
+#include "Parser.h"
+#include "Storage.h"
+#include "CommandType.h"
+#include "Add.h"
+#include "Display.h"
+#include "Delete.h"
+#include "Update.h"
+#include "Clear.h"
+#include "Search.h"
+#include "UI.h"
+#include <stack>
+#include <boost/algorithm/string.hpp>
+
+using namespace std;
+
+
+class Logic {
+
+private:
+	Task taskDetails;
+	string command;
+	string userInput;
+	stack <string> inputStack;
+	bool isDone;
+
+public:
+	Logic();
+	~Logic();
+	string executeCommand(string,stack <string>,string,string);
+	string extractUserCommand(string);
+	int startIndex(string);
+	int endIndex(string);
+	stack <string> getStack();
+	void setStack(stack <string>);
+	string correctNumber(string);
+	void setDisplayDone(bool);
+	bool getDisplayDone();
+	bool isLastCommandDone(stack <string>);
+};
+
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Logic.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\parser.cpp
+	 */
+
+const string INDENTIFIERS = "./?! ";
+const string startDateIndicator = " on ";
+const string endTimeIndicator = " by ";
+const string hourIndicator = ":";
+const string startTimeIndicator = "from";
+const string deadlineTimeIndicator = "to";
+
+CommandParser::CommandParser() {
+	isYearValid=false;
+}
+
+CommandParser::~CommandParser() {
+
+}
+
+Task CommandParser::getTaskObject() {
+	return taskDetails;
+}
+
+string CommandParser::getUserInput() {
+	return userInput;
+}
+
+string CommandParser::changeToLowerCase(string input) {
+	string lowerCase="";
+	for(int i=0;i<input.size();i++) {
+		if(input[i]>='A' && input[i]<='Z') {
+			input[i] = tolower(input[i]);
+			lowerCase = lowerCase + input[i];
+		} else {
+			lowerCase = lowerCase + input[i];
+		}
+	}
+	return lowerCase;
+}
+
+vector <string> CommandParser::trimUserInputTokens(string input) {
+	vector <string> tokensBeforeTrim;
+	boost::split(tokensBeforeTrim,input,boost::is_any_of(" "));
+	vector <string> tokens;
+	for(int i=0;i<tokensBeforeTrim.size();i++) {
+		if(tokensBeforeTrim[i]!=" ") {
+			tokens.push_back(tokensBeforeTrim[i]);
+		}
+	}
+	return tokens;
+}
+
+string CommandParser::extractUserCommand(string input) {
+	vector <string> tokens;
+	tokens = trimUserInputTokens(input);
+	string taskString;
+	int i;
+	for(i=1;i<tokens.size()-1;i++) {
+		taskString = taskString + tokens[i] + " ";
+	}
+	if(i==tokens.size()-1) {
+		taskString = taskString + tokens[i];
+	}
+	userInput =taskString;
+	return tokens[0];
+}
+
+
+int CommandParser::getMonthNumber(string name) {
+
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months["january"]=1;
+		months["february"]=2;
+		months["march"]=3;
+		months["april"]=4;
+		months["may"]=5;
+		months["june"]=6;
+		months["july"]=7;
+		months["august"]=8;
+		months["september"]=9;
+		months["october"]=10;
+		months["november"]=11;
+		months["december"]=12;
+
+	 iter = months.find(name);
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
+
+bool CommandParser::isHourValid(string hour) {
+	try {
+		int number = stoi(hour);
+		if(number>=0 && number<=23){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	catch(const std::invalid_argument) {
+		return false; 
+	}
+}
+
+bool CommandParser::isMinuteValid(string minute) {
+	try{
+		int number = stoi(minute);
+		if(number>=0 && number<=59){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	catch(const std::invalid_argument) {
+		return false; 
+	}
+}
+
+bool CommandParser::isDayValid(string taskDay) {
+	assert(taskDay == "day" || taskDay == "monday" || taskDay == "tuesday" || taskDay == "wednesday" || taskDay == "thursday" || taskDay == "friday" || taskDay == "saturday" || taskDay == "sunday");
+	if(taskDay=="day" || taskDay=="monday" || taskDay=="tuesday" || taskDay=="wednesday" || taskDay=="thursday" || taskDay=="friday" || taskDay=="saturday" || taskDay=="sunday") {
+		return true;
+	} else { 
+		return false;
+	}
+}
+
+bool CommandParser::isPeriodValid(string period) {
+	if(period=="daily" || period=="weekly" || period=="monthly" || period=="yearly") {
+		return true;
+	} else { 
+		return false;
+	}
+}
+
+bool CommandParser::isTimeValid(time_duration t, date d) {
+	ptime now = microsec_clock::local_time();
+	boost::gregorian::date today = now.date();
+	if(d==today) {
+		time_duration tod = now.time_of_day();
+		if(t>tod) {
+			return true;
+		} else {
+			return false;
+		}	
+	} else {
+		return true;
+	}
+}
+
+int CommandParser::convertStringToInt(string s) {
+	try {
+		int value = stoi(s);
+		return value;
+	}
+	catch (const std::invalid_argument) {
+		return 0;
+	}
+}
+
+
+bool CommandParser::isDateValid(int date, int month, int year) {
+	try {
+		boost::gregorian::date userDate(year, month, date);
+		ptime now = microsec_clock::local_time();
+		boost::gregorian::date today = now.date();
+		if(userDate<today) {
+			isWrongDate=true; 
+			return false;
+
+		} else {
+			isWrongDate=false;   
+			return true;
+		
+		}
+	}
+	catch (std::out_of_range) {
+		isWrongDate=true;               //added now
+		return false;
+	}
+}
+
+
+void CommandParser::findYear(vector <string>& tokens , int pos , Task& T1) {
+	if((pos+4)<=tokens.size()) {
+		int gregDate = convertStringToInt(tokens[pos+1]); // returns converted date
+		int	gregMonth = getMonthNumber(tokens[pos+2]);
+		int gregYear = convertStringToInt(tokens[pos+3]);
+		bool isValid = isDateValid(gregDate,gregMonth,gregYear);
+		if(isValid) {
+			T1.setYear(tokens[pos+3]);
+			isYearValid=true;
+			tokens.erase (tokens.begin()+pos+3);
+
+		} else {
+			isYearValid=false;
+			if(gregYear==0) {
+				return;
+			}
+			else if(gregDate==0 && gregMonth==0) {
+				return;
+			}
+			else if(gregDate!=0 && gregMonth!=0 && gregYear!=0) {
+				tokens.erase (tokens.begin()+pos+3);
+				T1.setErrorDate(true);
+				return;
+			}
+			else {
+				tokens.erase (tokens.begin()+pos+3);
+				return;
+			}
+
+		}
+	}
+}
+
+void CommandParser::findRecDate(vector <string>& tokens , int pos , RecurringTask& R1) {
+	if((pos+4)<=tokens.size()) {
+		int gregDate = convertStringToInt(tokens[pos+1]); // returns converted date
+		int	gregMonth = getMonthNumber(tokens[pos+2]);
+		int gregYear = convertStringToInt(tokens[pos+3]);
+		bool isValid = isDateValid(gregDate,gregMonth,gregYear);
+		if(isValid) {
+			R1.setRecurring(true);
+			R1.setStartYear(tokens[pos+3]);
+			R1.setStartDate(tokens[pos+1]);
+			R1.setStartMonth(tokens[pos+2]);
+			tokens.erase(tokens.begin() + pos + 3);
+		}
+		else {
+			if(gregYear==0) { //If the year is a string
+				if(gregDate!=0 && gregMonth!=0 && isDateValid(gregDate,gregMonth,2015)) { // if month and day form a valid date, take year by default as current year i.e 2015
+					R1.setRecurring(true);
+					R1.setStartDate(tokens[pos+1]);
+					R1.setStartMonth(tokens[pos+2]);
+				}
+				else if(gregDate==0 && gregMonth==0) {
+					R1.setRecurring(false);
+				}
+				else {
+					R1.setRecurring(false);
+					R1.setErrorDate(true);
+				}
+
+			}
+			else if(gregDate==0 && gregMonth==0) {
+				R1.setRecurring(false);
+				return;
+			}
+			else if(gregDate!=0 && gregMonth!=0 && gregYear!=0) {
+				R1.setRecurring(false);
+				R1.setErrorDate(true);
+				return;
+			}
+			else {
+				R1.setRecurring(false);
+				return;
+			}
+
+		}
+	}
+	else
+		R1.setRecurring(false);
+}
+
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\parser.cpp
+	 */
+
+CommandType CommandParser::getParserInput(string input,stack <string> inputStack){
+	RecurringTask R1;
+	boost::trim(input);
+	command = extractUserCommand(input);
+	command = changeToLowerCase(command);
+	boost::trim(command);
+	boost::trim(userInput);
+	taskDetails.setStack(inputStack);
+	if(userInput=="")
+		taskDetails.setBlankString(true);
+
+	if(command=="add") {
+		taskDetails = parseString(userInput,R1);
+		Add *A1;
+		A1=new Add(taskDetails,R1);
+		CommandType C1(A1);
+		return C1;
+	} else if(command=="display") {
+		Display *D1;
+		Logic L1;
+		if(changeToLowerCase(userInput)=="done") {
+			L1.setDisplayDone(true);
+			taskDetails.setKeywords(userInput);
+		} else {
+			taskDetails.setKeywords(userInput);
+		}
+			D1 = new Display(taskDetails);
+			CommandType C1(D1);
+			return C1;
+	} else if(command=="delete") {
+		Logic L1;
+		taskDetails.setNumber(L1.correctNumber(userInput));
+		Delete *Del;
+		Del = new Delete(taskDetails);
+		CommandType C1(Del);
+		return C1;
+	
+	}else if(command=="update") {
+		taskDetails = parserUpdate(userInput);
+		taskDetails.setStack(inputStack);
+		Update *U1;
+		U1 = new Update(taskDetails);
+		CommandType C1(U1);
+		return C1;
+	}else if(command=="clear") {
+		Task T1;
+		T1.setKeywords(userInput);
+		Clear *C2;
+		C2 = new Clear(T1);
+		CommandType C1(C2);
+		return C1;
+	}else if(command=="exit") {
+		WrongFormat *W1;
+		W1 = new WrongFormat();
+		CommandType C1(W1);
+		return C1;
+	}else if(command=="search") {
+		taskDetails.setKeywords(userInput);
+		Search *S1;
+		S1 = new Search(taskDetails);
+		CommandType C1(S1);
+		return C1;
+	}else if(command=="undo") {
+		taskDetails.setKeywords(userInput);
+		Undo *U1;
+		U1 = new Undo(taskDetails);
+		CommandType C1(U1);
+		return C1;
+	}else if(command=="done") {
+		Logic L1;
+		taskDetails.setNumber(L1.correctNumber(userInput));
+		Done *DoneTask;
+		DoneTask = new Done(taskDetails);
+		CommandType C1(DoneTask);
+		return C1;
+
+	}else {
+		WrongFormat *W1;
+		W1 = new WrongFormat();
+		CommandType C1(W1);
+		return C1;
+	}
+}
+
+void CommandParser::setCommand(string input) {
+	command=input;
+}
+
+string CommandParser::getCommand() {
+	return command;
+}
+
+
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Parser.h
+	 */
+
+#ifndef COMMANDPARSER_H
+#define COMMANDPARSER_H
+#include "Command.h"
+#include "CommandType.h"
+#include "RecurringTask.h"
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+#include <vector>
+#include <string>
+#include "CommandType.h"
+#include "Add.h"
+#include "Display.h"
+#include "Delete.h"
+#include "Update.h"
+#include "Clear.h"
+#include "Search.h"
+#include "Undo.h"
+#include "WrongFormatCommand.h"
+#include "Task.h"
+#include "Done.h"
+//#include "redo.h"
+#include <algorithm>
+#include <iterator>
+
+using namespace std;
+
+
+
+class CommandParser {
+
+public:
+	
+	CommandParser();
+	~CommandParser();
+	CommandType getParserInput(string,stack <string>);
+	string extractUserCommand(string);
+	Task parseString(string,RecurringTask&);
+	Task parserUpdate(string);
+	string check(string);
+	string trim(string const&);
+	int findKeywordPosition(string, string);
+	string getUserInput();
+	Task getTaskObject();
+	string changeToLowerCase(string input);
+	bool isDeadlineTask(vector <string>,vector<string>&,Task&);
+	int getMonthNumber(string);
+	bool isHourValid(string);
+	bool isMinuteValid(string);
+	bool isDayValid(string);
+	bool isTimeValid(boost::posix_time::time_duration,boost::gregorian::date);
+	void findYear(vector <string>&, int, Task& T1 );
+	int convertStringToInt(string);
+	bool isDateValid(int, int, int);
+	void findRecDate(vector <string>& , int, RecurringTask&);
+	bool isPeriodValid(string);
+	void setCommand(string);
+	string getCommand();
+	vector <string> trimUserInputTokens(string);
+	bool isDateAfterToday (boost::gregorian::date);
+	vector <string> convertTokensToLowerCase(vector <string>);
+
+private:
+	string userInput;
+	string command;
+	bool isWrongDate;
+	bool dateValid;
+	bool timedTask;
+	bool floatingTask;
+	bool deadlineTask;
+	bool isYearValid;
+	CommandType  C1;
+	Task taskDetails; 
+};
+
+#endif
+//header ends
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\RecurringTask.cpp
+	 */
+
+#include "RecurringTask.h"
+
+RecurringTask::RecurringTask() {
+	isRecurring=false;
+	isRecurringError=false;
+	taskDay="";
+	endDate="";
+	endMonth="";
+	startDate="";
+	startMonth="";
+	endYear="2015";
+	startYear="2015";
+	recurringWord="";
+
+}
+
+RecurringTask::~RecurringTask() {
+
+}
+
+
+bool RecurringTask::getRecurringError() {
+	return isRecurringError;
+
+}
+
+bool RecurringTask::getRecurring() {
+	return isRecurring;
+}
+
+void RecurringTask::setRecurringError(bool value){
+	isRecurringError=value;
+}
+
+void RecurringTask::setRecurring(bool value) {
+	isRecurring=value;
+}
+
+void RecurringTask::setEndDate(string date) {
+	endDate = date;
+}
+
+string RecurringTask::getEndDate() {
+	return endDate;
+}
+
+void RecurringTask::setEndMonth(string month) {
+	endMonth = month;
+}
+
+string RecurringTask::getEndMonth() {
+	return endMonth;
+}
+
+void RecurringTask::setTaskDay(string day) {
+	taskDay = day;
+}
+
+string RecurringTask::getTaskDay() {
+	return taskDay;
+}
+
+string RecurringTask::getEndYear() {
+	return endYear;
+}
+
+void RecurringTask::setEndYear(string year) {
+	endYear = year;
+}
+
+void RecurringTask::setWord(string word) {
+	keyword=word;
+}
+
+string RecurringTask::getWord() {
+	return keyword;
+}
+
+void RecurringTask::setRecWord(string word) {
+	recurringWord=word;
+}
+
+string RecurringTask::getRecWord() {
+	return recurringWord;
+}
+
+void RecurringTask::setStartDate(string date) {
+	startDate = date;
+}
+
+string RecurringTask::getStartDate() {
+	return startDate;
+}
+
+void RecurringTask::setStartMonth(string month) {
+	startMonth = month;
+}
+
+string RecurringTask::getStartMonth() {
+	return startMonth;
+}
+
+string RecurringTask::getStartYear() {
+	return startYear;
+}
+
+void RecurringTask::setStartYear(string year) {
+	startYear = year;
+}
+
+void RecurringTask::setPeriod(string word) {
+	period=word;
+}
+
+string RecurringTask::getPeriod() {
+	return period;
+}
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\RecurringTask.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\RecurringTask.h
+	 */
+
+#ifndef RECURRING_TASK
+#define RECURRING_TASK
+
+#include "Task.h"
+using namespace std;
+
+class RecurringTask: public Task {
+
+private:
+	bool isRecurring;
+	bool isRecurringError;
+	string taskDay;
+	string startDate;
+	string startMonth;
+	string startYear;
+	string period;
+	string endDate;
+	string endMonth;
+	string endYear;
+	string keyword;
+	string recurringWord;
+	
+
+public:
+	
+	RecurringTask();
+	~RecurringTask();
+	string getTaskDay();
+	void setTaskDay(string);
+	string getEndDate();
+	void setEndDate(string);
+	string getEndMonth();
+	void setEndMonth(string);
+	string getEndYear();
+	void setEndYear(string);
+	bool getRecurring();
+	void setRecurring(bool);
+	bool getRecurringError();
+	void setRecurringError(bool);
+	void setWord(string);
+	string getWord();
+	void setRecWord(string);
+	string getRecWord();
+	string getStartDate();
+	void setStartDate(string);
+	string getStartMonth();
+	void setStartMonth(string);
+	string getStartYear();
+	void setStartYear(string);
+	string getPeriod();
+	void setPeriod(string);
+
+
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\RecurringTask.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Search.cpp
+	 */
+
+#include "Search.h"
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
+
+using namespace std;
+
+const string ERROR_MSG = " * do not exist in file\n";
+
+Search::Search() {
+
+}
+
+Search::Search(Task taskObject) {
+	T1 = taskObject;
+}
+
+Search::~Search() {
+
+}
+
+//This function searches for tasks that have atleast 1 of the keywords specified by the user
+string Search::execute(string fileName,string filePath) {
+	string fileData = S1.readFile(fileName,filePath);
+	string linesWithWords="" ;
+	string keywordsToSearch = T1.getKeywords();
+	string line,token;
+	vector <string> tokens;
+	string delimiter = "/ ";
+	bool isFound;
+	istringstream in(fileData);
+	//If atleast one keyword is found in the task, it is returned to the user
+	while(getline(in, line)) {
+		istringstream word(keywordsToSearch);
+		while (word>>token) {
+			boost::trim(token);
+			tokens = extractWord(line,delimiter);
+			while(!tokens.empty()) {
+				boost::trim(tokens.back());
+				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
+					linesWithWords = linesWithWords + line + "\n";
+					isFound=true;
+					break;
+				} else {
+					isFound=false;
+				}
+				tokens.pop_back();
+			}
+			if(isFound==true) {
+				break;
+			}
+		}
+    }
+	//If the keyword does not exist in the user's task list, it returns an error message
+	if(linesWithWords=="") {
+		return  "Error: The words * " + keywordsToSearch + ERROR_MSG; 
+	} else {
+	   return linesWithWords;
+	}		
+}
+
+//Each task line is read word by word
+//This breaks the entire task line in the file into tokens separated by spaces
+vector <string> Search::extractWord(string input,string delimiter) {
+	vector<string> tokens;
+	boost::split(tokens,input, boost::is_any_of(delimiter));
+	return tokens;
+}
+
+
+
+//This function searches for tasks that have ALL the keywords specified by the user in its deadline
+//Display uses this particulary to find tasks of a particular deadline(date, month, year or a combination of these)
+string Search::executeSearch(string fileName,string filePath) {
+	string fileData = S1.readFile(fileName,filePath);
+	string linesWithWords="" ;
+	string keywordsToSearch = T1.getKeywords();
+	string line,token;
+	vector <string> tokens;
+	string delimiter = "/";
+	bool isFound;
+	//Count makes sure that only the three tokens (date,month,year) are checked.
+	int count=0;
+	istringstream in(fileData);
+	//Only when all keywords are found in the deadline is the task displayed to the user
+	//Each line is broken into words and then checked
+	while(getline(in, line)) {
+		istringstream word(keywordsToSearch);
+		while (word>>token) {
+			count=0;
+			tokens = extractWord(line,delimiter);
+			reverse(tokens.begin(),tokens.end());
+			tokens.pop_back();
+			while(count<3 && !tokens.empty()) {
+				if(changeToLowerCase(tokens.back())==changeToLowerCase(token)) {
+					isFound=true;
+					break;
+				}else {
+					isFound=false;
+				}
+				count++;
+				tokens.pop_back();
+			}
+			if(isFound==false) {
+				break;
+			}
+		}
+		//If all the deadline tokens specified by the user are found in the task , it is added to this string to give back to the user
+		if(isFound) {
+			linesWithWords = linesWithWords + line + "\n";
+		}
+	}
+	   return linesWithWords;
+
+}
+
+//Changes all tokens to lower case
+//This allows the user input to not be case sensitive
+string Search::changeToLowerCase(string input) {
+	string lowerCase="";
+	for(int i=0;i<input.size();i++) {
+		if(input[i]>='A' && input[i]<='Z') {
+			input[i] = tolower(input[i]);
+			lowerCase = lowerCase + input[i];
+		}
+		else {
+			lowerCase = lowerCase + input[i];
+		}
+	}
+	return lowerCase;
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Search.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Search.h
+	 */
+
+#ifndef SEARCH_H
+#define SEARCH_H
+
+#include <iostream>
+#include <string>
+#include <sstream>
+#include "Command.h"
+#include "Task.h"
+#include "Storage.h"
+#include <vector>
+using namespace std;
+
+class Search: public Command {
+
+private:
+	Task T1;
+	Storage S1;
+public:
+	Search();
+	Search(Task);
+	~Search();
+	string execute(string,string);
+	string executeSearch(string,string);
+	string changeToLowerCase(string);
+	vector <string> extractWord(string,string);
+};
+
+#endif;
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Search.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Task.cpp
+	 */
+
+#include "Task.h"
+
+using namespace std;
+
+Task::Task() {
+	description = "";
+	taskNumber = "";
+	updatedDescription = "";
+	taskDate = "";
+	taskMonth = "";
+	taskYear ="2015";
+	taskKeywords = "";
+	undoString = "";
+	taskHour="";
+	taskMinute="";
+	taskStartHour="";
+	taskStartMinute="";
+	taskEndHour="";
+	taskEndMinute="";
+	taskStatus = "incomplete"; //default incomplete priorty, change be changed to Done (check off the list)
+	isErrorDate=false;
+	isCommandError=false;
+	isTimeError=false;
+	isBlankString=false;
+}
+
+Task::~Task() {
+
+}
+
+void Task::setDescription(string input) {
+	description = input;
+}
+
+
+string Task::getDescription() {
+	return description;
+}
+
+void Task::setNumber(string input) {
+	taskNumber = input;
+}
+
+string Task::getNumber() {
+	return taskNumber;
+}
+
+void Task::setUpdated(string newString) {
+	updatedDescription = newString;
+}
+
+string Task::getUpdated() {
+	return updatedDescription;
+}
+
+void Task::setDate(string date) {
+	taskDate = date;
+}
+
+string Task::getDate() {
+	return taskDate;
+}
+
+void Task::setMonth(string month) {
+	taskMonth = month;
+}
+
+string Task::getMonth() {
+	return taskMonth;
+}
+
+void Task::setYear(string year) {
+	taskYear = year;
+}
+
+string Task::getYear() {
+	return taskYear;
+}
+
+void Task::setHour(string hour){
+	taskHour = hour;
+}
+
+string Task::getHour()
+{
+	return taskHour;
+}
+
+void Task::setMinute(string minute){
+	taskMinute = minute;
+}
+
+string Task::getMinute()
+{
+	return taskMinute;
+}
+
+void Task::setStartHour(string StartHour){
+	taskStartHour = StartHour;
+}
+
+string Task::getStartHour()
+{
+	return taskStartHour;
+}
+
+void Task::setStartMinute(string StartMinute){
+	taskStartMinute = StartMinute;
+}
+
+string Task::getStartMinute()
+{
+	return taskStartMinute;
+}
+
+void Task::setEndMinute(string minute) {
+	taskEndMinute = minute;
+
+}
+
+string Task::getEndMinute() {
+	return taskEndMinute;
+}
+
+void Task::setEndHour(string EndHour){
+	taskEndHour = EndHour;
+}
+
+
+string Task::getEndHour()
+{
+	return taskEndHour;
+}
+
+void Task::setStatus(string Status){
+	taskStatus = Status;
+}
+
+string Task::getStatus()
+{
+	return taskStatus;
+}
+
+string Task::getKeywords() {
+	return taskKeywords;
+}
+
+void Task::setKeywords(string keywords) {
+	taskKeywords = keywords;
+}
+
+stack <string> Task::getStack() {
+	return inputStack;
+}
+
+void Task::setStack(stack <string> input) {
+	inputStack = input;
+}
+
+void Task::setUndoString(string undo) {
+	undoString = undo;
+}
+
+string Task::getUndoString() {
+	return undoString;
+}
+
+void Task::setErrorDate(bool value) {
+	isErrorDate = value;
+}
+
+bool Task::getErrorDate() {
+	return isErrorDate;
+}
+
+bool Task::getCommandError() {
+
+	return isCommandError;
+}
+
+void Task::setCommandError(bool value) {
+	isCommandError=value;
+
+}
+
+bool Task::getTimeError() {
+
+	return isTimeError;
+}
+
+void Task::setTimeError(bool value) {
+	isTimeError=value;
+
+}
+
+vector <string> Task::getUpdateTokens() {
+	return updateTokens;
+}
+
+void Task::setUpdateTokens(vector <string> input) {
+	updateTokens=input;
+}
+
+bool Task::getBlankString() {
+	return isBlankString;
+}
+
+void Task::setBlankString(bool value) {
+	isBlankString=value;
+}
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Task.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Task.h
+	 */
+
+#ifndef TASK_H
+#define TASK_H
+
+
+#include <string>
+#include <stack>
+#include <vector>
+using namespace std;
+
+class Task {
+
+private:
+	string description;
+	string taskNumber;
+	string updatedDescription;
+	string taskDate;
+	string taskMonth;
+	string taskYear;
+	string taskHour;
+	string taskMinute;
+	string taskStartHour;
+	string taskStartMinute;
+	string taskEndHour;
+	string taskEndMinute;
+	string taskStatus;
+	bool isErrorDate;
+	bool isCommandError;
+	bool isTimeError;
+	vector <string> updateTokens;
+	string taskKeywords;
+	stack <string> inputStack;
+	string undoString;
+	bool isBlankString;
+
+public:
+	Task();
+	~Task();
+	void setDescription(string);
+	string getDescription();
+	void setNumber(string);
+	string getNumber();
+	void setUpdated(string);
+	string getUpdated();
+	void setDate(string);
+	string getDate();
+	void setMonth(string);
+	string getMonth();
+	void setYear(string);
+	string getYear();
+	void setHour(string);
+	string getHour();
+	void setMinute(string);
+	string getMinute();
+	void setStartHour(string);
+	string getStartHour();
+	void setStartMinute(string);
+	string getStartMinute();
+	void setEndHour(string);
+	string getEndHour();
+	void setEndMinute(string);
+	string getEndMinute();
+	void setStatus(string);
+	string getStatus();
+	void setErrorDate(bool);
+	bool getErrorDate();
+	void setCommandError(bool);
+	bool getCommandError();
+	bool getTimeError();
+	void setTimeError(bool);
+	void setKeywords(string);
+	string getKeywords();
+	stack <string> getStack();
+	void setStack(stack <string>);
+	string getUndoString();
+	void setUndoString(string);
+	vector <string> getUpdateTokens();
+	void setUpdateTokens(vector <string>);
+	void setBlankString(bool);
+	bool getBlankString();
+};
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Task.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Undo.cpp
+	 */
+
+#include "Undo.h"
+#include <boost/algorithm/string.hpp>
+
+const string ERROR_WRONG_COMMAND = "Error: Undo is supported only for ADD,DELETE,UPDATE,CLEAR,DONE\nCannot undo SEARCH, DISPLAY OR HELP commands";
+const string DISPLAY_COMMAND = "display"; 
+const string ADD_COMMAND = "add";
+const string DELETE_COMMAND = "delete";
+const string UPDATE_COMMAND = "update";
+const string CLEAR_COMMAND = "clear";
+const string DONE_COMMAND = "done";
+const string USER_HELP_COMMAND = "help";
+const string SEARCH_COMMAND = "search";
+const string ERROR_UNDO = "Error: Incorrect format of command *undo*\n Enter *undo* to undo the last command";
+const string ERROR_NO_TASK = "Error: Undo can only be performed after ADD,DELETE,UPDATE,DONE OR CLEAR. Enter a command to Undo";
+const string UNDO_DONE = " The task is no longer marked as *done*";
+
+string Undo::command;
+string Undo::inputString;
+
+Undo::Undo(Task taskObject) {
+	T1 = taskObject;
+	
+}
+
+Undo::Undo() {
+	command="";
+	inputString="";
+}
+
+Undo::~Undo() {
+
+}
+
+//An undo can only be called if the previous command was either display or the valid commands
+//Valid commands to be undone are ADD, DELETE, UPDATE, CLEAR, DONE
+//Any display commands inbetween this undo command and the valid commands is disregarded
+//This ensures the user can view his task list and the changes before deciding to undo
+
+bool Undo::isCorrectCommand(stack <string> inputCommands, string& commandToUndo , string& userInput) {
+	string topInput;
+	string topCommand;
+	CommandParser P1;
+	//If the user doesn't enter any commands before undo, it is invalid.
+	while(!inputCommands.empty()) {
+		topInput = inputCommands.top();
+		topCommand = P1.extractUserCommand(topInput); 
+		if(topCommand==USER_HELP_COMMAND || topCommand==SEARCH_COMMAND) { //Help and search does not support undo
+			return false;
+		} else if(topCommand==DISPLAY_COMMAND) {
+			inputCommands.pop();
+		} else {                            //The command type (eg. Add) and the remaining input(eg. task name and deadline) are separated
+			commandToUndo = topCommand;
+			command = commandToUndo;
+			userInput = P1.getUserInput();
+			inputString = userInput;
+			return true;
+		}
+	}
+	return false;
+}
+
+string Undo::execute(string fileName, string filePath) {
+	CommandParser P1;
+	string lastCommand;
+	string userFeedback;
+	string userInput;
+	stack <string> commandStack = T1.getStack();
+	commandStack.pop();
+
+	//If the user doesn't enter any commands before undo, it is invalid.
+	if(commandStack.empty()) {
+		return ERROR_NO_TASK;
+	}
+	//Any words entered after undo lead to an invalid command. Example: undo last is invalid.
+	if(!T1.getBlankString()) {
+		return ERROR_UNDO;
+	}
+	bool undoCommand = isCorrectCommand(commandStack,lastCommand, userInput);
+	if(undoCommand) {
+		if(lastCommand==ADD_COMMAND) {            //Add undo
+			T1.setUndoString(userInput);
+			Delete D1(T1);
+			userFeedback = D1.executeUndo(fileName,filePath);
+			return userFeedback;
+		
+		} else if(lastCommand==DELETE_COMMAND) {     //Delete undo
+			RecurringTask R1;
+			Add A1(T1,R1);
+			userFeedback = A1.executeUndo(fileName,filePath);
+			return userFeedback;
+
+		} else if(lastCommand==UPDATE_COMMAND) {       //Update undo
+			Update U1(T1);
+			boost::trim(userInput);
+			Task T1 = P1.parserUpdate(userInput);
+			S1.updateFileData(U1.getUpdatedTask(),U1.getOriginalTask(),fileName,filePath); 
+			return "The update to the task has been reverted\n" ;
+		
+		} else if(lastCommand==CLEAR_COMMAND) {         //clear undo
+			Clear C1(T1);
+			bool status = S1.writeBackToFile(C1.getData(),fileName,filePath);
+			return "The contents of the file have been restored";
+		
+		} else {                                       //done undo - to mark a completed task as undone
+			Task T1;
+			Done doneObject(T1);
+			S1.updateFileData(doneObject.getUpdatedDoneTask(),doneObject.getOriginalDoneTask(),fileName,filePath);
+			return UNDO_DONE;
+		}
+	} else {   //any other commands to be undone raise an error
+		return ERROR_WRONG_COMMAND;
+	}
+}
+
+string Undo::getUndoCommand() {
+	return command;
+}
+
+string Undo::getInputString() {
+	return inputString;
+}
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Undo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Undo.h
+	 */
+
+#ifndef UNDO_H
+#define UNDO_H
+
+#include "Task.h"
+#include "Command.h"
+#include "Storage.h"
+#include "Parser.h"
+#include "Done.h"
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class Undo: public Command {
+
+private:
+	Task T1;
+	Storage S1;
+	static string command;
+	static string inputString;
+
+public:
+	Undo(Task);
+	Undo();
+	~Undo();
+	string execute(string,string); 
+	bool isCorrectCommand(stack <string>,string&,string&);
+	string getUndoCommand();
+	string getInputString();
+};
+
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Undo.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Update.cpp
+	 */
+
+#include "Update.h"
+#include <sstream>
+#include <iostream>
+
+#include <queue>
+using namespace std;
+
+
+const string INDENTIFIERS = ".,!? ";
+string Update::originalTask;
+string Update::updatedTask;
+const string ERROR_PREVIOUS_COMMAND = "Error: Please view your task list using the *DISPLAY* command before deleting a task\n";
+const string DISPLAY_COMMAND = "display";
+const string TASK_UPDATE = "task";
+const string DATE_UPDATE = "date";
+const string TIME_UPDATE = "time";
+const string ERROR_UPDATE_LINE = "Error: Please enter a valid task number.\nThe update format is: *update <task number> <category> <update line>*\n";
+const string ERROR_UPDATE_CATEGORY = "Error: Please enter a valid category to update.\nCategory: task, date, time\n";
+const string ERROR_UPDATE_FORMAT = "Error: Please enter the correct format for update.\nThe update format is: *update <task number> <category> <update line>*\n";
+const string ERROR_UPDATE_TASK_LINE = "Error: Update to task name unsuccessful.\nNo task exists at the line number ";
+const string ERROR_UPDATE_DATE = "Error: Please enter a correct date to update the task. Press the *?* to view the command formats";
+const string ERROR_PASSED_DATE = "Error: A task cannot be added in the past. Please enter a date more than the current date";
+const string TIME_KEYWORD = "to";
+const string ERROR_TIME_PERIOD = "Error: The end time of the task should be more than the start time of the task\n";
+const string ERROR_UPDATE_TIME = "Error: Please enter a correct time to update the task. Press the *?* to view the command formats"; 
+
+Update::Update(Task TaskAttributes) {
+	T1=TaskAttributes;
+}
+
+Update::~Update() {
+
+}
+
+int Update::startIndex(string input) {
+	
+	return input.find_first_not_of(INDENTIFIERS);
+}
+
+int Update::endIndex(string input) {
+	return input.find_first_of(INDENTIFIERS);
+}
+
+string Update::extractLineNumber(string input) {
+	int start;
+	start = startIndex(input);
+	int end;
+	end = endIndex(input);
+	return input.substr(end+2); 
+}
+
+//The user has to enter a display command before update
+//This allows updating a particular category of tasks and the user doesnt see all his tasks at once
+//He can display by category then update a task
+bool Update::isValidCommand(string input) {
+	if(input==DISPLAY_COMMAND) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Gets the line number of the task
+int Update::getLineNumber(vector <string> tokens) {
+	Logic L1;
+	string number = L1.correctNumber(tokens[0]);
+	return convertStringToInt(number);
+}
+
+//Converts the task number to an integer for comparison in the file
+int Update::convertStringToInt(string s) {
+	try {
+		int value = stoi(s);
+		return value;
+	}
+	catch (const std::invalid_argument) {
+		return 0;
+	}
+}
+
+//The only allowed categories to update are TASK(name), DATE and TIME
+string Update::getCategory(vector<string> tokens) {
+	string category;
+	if(tokens[1]==TASK_UPDATE || tokens[1]==DATE_UPDATE || tokens[1]==TIME_UPDATE)
+		return tokens[1];
+	else
+		return "";
+
+}
+
+bool Update::updateTask(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
+	string taskDesc="";
+	int i;
+	//The user has to enter update <line number> <category> <new date or time or description>
+	//Tokens stores all this words, anything less than these raises an error
+		if(tokens.size()>2){
+			isWrongTaskFormat=false;
+			for(i=2;i<tokens.size()-1;i++) {
+				taskDesc = taskDesc + tokens[i] + " ";
+			}
+			if(i==tokens.size()-1) {
+				taskDesc = taskDesc + tokens[i];
+			}
+		}
+		else {
+			isWrongTaskFormat=true;
+		}
+
+	vector <string> originalTokens;
+	bool statusOfUpdate=false;
+	istringstream file(fileData);
+	string lineFromFile;
+	int lineNumber=1;
+	//If the input format is correct
+	if(!isWrongTaskFormat) {
+		while(getline(file,lineFromFile)) {
+			if(!lineFromFile.empty()) {             //Only updates either the task description, date or time
+				if(userLine==lineNumber) {
+					boost::split(originalTokens, lineFromFile,boost::is_any_of("/"));
+					T1.setDescription(taskDesc);
+					originalTokens[0]=taskDesc;
+					newFileData = T1.getDescription() + "/" + originalTokens[1] + "/" +  lowerCase((originalTokens[2]).substr(0,3)) + "/" + originalTokens[3] +  "/" + originalTokens[4] + "/" + originalTokens[5] + "/" + originalTokens[6] + "/" + originalTokens[7] + "/" + originalTokens[8] + "/" + originalTokens[9] + "/" + originalTokens[10] +"\n";
+					originalData = lineFromFile;
+					statusOfUpdate=true;
+					break;
+				}
+			}
+			lineNumber++;
+		}
+	return statusOfUpdate;
+	} else {
+		return false;
+	}
+	
+}
+
+int Update::getMonthNumber(string monthName) {
+	if(monthName.size()<3) {
+		return 0;
+	}
+	map<string, int> months;
+	map<string,int>::iterator iter;
+
+		months["jan"]=1;
+		months["feb"]=2;
+		months["mar"]=3;
+		months["apr"]=4;
+		months["may"]=5;
+		months["jun"]=6;
+		months["jul"]=7;
+		months["aug"]=8;
+		months["sep"]=9;
+		months["oct"]=10;
+		months["nov"]=11;
+		months["dec"]=12;
+
+	 iter = months.find(monthName.substr(0,3));
+
+	if (iter != months.end())
+		return iter->second;
+	return 0;
+}
+
+//This checks whether if in updating by deadline, the user hasnt entered a year
+//By default the year is the current year
+bool Update::checkDateMonth(string date, string month) {
+	int taskDate = convertStringToInt(date);
+	int taskMonth = getMonthNumber(month);
+	int taskYear = 2015;
+	try {
+		boost::gregorian::date userDate(taskYear, taskMonth, taskDate);
+		ptime now = microsec_clock::local_time();
+		boost::gregorian::date today = now.date();
+		if(userDate<today) {  //Date is not valid since its before the current date.
+			isDatePassed=true;
+			return false;
+
+		} else {  //Date is valid
+			isDatePassed=false;
+			isWrongDateFormat=false;
+			return true;
+		}
+	}
+	catch (std::out_of_range) {    ///Date is not valid because tokens are not valid
+		isWrongDateFormat=true;
+		return false;
+	}
+
+}
+
+//This checks whether if in updating by deadline, the user has entered a year
+//Deadline entered should be valid and not in the past
+bool Update::checkDateMonthYear(string date, string month, string year) {
+	int taskDate = convertStringToInt(date);
+	int taskMonth = getMonthNumber(month);
+	int taskYear = convertStringToInt(year);
+	try {
+		boost::gregorian::date userDate(taskYear, taskMonth, taskDate);
+		ptime now = microsec_clock::local_time();
+		boost::gregorian::date today = now.date();
+		if(userDate<today) {  //Date is not valid since its before the current date.
+			isDatePassed=true;
+			return false;
+
+		}
+		else {  
+			isDatePassed=false;      //Date is valid
+			return true;
+		}
+	}
+	catch (std::out_of_range) {    ///Date is not valid because tokens are not valid
+		return false;
+	}
+}
+
+//Updates the date of a task 
+bool Update::updateDate(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
+	string taskDesc="";
+	int i;
+	//If the user has specified a year
+		if(tokens.size()==5){
+			if(checkDateMonthYear(tokens[2],tokens[3],tokens[4])){
+				T1.setYear(tokens[4]);
+				isWrongDateFormat=false;
+			} else {
+				isWrongDateFormat=true;
+			}
+
+		} else if(tokens.size()==4) {     //If the user has not specified a year, it takes in the default year
+			if(checkDateMonth(tokens[2],tokens[3])){
+				T1.setYear("2015");
+				isWrongDateFormat=false;
+			} else {
+				isWrongDateFormat=true;
+			}
+
+		} else {
+			isWrongDateFormat=true;
+		}
+			vector <string> originalTokens;
+			bool statusOfUpdate=false;
+			istringstream file(fileData);
+			string lineFromFile;
+			int lineNumber=1;
+			if(!isWrongDateFormat) {
+			while(getline(file,lineFromFile)) {
+				if(!lineFromFile.empty()) {
+					if(userLine==lineNumber) {
+						boost::split(originalTokens, lineFromFile,boost::is_any_of("/"));
+						T1.setDate(tokens[2]);
+						T1.setMonth(tokens[3]);     //updates the date tokens
+						newFileData = originalTokens[0] + "/" + T1.getDate() + "/" +  lowerCase((T1.getMonth()).substr(0,3)) + "/" + T1.getYear() +  "/" + originalTokens[4] + "/" + originalTokens[5] + "/" + originalTokens[6] + "/" + originalTokens[7] + "/" + originalTokens[8] + "/" + originalTokens[9] + "/" + originalTokens[10] +"\n";
+						cout << newFileData << endl;
+						originalData = lineFromFile;
+						statusOfUpdate=true;
+						break;
+					}
+				}
+				lineNumber++;
+			}
+	return statusOfUpdate;
+	} else {
+		return false;
+	}
+	
+}
+
+
+//The hour entered for time should be valid
+bool Update::isHourValid(string hour) {
+	try{
+		int number = stoi(hour);
+		if(number>=0 && number<=23){
+			return true;
+		}
+		else
+			return false;
+	}
+	catch(const std::invalid_argument) {
+
+		return false; 
+
+	}
+}
+
+//The minute entered for time should be valid
+bool Update::isMinuteValid(string minute) {
+	try{
+		int number = stoi(minute);
+		if(number>=0 && number<=59){
+			return true;
+		}
+		else
+			return false;
+	}
+	catch(const std::invalid_argument) {
+
+		return false; 
+
+	}
+}
+
+//Time can be updated in two ways:
+//<time> : adds as a deadline task with a end time 
+//<start time> to <end time> : adds as a timed task
+bool Update::checkByTime(string deadlineTime, string& hour, string& minute) {
+	vector<string> timeTokens;
+	isInvalidTimePeriod=false;
+	boost::split(timeTokens,deadlineTime, boost::is_any_of(":"));
+	if(timeTokens.size()==2) {   //only hour and minute shoud be entered
+		if(isHourValid(timeTokens[0]) && isMinuteValid(timeTokens[1])) {
+			hour=timeTokens[0];
+			minute=timeTokens[1];
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+
+bool Update::checkTime(string startTime, string keyword, string endTime,string& startHour, string& startMin, string& endHour, string& endMin) {
+	if(keyword==TIME_KEYWORD) {
+		vector<string> startTimeTokens;
+		boost::split(startTimeTokens,startTime, boost::is_any_of(":"));
+		vector <string> endTimeTokens;
+		boost::split(endTimeTokens,endTime,boost::is_any_of(":"));
+		if(startTimeTokens.size()==2 && endTimeTokens.size()==2 && isHourValid(startTimeTokens[0]) && isMinuteValid(startTimeTokens[1]) && isHourValid(endTimeTokens[0]) && isMinuteValid(endTimeTokens[1])) {
+			startHour=startTimeTokens[0];
+			startMin=startTimeTokens[1];
+			endHour=endTimeTokens[0];
+			endMin=endTimeTokens[1];
+			if(stoi(endHour)>stoi(startHour)) { //start time should be less than end time 
+				return true;
+			} else if(stoi(endHour)==stoi(startHour)) {
+				
+				if(stoi(endMin)>stoi(startMin)){
+					return true;
+				} else {
+					isInvalidTimePeriod=true;
+					return false;
+				}
+
+			} else {
+				isInvalidTimePeriod=true;
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}else {
+		return false;
+	}
+}
+
+//updates the time of the task
+bool Update::updateTime(string fileData, int userLine, string category, vector <string> tokens,string& newFileData,string& originalData) {
+	string hour="",min="",startHour="",startMin="",endHour="",endMin="";
+	int i;
+	///by time
+	if(tokens.size()==3){
+		if(checkByTime(tokens[2],hour,min)) {
+			T1.setHour(hour);
+			T1.setMinute(min);
+			isWrongTimeFormat=false;
+		} else {
+			isWrongTimeFormat=true;
+		}
+	} else if(tokens.size()==5) {            //timed task with start and end hour
+		if(checkTime(tokens[2],tokens[3],tokens[4],startHour,startMin,endHour,endMin)){
+			T1.setStartHour(startHour);
+			T1.setStartMinute(startMin);
+			T1.setEndHour(endHour);
+			T1.setEndMinute(endMin);
+			isWrongTimeFormat=false;
+		} else {
+			isWrongTimeFormat=true;
+		}
+	} else {
+		isWrongTimeFormat=true;
+	}
+	vector <string> originalTokens;
+	bool statusOfUpdate=false;
+	istringstream file(fileData);
+	string lineFromFile;
+	int lineNumber=1;
+	if(!isWrongTimeFormat) {
+	while(getline(file,lineFromFile)) {
+		if(!lineFromFile.empty()) {
+			if(userLine==lineNumber) {
+				boost::split(originalTokens, lineFromFile,boost::is_any_of("/"));
+				newFileData = originalTokens[0] + "/" + originalTokens[1] + "/" +  lowerCase((originalTokens[2]).substr(0,3)) + "/" + originalTokens[3] +  "/" + T1.getHour() + "/" + T1.getMinute() + "/" + T1.getStartHour() + "/" + T1.getStartMinute() + "/" +  T1.getEndHour() + "/" +  T1.getEndMinute() + "/" + originalTokens[10] +"\n";
+				cout << newFileData << endl;
+				originalData = lineFromFile;
+				statusOfUpdate=true;
+				break;
+			}
+		}
+		lineNumber++;
+	}
+	return statusOfUpdate;
+	} else {
+		return false;
+	}
+	
+}
+
+
+string Update::execute(string fileName,string filePath) {
+	CommandParser P1;
+	stack <string> commandStack = T1.getStack();
+	commandStack.pop();
+	//No command before undo
+	if(commandStack.empty()) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	string lastInput = commandStack.top();
+	CommandType C1 = P1.getParserInput(lastInput,commandStack);
+	string command = P1.getCommand();
+	//No display command before undo
+	if(!isValidCommand(command)) {
+		return ERROR_PREVIOUS_COMMAND;
+	}
+	string fileData = C1.run(fileName,filePath);
+	vector <string> tokensToUpdate = T1.getUpdateTokens();
+	//Command format is wrong
+	if(tokensToUpdate.size()<3) {
+		return ERROR_UPDATE_FORMAT;
+	}
+	int userLine = getLineNumber(tokensToUpdate);
+	string category = getCategory(tokensToUpdate);
+	string newFileData;
+	string originalData;
+	if(userLine==0) {                //The line number is invalid 
+		return ERROR_UPDATE_LINE;
+	}
+	if(category=="") {              //Wrong category
+		return ERROR_UPDATE_CATEGORY;
+	}
+	if(category==TASK_UPDATE) {         //update task
+		bool isTaskUpdate = updateTask(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
+		if(isWrongTaskFormat) {
+			return ERROR_UPDATE_FORMAT;
+		} else {
+			if(isTaskUpdate) {
+				performUpdate(originalData,newFileData,fileName,filePath);
+				return "Description of task " + to_string(userLine) + " updated to *" + T1.getDescription() + "*\n";
+			} else {
+				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
+			}
+		}
+	} else if(category==DATE_UPDATE) {           //update date
+		bool isDateUpdate =	updateDate(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
+		if(isDatePassed) {
+			return ERROR_PASSED_DATE;
+		} else if(isWrongDateFormat) {
+			return ERROR_UPDATE_DATE;
+		} else {
+			if(isDateUpdate) {
+				performUpdate(originalData,newFileData,fileName,filePath);
+				return "Date of task " + to_string(userLine) + " updated to *" + T1.getDate() + " " + T1.getMonth() + " " + T1.getYear() +" *\n";
+			} else {
+				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
+			}
+		}
+	} else {             //update time
+		bool isTimeUpdate = updateTime(fileData,userLine,category,tokensToUpdate,newFileData,originalData);
+		if(isWrongTimeFormat) {
+			return ERROR_UPDATE_TIME;
+		} else {
+			if(isTimeUpdate) {
+				performUpdate(originalData,newFileData,fileName,filePath);
+				return "Time of task " + to_string(userLine) + " updated\n";
+			} else {
+				return ERROR_UPDATE_TASK_LINE + to_string(userLine);
+			}
+		}
+	
+	}
+	
+}
+	
+
+//Replces the old data with the updated data
+void Update::performUpdate(string originalData, string newFileData, string fileName, string filePath) {
+	Storage S1;
+	bool update = S1.updateFileData(originalData,newFileData,fileName,filePath);
+	setOriginalTask(originalData);
+	setUpdatedTask(newFileData);
+
+}
+
+void Update::setOriginalTask(string task) {
+	originalTask = task;
+}
+
+//Used in undo to get not updated data
+string Update::getOriginalTask() {
+	return originalTask;
+}
+
+void Update::setUpdatedTask(string task) {
+	updatedTask = task;
+}
+
+//Used in undo to get updated data
+string Update::getUpdatedTask() {
+	return updatedTask;
+}
+
+string Update::lowerCase(string input) {
+	transform(input.begin(), input.end(), input.begin(), ::tolower);
+	return input;
+}
+
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Update.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Update.h
+	 */
+
+#ifndef UPDATE_H
+#define UPDATE_H
+
+#include "Command.h"
+#include "Storage.h"
+#include "Task.h"
+#include "Parser.h"
+#include "Logic.h"
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+using namespace std;
+
+class Update:public Command {
+
+private:
+	Storage S1;
+	Task T1;
+	static string originalTask;
+	static string updatedTask;
+	string userNumber;
+	string category;
+	bool isWrongTaskFormat;
+	bool isWrongDateFormat;
+	bool isWrongTimeFormat;
+	bool isDatePassed;
+	bool isInvalidTimePeriod;
+
+
+public:
+	Update(Task);
+	~Update();
+	string execute(string,string);
+	int startIndex(string);
+	int endIndex(string);
+	string extractLineNumber(string);
+	void setOriginalTask(string);
+	string getOriginalTask();
+	void setUpdatedTask(string);
+	string getUpdatedTask();
+	string lowerCase(string);
+	bool isValidCommand(string);
+	int getLineNumber(vector <string>);
+	string getCategory(vector <string>);
+	bool updateTask(string,int,string,vector<string>,string&,string&);
+	bool updateDate(string,int,string,vector<string>,string&,string&);
+	bool updateTime(string,int,string,vector<string>,string&,string&);
+	void performUpdate(string, string, string, string);
+	int convertStringToInt(string);
+	int getMonthNumber(string);
+	bool checkDateMonth(string, string);
+	bool checkDateMonthYear(string, string,string);
+	bool checkByTime(string,string&,string&);
+	bool checkTime(string,string,string,string&,string&,string&,string&);
+	bool isHourValid(string);
+	bool isMinuteValid(string);
+};
+
+#endif
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Update.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\WrongFormatCommand.cpp
+	 */
+
+#include "WrongFormatCommand.h"
+
+using namespace std;
+const string WRONG = "Error: Incorrect format of command. Type in help to view all commands supported";
+
+WrongFormat::WrongFormat() {
+
+}
+
+string WrongFormat::execute(string fileName,string fileData) {
+	return WRONG;
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\WrongFormatCommand.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\WrongFormatCommand.h
+	 */
+
+#ifndef WRONG_H
+#define WRONG_H
+
+#include "Command.h"
+using namespace std;
+
+class WrongFormat:public Command {	
+
+public:
+	WrongFormat();
+	string execute(string,string);
+
+};
+
+#endif
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\WrongFormatCommand.h
+
+
+
+
+

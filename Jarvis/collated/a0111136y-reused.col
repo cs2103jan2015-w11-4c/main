@@ -1,0 +1,67 @@
+//@author: a0111136y-reused
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Log.cpp
+	 */
+
+#include "Log.h"
+using namespace std;
+
+void Log::clear() {
+	ofstream file;
+	file.open("log.txt", ios::trunc);
+	file << "Log sequence: \n";
+	file.close();
+}
+
+void Log::log(string input) {
+	file.open("log.txt", ios::app);
+
+	file << input << "\n";
+
+	file.close();
+}
+
+void Log::endLog() {
+	file.open("log.txt", ios::app);
+
+	file << "\n";
+
+	file.close();
+}
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Log.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Log.h
+	 */
+
+#include <fstream>
+#include <string>
+using namespace std;
+#pragma once
+
+class Log
+{
+private:
+	ofstream file;
+
+public:
+
+	void clear();
+	void log(string);
+	void endLog();
+};
+
+
+	// End of segment: C:\Users\Gabriel\Documents\GitHub\main\Jarvis\Jarvis\Log.h
+
+
+
+
+
